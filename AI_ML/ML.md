@@ -1,2228 +1,1138 @@
-# Machine Learning — Core Concepts Notes
-### For College Exams · Placement Preparation · Technical Interviews
+# Machine Learning — Study Notes
 
 ---
 
-> **Purpose:** This document teaches the fundamental concepts behind how machine learning works —
-> not the algorithms themselves, but the ideas that all algorithms are built on.
-> Read it top to bottom. Every concept leads naturally to the next.
+# UNIT I — INTRODUCTION TO MACHINE LEARNING
 
 ---
 
-## Learning Flow
+## 1. Machine Learning Fundamentals
+
+### Definition
+Machine Learning (ML) is a subset of Artificial Intelligence where systems learn patterns from data and improve their performance on a task without being explicitly programmed for every rule.
+
+### Traditional Programming vs Machine Learning
+
+| Traditional Programming | Machine Learning |
+|---|---|
+| Rules + Data → Output | Data + Output → Rules (Model) |
+| Rules are hand-coded by programmers | Rules are learned from data |
+| Fails on unseen patterns | Generalizes to unseen data |
+
+### Types of Machine Learning
+
+**Supervised Learning:**
+- Model learns from labeled data (input-output pairs).
+- Task: Predict the output for new inputs.
+- Examples: Classification, Regression.
+
+**Unsupervised Learning:**
+- Model learns from unlabeled data.
+- Task: Find hidden structure or patterns.
+- Examples: Clustering, Dimensionality Reduction.
+
+**Reinforcement Learning:**
+- An agent learns by interacting with an environment.
+- Receives rewards for good actions, penalties for bad ones.
+- Task: Learn a policy that maximizes cumulative reward.
+- Examples: Game playing, Robotics.
+
+### Basic ML Workflow
 
 ```
-Machine Learning
-      ↓
-The Learning Problem
-      ↓
-Data → Features → Labels
-      ↓
-Hypothesis & Hypothesis Space
-      ↓
-Inductive Bias
-      ↓
-Loss & Optimization
-      ↓
-Generalization
-      ↓
-Bias / Variance / Overfitting / Underfitting
-      ↓
-Regularization & Model Selection
-      ↓
-Evaluation
-      ↓
-Complete ML Pipeline
+Data Collection → Data Preprocessing → Feature Engineering
+→ Model Selection → Training → Evaluation → Deployment
 ```
+
+### Train / Validation / Test Split
+
+- **Training set:** Used to train (fit) the model.
+- **Validation set:** Used to tune hyperparameters and select the best model.
+- **Test set:** Used only once at the end to evaluate final performance on unseen data.
+
+A common split: 70% train / 15% validation / 15% test.
+
+### Key Terms
+
+| Term | Meaning |
+|---|---|
+| **Feature** | An input variable (column) used for prediction |
+| **Label** | The output/target variable the model predicts |
+| **Parameter** | Internal model values learned from data (e.g., weights in Linear Regression) |
+| **Hyperparameter** | Settings chosen before training that control learning (e.g., learning rate, number of trees) |
 
 ---
 
-# UNIT 1 — What is Machine Learning & The Learning Problem
+## 2. Applications of Machine Learning
 
----
-
-## 1.1 What is Artificial Intelligence?
-
-Artificial Intelligence (AI) is the broad field of building systems that can do things that normally require human intelligence — understanding language, recognizing images, making decisions, solving problems.
-
-AI is the umbrella. Everything else lives inside it.
-
----
-
-## 1.2 What is Machine Learning?
-
-Machine Learning is a **subset of AI** where systems learn patterns from data — instead of being given explicit rules.
-
-In traditional programming, a human writes the logic:
-```
-Input + Rules (written by human) → Output
-```
-
-In machine learning, the system discovers the logic:
-```
-Input + Output Examples (data) → The system learns the rules → Model
-```
-
-**Simple definition:** ML is the science of getting computers to improve with experience.
-
----
-
-## 1.3 AI vs ML vs Deep Learning
-
-```
-Artificial Intelligence
-│
-│   (any approach to make machines intelligent)
-│
-└── Machine Learning
-    │
-    │   (learn patterns from data, no explicit rules)
-    │
-    └── Deep Learning
-            │
-            │   (ML using multi-layered neural networks)
-            │
-            └── Generative AI / LLMs
-```
-
-| Term | What It Is | Key Idea |
+| Application | Description | Example |
 |---|---|---|
-| AI | Broad field | Making machines intelligent |
-| ML | Subset of AI | Learning from data |
-| Deep Learning | Subset of ML | Neural networks with many layers |
-
-**Interview point:** All deep learning is ML, and all ML is AI. But not all AI is ML.
-
----
-
-## 1.4 Traditional Programming vs Machine Learning
-
-| Aspect | Traditional Programming | Machine Learning |
-|---|---|---|
-| Rules | Written by humans | Discovered from data |
-| Input | Data + Rules | Data + Correct answers |
-| Output | Result | A model (learned rules) |
-| Flexibility | Rigid | Adapts to data |
-| Best for | Known, simple logic | Complex, pattern-based tasks |
-
-**Example:**
-- Traditional: Write rules to detect spam ("if email contains FREE → spam")
-- ML: Show 100,000 emails labeled spam/not-spam → model learns patterns itself
+| **Classification** | Predict a category | Spam detection, Disease diagnosis |
+| **Regression** | Predict a continuous value | House price prediction |
+| **Clustering** | Group similar data points | Customer segmentation |
+| **Recommendation** | Suggest relevant items | Netflix, Amazon |
+| **Anomaly Detection** | Identify unusual patterns | Fraud detection |
+| **NLP** | Understand/generate text | Chatbots, Translation |
+| **Computer Vision** | Understand images/video | Face recognition, Object detection |
 
 ---
 
-## 1.5 Why is Machine Learning Needed?
+## 3. Linear Algebra for Machine Learning
 
-Some problems are too complex for manual rules:
-- Detecting cancer in X-rays
-- Understanding natural language
-- Recommending the next YouTube video
-- Predicting stock prices
+### Core Concepts
 
-You cannot write rules for every case. The patterns are too complex, too many, or change over time. ML lets the data define the rules.
+- **Scalar:** A single number. Example: `5`
+- **Vector:** An ordered list of numbers. Example: `[1, 2, 3]` (represents a point or direction in space)
+- **Matrix:** A 2D array of numbers (rows × columns). Used to represent datasets and transformations.
+- **Tensor:** A generalization of scalars, vectors, and matrices to N dimensions. Images are 3D tensors (height × width × channels).
 
----
+### Important Operations
 
-## 1.6 Types of Machine Learning
-
+**Dot Product:** Multiplies two vectors element-wise and sums the result.
 ```
-Machine Learning
-│
-├── Supervised Learning
-│       Every training example has a correct label.
-│       Goal: learn to predict labels for new inputs.
-│       Examples: spam detection, price prediction
-│
-├── Unsupervised Learning
-│       No labels. Find hidden patterns in data.
-│       Examples: customer grouping, anomaly detection
-│
-├── Semi-Supervised Learning
-│       A small amount of labeled data + large unlabeled data.
-│       Useful when labeling is expensive.
-│
-└── Reinforcement Learning
-        An agent learns by taking actions and receiving rewards.
-        Examples: game playing, robotics
+[1, 2] · [3, 4] = 1×3 + 2×4 = 11
 ```
+Used to compute weighted sums (e.g., neuron output = weights · inputs).
+
+**Matrix Multiplication:** Row of first matrix × column of second matrix.
+- Shapes: (m × n) × (n × p) → (m × p)
+- Used in neural network forward pass, transformations.
+
+**Vector Representation:** Data points are represented as vectors. A dataset of m samples with n features is an (m × n) matrix where each row is one data sample.
 
 ---
 
-## 1.7 The Learning Problem — What Does "Learning" Mean?
+## 4. Hypothesis Space
 
-When we say a machine "learns," we mean:
+- **Hypothesis (h):** A single candidate function that the model uses to map inputs to outputs.
+- **Hypothesis Space (H):** The set of all possible hypotheses a learning algorithm can consider.
+- **Candidate Models:** Different configurations or functions within the hypothesis space.
+- **Model Selection:** Choosing the best hypothesis from H based on performance on validation data.
 
-> Given some data, a system improves its ability to make predictions or decisions on **new, unseen data**.
+> **Example:** In linear regression, the hypothesis space is all possible straight lines. The algorithm searches this space to find the best-fitting line.
 
-Learning is not memorizing. Memorizing training data is useless if it fails on new inputs.
-
-**The learning problem is:**
-"Given limited data about the world, how do we build a system that works well on new data it has never seen?"
-
----
-
-## 1.8 Core Vocabulary — The Building Blocks
-
-### Input (X)
-
-The information fed into the model. Also called features, attributes, or predictors.
-
-**Example:** For predicting house price → input = [size, location, number of bedrooms]
-
-### Output (y)
-
-What the model is trying to predict. Also called the label, target, or response variable.
-
-**Example:** For predicting house price → output = price ($425,000)
-
-### Features
-
-Individual measurable properties used as input.
-
-```
-Features:
-  age         → 28
-  salary      → 60000
-  city        → Mumbai
-  experience  → 5 years
-```
-
-Features must be converted to numbers before feeding into most models.
-
-### Labels
-
-The correct answers in supervised learning.
-
-```
-Label: "spam" or "not spam"
-Label: price = $425,000
-Label: diagnosis = "malignant"
-```
-
-### Target
-
-The output variable the model is trying to predict. Same as label in supervised learning.
-
-### Samples / Instances
-
-One row in your dataset = one sample = one data point.
-
-```
-Sample: [age=28, salary=60000, city=Mumbai] → label: high_value_customer
-```
-
-### Dataset
-
-A collection of samples. The raw material for learning.
-
-### Training Data
-
-The portion of the dataset used to train (fit) the model. The model sees this data and learns from it.
-
-### Validation Data
-
-A portion held out during training. Used to tune the model and catch overfitting before the final test.
-
-### Test Data
-
-A final held-out portion. Used once — at the very end — to report honest performance. Never used during training or tuning.
-
-```
-Full Dataset
-     │
-     ├── Training Set   (~70%) ← Model learns here
-     ├── Validation Set (~15%) ← Tuning and selection
-     └── Test Set       (~15%) ← Final honest evaluation
-```
+The goal of learning is to find the hypothesis in H that best generalizes to unseen data.
 
 ---
 
-## 1.9 Model, Algorithm, Parameters, Hyperparameters
+## 5. Inductive Bias
 
-### Algorithm
+**Inductive bias** is the set of assumptions a learning algorithm makes to generalize beyond the training data. Without bias, a model cannot make predictions on unseen data — it would just memorize the training set.
 
-The procedure or method used to learn from data.
+**Why it's needed:** The training data alone is never enough to uniquely determine the correct model. The algorithm needs prior assumptions to choose between equally fitting hypotheses.
 
-**Examples:** Linear Regression, Decision Tree, K-Means, SVM
+**Examples:**
+- **Linear Regression** assumes the relationship between inputs and output is linear.
+- **Nearest Neighbor (KNN)** assumes nearby points have similar labels.
+- **Decision Trees** assume simpler (shorter) trees generalize better.
 
-An algorithm is like a recipe — it describes the steps.
-
-### Model
-
-The output of applying an algorithm to data. A model is the artifact that makes predictions.
-
-```
-Algorithm + Training Data → Model
-```
-
-A model is like a baked cake — the result of following the recipe with specific ingredients.
-
-### Model vs Algorithm — The Key Distinction
-
-| | Algorithm | Model |
-|---|---|---|
-| What it is | A procedure / method | A trained artifact |
-| When it exists | Before training | After training |
-| Example | "Linear Regression" | Specific learned equation: y = 5x + 3 |
-
-### Parameters
-
-Values **inside** the model that are **learned during training**.
-
-- Weights in a neural network
-- Slope and intercept in linear regression
-- Split thresholds in a decision tree
-
-You don't set parameters manually. The training algorithm finds them.
-
-### Hyperparameters
-
-Settings you choose **before training** that control the learning process.
-
-- Learning rate
-- Number of trees in a forest
-- Depth of a decision tree
-- Regularization strength
-
-You set hyperparameters. The model doesn't learn them.
-
-| | Parameters | Hyperparameters |
-|---|---|---|
-| Who sets them? | Learned by the algorithm | Set by the engineer |
-| When? | During training | Before training |
-| Examples | weights, biases | learning rate, tree depth |
-
-### Training
-
-The process of running an algorithm on training data to find the best model parameters.
-
-```
-Training Data
-      ↓
-Algorithm adjusts parameters
-      ↓
-Model
-```
-
-### Prediction / Inference
-
-Using the trained model to make predictions on new input.
-
-```
-New Input → Trained Model → Prediction
-```
+Every ML model has some inductive bias — choosing a model means choosing its biases.
 
 ---
 
-## 1.10 The Basic Learning Loop
+## 6. Generalization
 
-This is how every supervised ML model learns:
+**Generalization** is the ability of a model to perform well on new, unseen data (not just training data).
+
+- **Training error:** Error on the training set (what the model saw during training).
+- **Test error (Generalization error):** Error on new, unseen data.
+
+### Overfitting
+- Model learns the training data too well, including its noise.
+- Training error is low, but test error is high.
+- Model is too complex.
+
+### Underfitting
+- Model is too simple to capture the underlying pattern.
+- Both training error and test error are high.
 
 ```
-Step 1: Feed training data into the model
-             ↓
-Step 2: Model makes a prediction
-             ↓
-Step 3: Compare prediction to the true label
-             ↓
-Step 4: Calculate the error (how wrong was it?)
-             ↓
-Step 5: Adjust model parameters to reduce error
-             ↓
-Step 6: Repeat thousands of times
-             ↓
-Step 7: Error decreases → model improves
+Underfitting         Good Fit          Overfitting
+(High Bias)                          (High Variance)
+    |_____           ~~~~               /\/\/\/\
 ```
 
-This loop is the foundation of almost all supervised learning.
+### Ways to Improve Generalization
+- Use more training data.
+- Simplify the model (reduce complexity).
+- Apply regularization (L1, L2).
+- Use dropout (for neural networks).
+- Apply cross-validation.
 
 ---
 
-## Unit 1 — Interview Questions
+## 7. Bias-Variance Trade-off
 
-**Q1: What is the difference between AI, ML, and Deep Learning?**
-A: AI is the broad field of making machines intelligent. ML is a subset where systems learn patterns from data. Deep Learning is a subset of ML using multi-layered neural networks. All DL is ML, and all ML is AI.
+**Bias:** Error from wrong assumptions in the model. A high-bias model underfits — it is too simple.
 
-**Q2: What is the difference between an algorithm and a model?**
-A: An algorithm is a procedure — the recipe for learning. A model is the result of applying that algorithm to training data — the baked cake. The algorithm exists before training; the model exists after.
-
-**Q3: What is the difference between parameters and hyperparameters?**
-A: Parameters are learned by the algorithm during training (e.g., weights). Hyperparameters are set by the engineer before training (e.g., learning rate, number of trees). Parameters change during training; hyperparameters do not.
-
-**Q4: Why do we split data into train/validation/test sets?**
-A: To get an honest evaluation of model performance. If we trained and evaluated on the same data, the model could memorize it and appear to perform well while failing on new data. The test set simulates real-world unseen data.
-
-**Q5: What is supervised learning?**
-A: A type of ML where every training example has a correct label. The model learns to map inputs to outputs. Examples: spam detection, price prediction, image classification.
-
-**Q6: What is the difference between traditional programming and machine learning?**
-A: Traditional programming requires humans to write explicit rules. Machine learning discovers rules from data automatically. ML is preferred when the rules are too complex, too many, or unknown.
-
-**Q7: What is the difference between training data, validation data, and test data?**
-A: Training data is used to fit the model. Validation data is used to tune hyperparameters and catch overfitting. Test data is used once at the end to report final, honest performance. The test set must never be used during training or tuning.
-
-**Q8: What is inference in ML?**
-A: Inference is using a trained model to make predictions on new inputs. Training adjusts parameters; inference applies the learned parameters to new data.
-
----
-
-# UNIT 2 — Hypothesis, Inductive Bias & How Learning Works
-
----
-
-## 2.1 Hypothesis
-
-When a model makes a prediction, it is proposing a hypothesis:
-
-> "Given this input, I believe the output is..."
-
-More formally, a hypothesis is a **specific function** that maps inputs to outputs.
-
-```
-h(x) = predicted output for input x
-```
-
-For a house price prediction model:
-```
-h(size, bedrooms, age) = 200 × size + 50000 × bedrooms − 1000 × age + 5000
-```
-
-This specific function with specific numbers is one hypothesis.
-
----
-
-## 2.2 Hypothesis Space
-
-The hypothesis space is the **set of all possible hypotheses** the algorithm is capable of considering.
-
-It is defined by the choice of model family.
-
-**Example:**
-
-If you choose Linear Regression, your hypothesis space contains all possible straight lines:
-```
-Hypothesis Space = {all functions of the form: h(x) = w₁x₁ + w₂x₂ + b}
-```
-
-If you choose a degree-3 polynomial model, the hypothesis space is larger — it contains all cubic curves.
-
-**Key point:** The hypothesis space does NOT include all possible functions. It only includes functions your chosen model can represent.
-
-```
-All possible functions
-        │
-        └── Hypothesis Space (what your model can express)
-                    │
-                    └── Best hypothesis found during training
-```
-
-Training is the process of searching the hypothesis space for the best hypothesis.
-
----
-
-## 2.3 Candidate Models
-
-Within the hypothesis space, training evaluates many candidate hypotheses and picks the one that fits the training data best.
-
-**Why this matters:** A better choice of hypothesis space (model family) makes it easier to find a good hypothesis.
-
----
-
-## 2.4 What Does "Learning" Really Mean?
-
-Learning = searching the hypothesis space for a hypothesis that performs well on training data and generalizes well to new data.
-
-```
-Hypothesis Space
-        ↓
-Search (training algorithm)
-        ↓
-Best hypothesis on training data
-        ↓
-Hope it generalizes to new data
-```
-
-The problem: there are infinitely many hypotheses consistent with finite training data. How does the algorithm choose?
-
-This is where **inductive bias** comes in.
-
----
-
-## 2.5 Inductive Bias
-
-### What is it?
-
-A model cannot learn every possible rule from limited data. It must make assumptions about what kinds of patterns are more likely to be correct.
-
-These built-in assumptions are called **inductive bias**.
-
-> Inductive bias is the set of assumptions an algorithm makes to prefer some hypotheses over others, even when multiple hypotheses fit the training data equally well.
-
-### Why is it needed?
-
-Without assumptions, the model has no way to choose among the infinitely many hypotheses that all fit the training data equally.
-
-**Simple example:**
-
-Imagine you see two dogs, both with long ears, and you want to predict if the next animal is a dog.
-
-You have seen: long-eared dog, long-eared dog.
-
-Several rules fit your data:
-- "All long-eared animals are dogs"
-- "All brown long-eared animals are dogs"
-- "All animals are dogs"
-- "Only these exact two animals are dogs"
-
-Without an assumption about which rule is more likely correct, you cannot choose. Your brain naturally prefers the simplest rule that fits — that's inductive bias.
-
-### ML Example
-
-Suppose training data shows salary increases with experience. Multiple curves fit this:
-- A straight line (simple)
-- A wavy polynomial (complex)
-- An extremely complex function that passes through every point exactly
-
-Linear Regression's inductive bias assumes the relationship is linear — so it picks the straight line. This assumption makes the model useful on new data.
-
-### Where does inductive bias come from?
-
-The algorithm's design — specifically, the choice of:
-- Model family (linear, polynomial, decision tree)
-- Loss function
-- Regularization
-
-### Important: Inductive Bias vs Statistical Bias
-
-This is a very common source of confusion. These are completely different concepts.
-
-| | Inductive Bias | Statistical Bias |
-|---|---|---|
-| **What is it?** | Assumptions the algorithm makes about patterns | Systematic error in predictions |
-| **Is it bad?** | No — it is necessary for learning | Yes — it means predictions are consistently wrong in one direction |
-| **Where does it come from?** | Choice of algorithm / model family | Model too simple for the data |
-| **Related to** | The learning mechanism | Underfitting |
-| **Example** | "Assume relationship is linear" | Predicting too low because model misses a curve |
-
-**Interview trap:** Many students confuse inductive bias (a design choice about assumptions) with statistical bias (a performance problem indicating underfitting).
-
-Inductive bias is **necessary**. Statistical bias is a **problem** to be solved.
-
----
-
-## 2.6 Generalization
-
-### What is it?
-
-Generalization is the ability of a trained model to perform well on new, unseen data — data it was not trained on.
-
-A model that only works on its training data is useless. A model that works on new data is valuable.
-
-```
-Good Generalization:
-  Training data performance ≈ New data performance
-
-Poor Generalization:
-  Training data performance >> New data performance
-  (model memorized training data, fails on new data)
-```
-
-Generalization is the true goal of machine learning.
-
----
-
-## 2.7 Training Error vs Test Error
-
-**Training Error:** How wrong the model is on the data it was trained on.
-
-**Test Error (Generalization Error):** How wrong the model is on new, unseen data.
-
-```
-Training Error → measures how well model fits training data
-Test Error     → measures how well model generalizes to new data
-```
-
-A low training error does not guarantee a low test error. The gap between them is a measure of generalization quality.
-
----
-
-## 2.8 Empirical Risk vs Expected Risk
-
-**Empirical Risk (Training Error):** The average loss on training data — what we can actually measure.
-
-**Expected Risk (Generalization Error):** The average loss across all possible data points — what we truly care about but cannot directly measure.
-
-```
-We minimize: Empirical Risk (on training data)
-We care about: Expected Risk (on all possible data)
-
-The gap between them is the problem of generalization.
-```
-
----
-
-## 2.9 Signal vs Noise
-
-**Signal:** The real pattern in data — the relationship between input and output.
-
-**Noise:** Random error in data — irrelevant variation that is not part of the true pattern.
-
-```
-Observed data = Signal + Noise
-
-House price = true_pattern(size, location) + measurement_errors + random_market_fluctuations
-                     ↑                                    ↑
-                   signal                               noise
-```
-
-A good model captures signal and ignores noise.
-An overfitting model captures both signal and noise.
-
----
-
-## 2.10 Model Capacity and Model Complexity
-
-**Model Capacity (Model Complexity):** How flexible a model is — how many different patterns it can represent.
-
-- A linear model has **low capacity** — it can only represent straight lines.
-- A deep neural network has **high capacity** — it can represent extremely complex functions.
-
-```
-Low capacity → can only learn simple patterns → may miss the true pattern
-High capacity → can learn very complex patterns → may memorize noise
-```
-
-The choice of capacity is critical:
-
-```
-Capacity too low:
-  Cannot capture the true pattern
-  → Underfitting
-
-Capacity too high:
-  Captures noise as if it were signal
-  → Overfitting
-
-Right capacity:
-  Captures the true pattern, ignores noise
-  → Good generalization
-```
-
----
-
-## Unit 2 — Interview Questions
-
-**Q1: What is a hypothesis in machine learning?**
-A: A hypothesis is a specific function that maps inputs to predicted outputs. It is one candidate solution — one possible rule the model proposes. Training finds the hypothesis that best fits the training data from the hypothesis space.
-
-**Q2: What is the hypothesis space?**
-A: The hypothesis space is the set of all possible functions an algorithm can consider. It is defined by the choice of model family. Linear Regression's hypothesis space is all straight lines; a decision tree's hypothesis space is all tree-based rules up to a given depth.
-
-**Q3: What is inductive bias?**
-A: Inductive bias is the set of assumptions an algorithm makes to prefer some hypotheses over others. It is necessary because infinitely many hypotheses fit any finite training dataset. Without assumptions, learning is impossible. Example: Linear Regression assumes a linear relationship.
-
-**Q4: Why is inductive bias necessary?**
-A: With finite training data, there are always many hypotheses that fit it equally well. Without inductive bias, the algorithm has no rational way to choose between them. Inductive bias guides the search toward hypotheses that are more likely to generalize.
-
-**Q5: What is the difference between inductive bias and statistical bias?**
-A: Inductive bias is a necessary design feature — assumptions the algorithm makes to guide learning. Statistical bias is a performance problem — when a model's predictions are systematically wrong in one direction due to being too simple. Inductive bias is good; statistical bias (in excess) is bad.
-
-**Q6: What is generalization?**
-A: Generalization is the model's ability to perform well on new, unseen data. It is the true goal of machine learning. A model with poor generalization memorizes training data but fails on new data.
-
-**Q7: What is the difference between training error and test error?**
-A: Training error is the error on data the model was trained on. Test error is the error on new, unseen data. Low training error does not guarantee low test error — the gap between them measures generalization quality.
-
-**Q8: What is model capacity?**
-A: Model capacity (complexity) is how flexible a model is — how many patterns it can represent. Low capacity leads to underfitting; high capacity leads to overfitting. The right capacity captures the signal without fitting the noise.
-
-**Q9: What is signal vs noise in data?**
-A: Signal is the real pattern connecting inputs to outputs. Noise is random error in the data that is not part of the true pattern. A good model learns signal and ignores noise. An overfitting model learns both.
-
-**Q10: Why can't we just search all possible hypotheses?**
-A: The space of all possible functions is infinitely large. Without restricting the search to a specific hypothesis space and without inductive bias, the search is computationally infeasible and the results would not generalize.
-
----
-
-# UNIT 3 — Loss, Optimization, Bias, Variance & Generalization
-
----
-
-## 3.1 How Does the Model Know It Is Wrong?
-
-The model makes a prediction. But how does the training algorithm know how wrong that prediction is — and by how much?
-
-The answer: the **loss function**.
-
----
-
-## 3.2 Loss Function
-
-### What is it?
-
-A loss function measures how wrong one prediction is.
-
-It takes the model's prediction and the true label, and returns a number — the **loss**. Higher loss = worse prediction.
-
-```
-Loss = f(true value, predicted value)
-
-Perfect prediction → Loss = 0
-Wrong prediction   → Loss > 0
-```
-
-### Why is it needed?
-
-Without a way to measure error, the algorithm has no feedback. The loss function is the signal that drives learning.
-
-### Common Loss Functions
-
-**For Regression (predicting numbers):**
-
-```
-Squared Error (for one sample):
-  L = (y - ŷ)²
-
-  y  = true value
-  ŷ  = predicted value
-
-Example:
-  True price = $300,000
-  Predicted  = $280,000
-  Loss = (300000 - 280000)² = 400,000,000
-```
-
-**For Classification (predicting categories):**
-
-```
-Binary Cross-Entropy:
-  L = −[y × log(ŷ) + (1−y) × log(1−ŷ)]
-
-  y  = true class (0 or 1)
-  ŷ  = predicted probability
-
-Example:
-  True = 1 (spam), Predicted probability = 0.9
-  L = −[1 × log(0.9)] = 0.105   (small — good prediction)
-
-  True = 1 (spam), Predicted probability = 0.1
-  L = −[1 × log(0.1)] = 2.3    (large — bad prediction)
-```
-
----
-
-## 3.3 Cost Function
-
-### What is it?
-
-The cost function is the **average loss over all training samples**.
-
-```
-Cost = (1/n) × Σ Loss(yᵢ, ŷᵢ)
-                i=1 to n
-
-Where n = number of training samples
-```
-
-Training minimizes the cost function.
-
-### Loss vs Cost — The Distinction
-
-| | Loss | Cost |
-|---|---|---|
-| Measures | Error on **one** sample | Average error over **all** samples |
-| Formula | L(y, ŷ) | (1/n) × Σ L(yᵢ, ŷᵢ) |
-| Used for | Describing per-sample error | Training objective |
-
-### Objective Function
-
-The objective function is the function the training algorithm is trying to optimize (minimize or maximize).
-
-In most supervised ML, objective function = cost function (minimize it).
-
-Sometimes the objective includes extra terms like regularization:
-
-```
-Objective = Cost Function + Regularization Penalty
-```
-
-### Empirical Risk
-
-Empirical Risk = the cost function = average loss on training data.
-
-We minimize empirical risk because we cannot directly measure the true expected risk (generalization error on all possible data).
-
-```
-Minimize: Empirical Risk (what we can measure)
-Goal:     Minimize Expected Risk (what we care about)
-```
-
----
-
-## 3.4 Optimization
-
-### What is it?
-
-Optimization is the process of finding model parameters that minimize the cost function.
-
-Training is an optimization problem:
-> "Find the values of the parameters w and b that make the cost function as small as possible."
-
----
-
-## 3.5 Parameters and the Cost Landscape
-
-Imagine a 3D landscape where:
-- Each point on the ground represents a specific set of parameter values
-- The height at each point = the cost for those parameter values
-
-```
-Cost (height)
-        │
-        │     /\       /\
-        │    /  \     /  \
-        │   /    \___/    \
-        │  /                \___
-        │ /
-        └────────────────────────
-                Parameters →
-```
-
-Training = finding the lowest point on this landscape.
-
----
-
-## 3.6 Gradient
-
-### What is it?
-
-The gradient tells you the direction of steepest increase in the cost function at your current position.
-
-In simple terms: if you are on a hill, the gradient tells you which direction is most uphill.
-
-```
-Gradient → direction of maximum increase in cost
-
-To minimize cost → move in the OPPOSITE direction of the gradient
-```
-
-### Mathematical note (simple)
-
-For a function f(w), the gradient is its derivative df/dw:
-- Positive gradient → cost increases as w increases → move w left (decrease w)
-- Negative gradient → cost increases as w decreases → move w right (increase w)
-
-For multiple parameters, the gradient is a vector of partial derivatives — one per parameter.
-
----
-
-## 3.7 Gradient Descent
-
-### What is it?
-
-Gradient Descent is the optimization algorithm that iteratively updates parameters in the direction of the negative gradient to minimize cost.
-
-### The Update Rule
-
-```
-New parameter = Old parameter − Learning Rate × Gradient
-
-w_new = w_old − α × ∂Cost/∂w
-
-Where:
-  α  = learning rate (step size)
-  ∂Cost/∂w = gradient (how much cost changes with w)
-```
-
-### The Intuition
-
-Imagine you are blindfolded on a hilly terrain and want to reach the lowest valley.
-
-At each step:
-1. Feel the slope under your feet (compute gradient)
-2. Take one step downhill (move opposite to gradient)
-3. Repeat until you stop descending
-
-```
-Start at some point
-      ↓
-Compute gradient (slope)
-      ↓
-Step in the downhill direction
-      ↓
-New position
-      ↓
-Repeat
-      ↓
-Reach minimum (or near it)
-```
-
-### Learning Rate
-
-The learning rate (α) controls how large each step is.
-
-```
-Large α → big steps → fast but may overshoot the minimum → unstable
-Small α → tiny steps → slow but precise → may take too long
-
-Good α  → converges smoothly to the minimum
-```
-
-```
-Cost
- │
- │×
- │  ×                         Too large α: overshoots
- │    ×      × ← bounce        │ × × ↗ diverges!
- │      ×__×  
- │           ←minimum         Good α: smooth descent
- │                             │×
- └─────────────────────────    │  ×
-         Iterations →          │    ×___×
-                                └──────────
-```
-
-### Convergence
-
-The algorithm has converged when the parameters stop changing significantly — when the gradient is near zero and the cost stops decreasing.
-
-### Local vs Global Minimum
-
-A **local minimum** is a point lower than its neighbors but not the lowest overall.
-
-A **global minimum** is the absolute lowest point.
-
-```
-Cost
- │
- │   \    /\      /
- │    \  /  \    /
- │     \/    \__/
- │      ↑         ↑
- │  local min  global min
-```
-
-Gradient Descent can get stuck at a local minimum. In practice for most models, this is not a severe problem, but it exists.
-
----
-
-## 3.8 Statistical Bias
-
-In machine learning (statistics), bias means: does the model's predictions tend to be systematically wrong in one direction?
-
-```
-Bias = Expected(prediction) − True value
-
-High bias → predictions consistently too high or too low
-           → model missed the true pattern
-           → underfitting
-```
-
-This is a measure of how wrong the model's average prediction is.
-
-**Important reminder:** Statistical bias ≠ Inductive bias. They are completely different.
-
----
-
-## 3.9 Variance
-
-Variance measures how much the model's predictions change if you train it on a different (but equally valid) sample of training data.
-
-```
-High variance → model is very sensitive to which training data it saw
-               → different training sets give wildly different models
-               → overfitting
-```
-
-**Intuition:** Imagine training the same model 100 times on 100 different random samples from the same population. If all 100 models make similar predictions — low variance. If they make very different predictions — high variance.
-
----
-
-## 3.10 The Bias-Variance Tradeoff
-
-Every model's prediction error can be broken into three parts:
+**Variance:** Error from sensitivity to small fluctuations in training data. A high-variance model overfits — it fits noise.
 
 ```
 Total Error = Bias² + Variance + Irreducible Noise
-
-Bias²             → error from wrong assumptions (underfitting)
-Variance          → error from sensitivity to training data (overfitting)
-Irreducible Noise → error from noise in the data (cannot be reduced)
 ```
 
-### The Tradeoff
-
-```
-Simple Model (low capacity):
-  High Bias, Low Variance
-  → consistently wrong in the same way
-  → Underfitting
-
-Complex Model (high capacity):
-  Low Bias, High Variance
-  → can fit training data well, but inconsistent across different training sets
-  → Overfitting
-
-Optimal Model:
-  Balanced Bias and Variance
-  → Good generalization
-```
-
-```
-Total
-Error
-  │         ╲              ╱ Variance
-  │          ╲            ╱
-  │           ╲          ╱
-  │            ╲__    __╱
-  │               ╲__╱  ← optimal
-  │            Bias² ↗
-  └──────────────────────────────
-              Model Complexity →
-```
-
-### Visual Intuition — Target Analogy
-
-```
-High Bias,          High Bias,         Low Bias,          Low Bias,
-Low Variance        High Variance      High Variance      Low Variance (ideal)
-
-  ● ●                ○   ○               ○    ○             ●○
-  ● ●               ○     ○            ○  ●  ○            ○ ● ○
-                     ○   ○               ○    ○             ●○
-
-Consistent          Inconsistent        Inconsistent       Consistent
-but wrong           and wrong           near center        near center
-```
-
----
-
-## 3.11 Overfitting
-
-### What is it?
-
-Overfitting happens when a model is **too complex** — it memorizes training data, including its noise, and fails on new data.
-
-```
-Training Error:  very low (almost 0)
-Test Error:      much higher
-Gap:             large → overfitting
-```
-
-### Why does it happen?
-
-- Model has too many parameters (too much capacity)
-- Too little training data
-- Training too long without regularization
-
-### Example
-
-Imagine fitting a degree-10 polynomial through 10 data points — it passes through every point perfectly. Training error = 0. But for any new point, it predicts wildly because it memorized noise.
-
----
-
-## 3.12 Underfitting
-
-### What is it?
-
-Underfitting happens when a model is **too simple** — it cannot capture the true pattern even in the training data.
-
-```
-Training Error:  high
-Test Error:      also high
-Both are bad    → underfitting
-```
-
-### Why does it happen?
-
-- Model has too few parameters (too low capacity)
-- Too much regularization
-- Wrong model family for the problem
-
-### Example
-
-Using a linear model to predict data that has a clearly curved relationship — the line misses the curve everywhere.
-
----
-
-## 3.13 The Conceptual Relationship
-
-```
-Model Complexity:  Low ─────────────────────────── High
-
-Bias:              High ───────────────────────── Low
-Variance:          Low  ─────────────────────────High
-Training Error:    High ─────────────────────── Very Low
-Test Error:        High ───────╲___╱───────────── High
-                                ↑
-                           Optimal point
-
-Below optimal → Underfitting (high bias dominates)
-Above optimal → Overfitting  (high variance dominates)
-```
-
----
-
-## 3.14 Noise and Irreducible Error
-
-**Irreducible Error:** The part of the error caused by noise in the data that no model can eliminate.
-
-Even a perfect model will make some errors if the data contains inherent randomness.
-
-```
-Total Error = Reducible Error + Irreducible Error
-
-Reducible Error:
-  → Bias² + Variance → can be reduced by better model/more data
-
-Irreducible Error:
-  → Noise in data → cannot be reduced by any model
-```
-
----
-
-## Unit 3 — Interview Questions
-
-**Q1: What is a loss function?**
-A: A function that measures how wrong one prediction is. It takes the true label and predicted value and returns a number. Higher loss = worse prediction. The loss function is the signal that drives learning.
-
-**Q2: What is the difference between loss and cost?**
-A: Loss measures error on one sample. Cost is the average loss over all training samples. Training minimizes the cost function.
-
-**Q3: What is gradient descent?**
-A: An iterative optimization algorithm that updates model parameters in the direction of the negative gradient of the cost function. At each step: compute the gradient → take a step opposite to it → repeat until convergence.
-
-**Q4: What is the learning rate?**
-A: A hyperparameter that controls the step size in gradient descent. Too large → overshoots the minimum (unstable). Too small → too slow. A good learning rate converges smoothly.
-
-**Q5: What is the bias-variance tradeoff?**
-A: Total error = Bias² + Variance + Irreducible Noise. Simpler models have high bias and low variance (underfitting). Complex models have low bias and high variance (overfitting). The goal is to find the model complexity that minimizes total error.
-
-**Q6: What is overfitting?**
-A: A model that is too complex memorizes the training data, including noise. Training error is very low, but test error is much higher. The model fails to generalize.
-
-**Q7: What is underfitting?**
-A: A model that is too simple cannot capture the true pattern. Both training and test error are high.
-
-**Q8: What is the difference between statistical bias and inductive bias?**
-A: Statistical bias is a performance problem — predictions are systematically wrong in one direction, indicating the model is too simple (underfitting). Inductive bias is a design feature — assumptions built into the algorithm to guide learning. Statistical bias is bad; inductive bias is necessary.
-
-**Q9: What is irreducible error?**
-A: Error caused by inherent noise in the data that no model can eliminate. Even a perfect model cannot reduce this. It places a lower bound on how good any model can be.
-
-**Q10: What is the difference between local and global minimum?**
-A: A local minimum is a point lower than nearby points but not the lowest overall. A global minimum is the absolute lowest point of the cost function. Gradient descent can get stuck at local minima.
-
-**Q11: Why does high variance lead to overfitting?**
-A: High variance means the model is very sensitive to which training data it saw. Different training datasets give very different models. This means the model has learned the specific noise patterns of its training data rather than the general signal, so it fails on new data.
-
-**Q12: What is empirical risk?**
-A: The average loss on training data — what we can actually compute. We minimize empirical risk during training because we cannot directly measure the true generalization error on all possible data.
-
----
-
-# UNIT 4 — Regularization, Model Selection & Evaluation
-
----
-
-## 4.1 The Problem: What If the Model Is Too Complex?
-
-We now know that a too-complex model overfits. But simply choosing a simpler model isn't always the answer — sometimes you need a complex model to capture the true pattern.
-
-**Regularization** lets you use a complex model while preventing overfitting by adding a penalty for complexity.
-
----
-
-## 4.2 Regularization
-
-### What is it?
-
-Regularization is any technique that reduces overfitting by discouraging the model from becoming too complex.
-
-The most common approach: add a **penalty term** to the cost function that grows with model complexity.
-
-```
-New Objective = Cost Function + λ × Complexity Penalty
-
-         ↑                          ↑
-  (fit training data well)  (don't get too complex)
-
-λ (lambda) = regularization strength (hyperparameter)
-  Large λ → strong penalty → simpler model → may underfit
-  Small λ → weak penalty  → closer to unregularized → may overfit
-```
-
-### L2 Regularization (Ridge)
-
-Penalizes the sum of squared weights:
-
-```
-Penalty = λ × Σ wᵢ²
-```
-
-Effect: All weights are shrunk toward zero — but none are set exactly to zero.
-
-### L1 Regularization (Lasso)
-
-Penalizes the sum of absolute weights:
-
-```
-Penalty = λ × Σ |wᵢ|
-```
-
-Effect: Some weights are pushed to exactly zero → automatic feature selection.
-
-### Regularization vs Hyperparameter Tuning
-
-| | Regularization | Hyperparameter Tuning |
+| | High Bias | High Variance |
 |---|---|---|
-| What it does | Adds a penalty to the cost function | Searches for best model settings |
-| When | Part of the training objective | Before or after training |
-| Controls | Model complexity | Model architecture, training process |
-| Example | λ in Ridge/Lasso | Number of trees, depth, learning rate |
+| Training Error | High | Low |
+| Test Error | High | High |
+| Problem | Underfitting | Overfitting |
+| Fix | More complex model | Regularization, more data |
 
-### Effect on Bias-Variance
-
-```
-More Regularization → Less variance (less overfitting) → More bias (more underfitting)
-Less Regularization → More variance (more overfitting)  → Less bias (less underfitting)
-```
+**The Trade-off:** Reducing bias tends to increase variance and vice versa. The goal is to find the sweet spot that minimizes total test error.
 
 ---
 
-## 4.3 Hyperparameter Tuning and Model Selection
+## 8. VC Dimension
 
-### Hyperparameter Tuning
+**VC Dimension (Vapnik–Chervonenkis Dimension)** is a measure of the capacity (complexity) of a hypothesis space — how many points a model can correctly classify in the worst case.
 
-Finding the best hyperparameter values for your model.
+- A higher VC dimension → more complex model → can fit more patterns → but also higher risk of overfitting.
+- A lower VC dimension → simpler model → better generalization but may underfit.
 
-Common methods:
+**Key idea:** A model that can "shatter" (correctly classify in all possible ways) a set of N points has VC dimension ≥ N.
 
-**Grid Search:** Try every combination in a predefined grid.
-```
-Learning rates: [0.001, 0.01, 0.1]
-Tree depths:    [3, 5, 7, 10]
-→ Test all 12 combinations
-```
-
-**Random Search:** Randomly sample combinations. More efficient when many hyperparameters.
-
-**Bayesian Optimization:** Use previous results to intelligently pick the next combination to try.
-
-### Model Selection
-
-Choosing the best model from several candidates (different algorithms, different architectures, different hyperparameter settings).
-
-You compare models using their performance on the **validation set** — not the test set.
+**Relation to Generalization:** A model with a large VC dimension needs more training data to generalize well. VC dimension helps theoretically bound the generalization error.
 
 ---
 
-## 4.4 Validation Set — Why It's Needed
+## 9. PAC Learning
 
-When you tune hyperparameters based on test set performance, the test set is no longer "unseen" — you have indirectly optimized for it. It becomes a second training set.
+**PAC (Probably Approximately Correct) Learning** is a theoretical framework that defines when a model can be said to have "learned" a concept from data.
 
-**Solution:** Use a three-way split:
+**Core idea:** An algorithm PAC-learns a concept if, given enough training samples, it can output a hypothesis that is:
+- **Approximately correct:** Error is at most ε (epsilon — a small allowed error).
+- **Probably:** With probability at least 1 − δ (delta — allowed failure probability).
 
-```
-Training Set   → Model learns parameters
-Validation Set → Tune hyperparameters, select model
-Test Set       → Final honest evaluation (used ONCE)
-```
+**Key takeaway:** PAC learning provides a formal bound on how many training examples are needed to guarantee learning with a certain accuracy and confidence.
 
-The test set must remain sealed until the very end.
+**Relation to Generalization:** PAC learning theoretically justifies why a model trained on enough data should generalize to unseen data.
+
+---
+---
+
+# UNIT II — SUPERVISED LEARNING
 
 ---
 
-## 4.5 Cross-Validation
+## 1. Linear Regression
 
-### What is it?
+### What it is
+Linear Regression models the relationship between one or more input features and a continuous output by fitting a straight line (or hyperplane in multiple dimensions).
 
-Instead of a single train/validation split (which depends on which 20% you happened to pick), use all the data for both training and validation by rotating the held-out portion.
-
-### K-Fold Cross-Validation
-
+**Simple Linear Regression (one feature):**
 ```
-Divide data into K equal folds.
+ŷ = w·x + b
+```
+where `w` = weight (slope), `b` = bias (intercept), `ŷ` = predicted output.
 
-Fold 1: [EVAL] [TRAIN] [TRAIN] [TRAIN] [TRAIN] → Score 1
-Fold 2: [TRAIN] [EVAL] [TRAIN] [TRAIN] [TRAIN] → Score 2
-Fold 3: [TRAIN] [TRAIN] [EVAL] [TRAIN] [TRAIN] → Score 3
-Fold 4: [TRAIN] [TRAIN] [TRAIN] [EVAL] [TRAIN] → Score 4
-Fold 5: [TRAIN] [TRAIN] [TRAIN] [TRAIN] [EVAL] → Score 5
-
-Final CV Score = mean(Scores 1–5) ± std
+**Multiple Linear Regression (multiple features):**
+```
+ŷ = w₁x₁ + w₂x₂ + ... + wₙxₙ + b
 ```
 
-Every sample is used for validation exactly once, and for training K-1 times.
+### Regression vs Classification
 
-### Why better than a single split?
+| Regression | Classification |
+|---|---|
+| Predicts a continuous value | Predicts a discrete category |
+| Example: House price | Example: Spam or Not Spam |
 
-- Uses all data for evaluation
-- Gives a more reliable estimate of generalization
-- Reduces the luck factor of which samples end up in validation
+### Cost/Loss Function
+Measures how wrong the predictions are. Linear Regression uses **Mean Squared Error (MSE)**:
+```
+MSE = (1/n) × Σ(ŷᵢ - yᵢ)²
+```
+Goal: Minimize MSE by adjusting `w` and `b`.
 
-### Stratified K-Fold
+### Least Squares
+The **Ordinary Least Squares (OLS)** method finds the values of `w` and `b` that minimize the sum of squared differences between predicted and actual values. It gives the analytical (closed-form) solution for Linear Regression without needing iterative optimization.
 
-For classification with imbalanced classes, regular K-Fold can accidentally put all minority class samples in one fold. Stratified K-Fold preserves class proportions in each fold.
+### Gradient Descent
 
-**Always use Stratified K-Fold for classification.**
+An iterative optimization algorithm used to minimize the cost function by updating parameters in the direction that reduces the error.
+
+**Update Rule:**
+```
+w = w − α × (∂Loss/∂w)
+b = b − α × (∂Loss/∂b)
+```
+where `α` = learning rate.
+
+**Learning Rate:**
+- Too small → slow convergence.
+- Too large → may overshoot or diverge.
+
+**Types:**
+
+| Type | Data Used Per Update | Speed | Stability |
+|---|---|---|---|
+| Batch GD | Entire dataset | Slow | Stable |
+| Stochastic GD (SGD) | 1 sample | Fast | Noisy |
+| Mini-Batch GD | Small batch (e.g. 32) | Balanced | Balanced |
+
+### Bayesian Linear Regression
+
+Instead of finding a single best-fit line, Bayesian Linear Regression treats the model parameters as probability distributions.
+
+- **Prior:** Initial belief about the parameters before seeing data.
+- **Likelihood:** How well the parameters explain the observed data.
+- **Posterior:** Updated belief about parameters after seeing data (Prior × Likelihood).
+
+**Key difference:**
+
+| Ordinary Linear Regression | Bayesian Linear Regression |
+|---|---|
+| Gives a single set of weights | Gives a distribution over weights |
+| Point estimate | Uncertainty estimate included |
+| Can overfit on small data | More robust with small data |
 
 ---
 
-## 4.6 Data Leakage
+## 2. Linear Classification
 
-### What is it?
+### Discriminant Function
+A **discriminant function** is a function of the input features that produces a score used to assign a class label. The **decision boundary** is the surface where the discriminant function output is zero — points on either side belong to different classes.
 
-Data leakage happens when information from outside the training data (usually from the future or from the test set) accidentally influences the model during training.
-
-### Why is it dangerous?
-
-It causes the model to appear much better than it really is during evaluation — but fail in production.
-
-### Types of Leakage
-
-**Train-Test Leakage:** Test data information is used during training.
-
+For a linear discriminant:
 ```
-Wrong workflow:
-  Full dataset → Compute mean and scale → THEN split into train/test
+f(x) = wᵀx + b
+```
+- `f(x) > 0` → Class 1
+- `f(x) < 0` → Class 2
 
-  Problem: The scaler's mean includes test data statistics → leakage
+### Perceptron
 
-Correct workflow:
-  Full dataset → Split into train/test → Compute mean on TRAIN ONLY
-  → Scale train with that mean → Scale test with SAME train mean
+The Perceptron is the simplest linear classifier — a single artificial neuron.
+
+**Structure:** Inputs → Weights → Weighted Sum → Step Function → Output (0 or 1)
+
+**Working:**
+1. Compute weighted sum: `z = wᵀx + b`
+2. Apply step function: output = 1 if `z ≥ 0`, else 0.
+3. If output is wrong, update weights.
+
+**Weight Update Rule:**
+```
+w = w + α × (y - ŷ) × x
+```
+where `y` = true label, `ŷ` = predicted label, `α` = learning rate.
+
+**Convergence:** The Perceptron converges (finds a solution) only if the data is **linearly separable**.
+
+**Limitations:**
+- Cannot solve problems that are not linearly separable (e.g., XOR problem).
+- Only produces a hard 0/1 output — no probability.
+
+---
+
+## 3. Logistic Regression
+
+### What it is
+Despite its name, Logistic Regression is a **classification** algorithm — not regression. It predicts the probability that an input belongs to a class.
+
+### Sigmoid Function
+Converts any real number to a value between 0 and 1:
+```
+σ(z) = 1 / (1 + e⁻ᶻ)
+```
+where `z = wᵀx + b`.
+
+- Output ≥ 0.5 → Class 1
+- Output < 0.5 → Class 0
+
+The decision boundary is where `z = 0` (i.e., `σ(z) = 0.5`).
+
+### Loss Function
+Uses **Binary Cross-Entropy Loss** (not MSE):
+```
+Loss = −[y·log(ŷ) + (1−y)·log(1−ŷ)]
 ```
 
-**Target Leakage (Future Information):** A feature that contains information about the label that would not be available at prediction time.
+### Multiclass Classification
+Extended using **Softmax** (One-vs-Rest or multinomial logistic regression). Each class gets a probability, and the class with the highest probability wins.
 
-```
-Example: Predicting loan default.
-Bad feature: "recovery_amount" (only exists after a default happens)
-This leaks the target into the features.
-```
+### Logistic Regression vs Linear Regression
 
-### Data Leakage vs Overfitting
-
-| | Data Leakage | Overfitting |
+| | Linear Regression | Logistic Regression |
 |---|---|---|
-| Cause | Test info used during training | Model too complex for data |
-| Evaluation result | Falsely excellent | Training good, test poor |
-| Fix | Correct the data pipeline | Regularize, simplify, more data |
+| Output | Continuous value | Probability (0 to 1) |
+| Task | Regression | Classification |
+| Activation | None (identity) | Sigmoid |
+| Loss Function | MSE | Binary Cross-Entropy |
+| Decision Boundary | N/A | Linear boundary |
 
 ---
 
-## 4.7 Classification Evaluation
+## 4. Naive Bayes
 
-### The Confusion Matrix
+### What it is
+A probabilistic classifier based on **Bayes' Theorem**, with the "naive" assumption that all features are **conditionally independent** given the class.
 
-For binary classification (two classes: Positive and Negative):
+### Bayes' Theorem
+```
+P(class | features) = P(features | class) × P(class) / P(features)
+```
+- **P(class | features):** Posterior — what we want to find.
+- **P(features | class):** Likelihood — probability of features given the class.
+- **P(class):** Prior — how common the class is in training data.
+- **P(features):** Evidence — constant for comparison, can be ignored.
+
+### Working
+**Training:** Estimate P(class) and P(featureᵢ | class) from the training data.
+
+**Prediction:** For a new input, calculate the posterior for each class and pick the class with the highest value.
 
 ```
-                    Predicted
-                Positive | Negative
-Actual Positive |  TP    |   FN   |
-Actual Negative |  FP    |   TN   |
-
-TP = True Positive  → Predicted Positive, Actually Positive  ✓
-TN = True Negative  → Predicted Negative, Actually Negative  ✓
-FP = False Positive → Predicted Positive, Actually Negative  ✗ ("False Alarm")
-FN = False Negative → Predicted Negative, Actually Positive  ✗ ("Missed")
+class = argmax [ P(class) × ∏ P(featureᵢ | class) ]
 ```
 
-### Accuracy
+### Common Variants
 
-```
-Accuracy = (TP + TN) / (TP + TN + FP + FN)
-```
-
-Fraction of all predictions that are correct.
-
-**When is accuracy misleading?** When classes are imbalanced.
-
-```
-Dataset: 990 Not-Fraud, 10 Fraud
-Model that always predicts "Not Fraud":
-  Accuracy = 990/1000 = 99% ← looks great but catches ZERO fraud
-```
-
-### Precision
-
-```
-Precision = TP / (TP + FP)
-```
-
-Of all samples predicted Positive, how many actually are Positive?
-
-**Use when false positives are costly.**
-Example: Spam filter — marking legitimate emails as spam (FP) is annoying.
-
-### Recall (Sensitivity)
-
-```
-Recall = TP / (TP + FN)
-```
-
-Of all samples that are actually Positive, how many did the model find?
-
-**Use when false negatives are costly.**
-Example: Cancer screening — missing a real cancer case (FN) is life-threatening.
-
-### Precision vs Recall — The Tradeoff
-
-```
-Lower decision threshold → catch more positives → Recall ↑, Precision ↓
-Raise decision threshold → fewer false alarms  → Precision ↑, Recall ↓
-```
-
-### F1 Score
-
-Harmonic mean of Precision and Recall. Balances both.
-
-```
-F1 = 2 × (Precision × Recall) / (Precision + Recall)
-```
-
-Use F1 when you care about both and classes are imbalanced.
-
----
-
-## 4.8 Regression Evaluation
-
-### MAE — Mean Absolute Error
-
-```
-MAE = (1/n) × Σ |yᵢ − ŷᵢ|
-```
-
-Average absolute error. Easy to interpret. Same units as the target. Robust to outliers.
-
-### MSE — Mean Squared Error
-
-```
-MSE = (1/n) × Σ (yᵢ − ŷᵢ)²
-```
-
-Average squared error. Penalizes large errors more heavily. Not in the same units (squared).
-
-### RMSE — Root Mean Squared Error
-
-```
-RMSE = √MSE
-```
-
-Square root of MSE. Same units as the target. Still penalizes large errors more than MAE.
-
-### R² — Coefficient of Determination
-
-```
-R² = 1 − (SS_res / SS_tot)
-
-SS_res = Σ(yᵢ − ŷᵢ)²     (model's errors)
-SS_tot = Σ(yᵢ − ȳ)²      (variance of true values)
-ȳ = mean of true values
-```
-
-| R² | Meaning |
+| Variant | Assumption on Features |
 |---|---|
-| 1.0 | Perfect predictions |
-| 0.8 | Model explains 80% of variance |
-| 0.0 | No better than predicting the mean every time |
-| < 0 | Worse than predicting the mean |
+| **Gaussian NB** | Features follow a Gaussian (normal) distribution — for continuous data |
+| **Multinomial NB** | Features are counts/frequencies — for text classification |
+| **Bernoulli NB** | Features are binary (0 or 1) — for binary feature data |
+
+### Applications
+- Email spam filtering
+- Sentiment analysis
+- Document classification
+
+### Advantages and Limitations
+
+**Advantages:**
+- Very fast to train and predict.
+- Works well with small data.
+- Handles high-dimensional data (text) effectively.
+
+**Limitations:**
+- The independence assumption is rarely true in practice.
+- Poor probability estimates if the assumption is strongly violated.
+- **Zero-probability problem:** If a feature value never appeared with a class in training, it zeroes out the whole probability. Fixed by **Laplace Smoothing** (add 1 to all counts).
 
 ---
 
-## 4.9 When to Use Which Metric
+## 5. Support Vector Machine (SVM)
 
-**Classification:**
+### What it is
+SVM is a supervised classification algorithm that finds the **optimal hyperplane** that maximally separates classes.
 
-| Metric | Use When |
+### Core Concepts
+
+- **Hyperplane:** A decision boundary (line in 2D, plane in 3D, hyperplane in N-D) that separates classes.
+- **Support Vectors:** The data points that are closest to the hyperplane. Only these points define the margin.
+- **Margin:** The distance between the hyperplane and the nearest support vectors from each class. SVM maximizes this margin.
+
+```
+Class A  |  Class B
+  o o    |    x x
+  o [SV] | [SV] x
+         |
+     Hyperplane (max margin)
+```
+
+### Hard Margin vs Soft Margin
+
+| Hard Margin | Soft Margin |
 |---|---|
-| Accuracy | Classes are balanced |
-| Precision | False positives are costly |
-| Recall | False negatives are costly |
-| F1 | Both FP and FN matter; imbalanced classes |
+| No misclassification allowed | Allows some misclassification |
+| Only works on linearly separable data | Works on non-linearly separable data |
+| Sensitive to outliers | More robust |
 
-**Regression:**
+Soft margin introduces a **penalty parameter C**:
+- Large C → small margin, fewer errors (can overfit).
+- Small C → large margin, more errors (may underfit).
 
-| Metric | Use When |
+### Kernel Trick
+When data is not linearly separable, SVM maps it to a higher dimension where it becomes separable — without actually computing the transformation (using kernel functions).
+
+| Kernel | Use Case |
 |---|---|
-| MAE | Want simple, interpretable error; outliers shouldn't dominate |
-| RMSE | Large errors are especially costly |
-| R² | Want to know how much variance the model explains |
+| **Linear** | Linearly separable data |
+| **Polynomial** | Non-linear data with polynomial relationships |
+| **RBF (Radial Basis Function)** | General-purpose, most commonly used |
+
+### Advantages and Limitations
+
+**Advantages:** Works well in high dimensions, effective with small datasets, robust to outliers (soft margin).
+
+**Limitations:** Slow on large datasets, sensitive to feature scaling, hard to interpret.
 
 ---
 
-## Unit 4 — Interview Questions
+## 6. Decision Tree
 
-**Q1: What is regularization and why is it needed?**
-A: Regularization is a technique to prevent overfitting by adding a complexity penalty to the cost function. Without it, a complex model minimizes training error by memorizing noise. Regularization forces the model to stay simple enough to generalize.
-
-**Q2: What is the difference between L1 and L2 regularization?**
-A: L2 (Ridge) penalizes the sum of squared weights — shrinks all weights but never to zero. L1 (Lasso) penalizes the sum of absolute weights — can set some weights exactly to zero, performing feature selection. L2 is better for correlated features; L1 is better when many features are irrelevant.
-
-**Q3: Why do we need a validation set separate from the test set?**
-A: We tune hyperparameters using the validation set. Each time we look at validation performance and adjust, we're indirectly learning from it. Over many adjustments, we can overfit the validation set. The test set — used only once at the end — gives a truly unbiased estimate.
-
-**Q4: What is cross-validation?**
-A: A technique where data is split into K folds. The model is trained K times, each time using a different fold as validation. The final score is the average. It gives a more reliable performance estimate than a single split.
-
-**Q5: What is data leakage?**
-A: When information from outside the training data (often from the test set or from the future) influences the model during training. It causes artificially inflated evaluation scores that don't reflect real-world performance. Fix by ensuring the test set is never seen during preprocessing or training.
-
-**Q6: Why is accuracy misleading for imbalanced datasets?**
-A: With 99% of samples in one class, predicting that class always gives 99% accuracy without learning anything. Precision, Recall, and F1 evaluate per-class performance and give a truer picture.
-
-**Q7: What is the difference between Precision and Recall?**
-A: Precision = of all predicted positives, how many are actually positive (measures false alarm rate). Recall = of all actual positives, how many were found (measures missed detection rate). Precision matters when FP is costly; Recall matters when FN is costly.
-
-**Q8: What is the F1 Score?**
-A: The harmonic mean of Precision and Recall. It balances both and is useful when both FP and FN matter. Preferred over accuracy for imbalanced datasets.
-
-**Q9: What does R² = 0 mean?**
-A: The model is no better than always predicting the mean of the target variable. It explains none of the variance. R² = 1 means perfect predictions; R² < 0 means the model is worse than the naive mean baseline.
-
-**Q10: What is the difference between regularization and hyperparameter tuning?**
-A: Regularization adds a penalty term to the cost function to control model complexity during training. Hyperparameter tuning searches for the best model configuration (including the regularization strength) before training. Regularization is a training mechanism; hyperparameter tuning is the process of finding the best settings.
-
-**Q11: What is the difference between validation performance and test performance?**
-A: Validation performance guides model selection and hyperparameter tuning. It can be optimistically biased because the model was implicitly selected based on it. Test performance is the final honest estimate, used only once, on data the model has never influenced.
-
-**Q12: Why is stratified K-Fold preferred for classification?**
-A: Standard K-Fold distributes data randomly, creating folds with potentially very different class distributions. With imbalanced classes, some folds may have no minority class samples at all. Stratified K-Fold preserves the class distribution in each fold.
-
----
-
-# UNIT 5 — Core Practical ML Concepts & Complete ML Flow
-
----
-
-## 5.1 How All Concepts Come Together
-
-The previous four units taught the theoretical foundation. This unit connects them into a complete, practical ML workflow and covers important generic concepts every ML engineer must know.
-
----
-
-## 5.2 The Complete ML Project Flow
+### What it is
+A tree-shaped model that makes decisions by splitting data into subsets based on feature values. Each internal node tests a feature, each branch is a decision rule, and each leaf is a class label or value.
 
 ```
-Step 1: Problem Definition
-  What are we predicting?
-  Is it classification or regression?
-  What metric defines success?
-  What constraints exist (latency, cost, interpretability)?
-      ↓
-Step 2: Data Collection
-  Gather data from databases, APIs, files, sensors
-  Ensure data is representative of real-world distribution
-      ↓
-Step 3: Data Understanding (EDA)
-  Explore distributions, correlations, missing values
-  Understand the target variable
-  Discover patterns and anomalies
-      ↓
-Step 4: Data Cleaning
-  Handle missing values
-  Remove or treat outliers
-  Fix data types and formatting errors
-  Remove duplicates
-      ↓
-Step 5: Feature Engineering
-  Create new features from existing ones
-  Transform features (log, binning, ratios)
-  Encode categorical variables
-  Scale numerical features
-  Select relevant features
-      ↓
-Step 6: Split Data
-  Train / Validation / Test
-  NEVER touch test set until the very end
-      ↓
-Step 7: Choose Model / Hypothesis Space
-  Select algorithm based on problem type, data size, constraints
-      ↓
-Step 8: Train
-  Run optimization (gradient descent or equivalent)
-  Minimize cost function on training data
-      ↓
-Step 9: Evaluate on Validation Set
-  Compute evaluation metrics
-  Check for overfitting (compare train vs val performance)
-      ↓
-Step 10: Tune
-  Adjust hyperparameters
-  Apply regularization
-  Try different model architectures
-      ↓
-Step 11: Cross-Validate
-  Get reliable performance estimate
-      ↓
-Step 12: Final Evaluation on Test Set
-  Report final metrics — used ONCE
-      ↓
-Step 13: Deploy
-  Wrap model in an API, containerize, deploy to server
-      ↓
-Step 14: Monitor
-  Track real-world performance
-  Detect distribution shift and concept drift
-      ↓
-Step 15: Retrain When Needed
+        [Outlook?]
+       /    |     \
+   Sunny  Overcast  Rainy
+    [Humidity?] YES [Wind?]
+    /     \         /    \
+  High   Normal  Strong  Weak
+   NO     YES     NO     YES
 ```
+
+### Splitting Criteria
+To decide which feature to split on, we measure "impurity":
+
+**Entropy:** Measures disorder in a node.
+```
+Entropy = -Σ pᵢ × log₂(pᵢ)
+```
+Pure node (all same class) → Entropy = 0. Mixed node → Entropy is high.
+
+**Information Gain:** How much entropy decreases after a split.
+```
+IG = Entropy(parent) − weighted average Entropy(children)
+```
+Choose the split that maximizes Information Gain.
+
+**Gini Impurity:** Alternative to entropy (used in CART algorithm).
+```
+Gini = 1 − Σ pᵢ²
+```
+Lower Gini → purer node. Slightly faster to compute than entropy.
+
+### Tree Construction
+1. Start with all data at root.
+2. Find the best feature to split on (highest IG or lowest Gini).
+3. Split data into subsets, create child nodes.
+4. Repeat recursively for each child.
+5. Stop when a stopping criterion is met (e.g., max depth, min samples per leaf, pure node).
+
+### Overfitting and Pruning
+Decision Trees easily overfit by growing too deep. **Pruning** removes branches that provide little predictive power:
+- **Pre-pruning:** Stop growing early (max depth, min samples).
+- **Post-pruning:** Grow full tree, then remove unnecessary branches.
+
+### Advantages and Limitations
+**Advantages:** Easy to interpret and visualize, no feature scaling required, handles mixed data types.
+
+**Limitations:** Prone to overfitting, sensitive to small data changes, biased toward features with more categories.
 
 ---
 
-## 5.3 Feature Engineering Concepts
+## 7. Random Forest
 
-### Feature Selection
+### What it is
+Random Forest is an ensemble of Decision Trees trained using **Bagging** and **random feature selection**. The final prediction is made by aggregating predictions from all trees.
 
-**What:** Choosing which existing features to keep and which to remove.
+### How it Works
 
-**Why:** Irrelevant features add noise and increase overfitting risk. Fewer good features often beat many bad features.
+1. **Bootstrap Sampling (Bagging):** Create multiple random subsets of the training data (with replacement). Train one Decision Tree on each subset.
+2. **Random Feature Selection:** At each split, only consider a random subset of features (not all). This decorrelates the trees.
+3. **Aggregation:**
+   - **Classification:** Majority vote across all trees.
+   - **Regression:** Average of all tree outputs.
 
-Methods:
-- Filter: compute correlation with target, remove low-correlation features
-- Wrapper: train model with subsets and pick best subset (e.g., Recursive Feature Elimination)
-- Embedded: use model's built-in importance (e.g., Random Forest feature importances)
+### Random Forest vs Decision Tree
 
-### Feature Extraction
-
-**What:** Creating new, more informative features from raw data.
-
-**Why:** Raw data is often not in the best form for learning.
-
-```
-Examples:
-  Date → day of week, month, is_weekend, days_until_holiday
-  Text → word counts, TF-IDF, embeddings
-  Image → pixel values, edges, textures (via CNN)
-```
-
-### Feature Selection vs Feature Extraction
-
-| | Feature Selection | Feature Extraction |
+| | Decision Tree | Random Forest |
 |---|---|---|
-| What it does | Chooses from existing features | Creates new features |
-| Dimensionality | Reduces (subset of original) | Reduces (new representation) |
-| Interpretability | High (original features kept) | Lower (transformed space) |
-| Example | Remove low-importance columns | PCA, Embeddings |
+| Model | Single tree | Multiple trees |
+| Overfitting | High | Low (averaging reduces variance) |
+| Interpretability | High | Low (black box) |
+| Performance | Moderate | Generally better |
+| Speed | Fast | Slower (many trees) |
+
+### Advantages and Limitations
+**Advantages:** Reduces overfitting vs single tree, handles missing values, works well out-of-the-box, provides feature importance.
+
+**Limitations:** Harder to interpret, slower than a single tree, needs more memory.
+
+---
+---
+
+# UNIT III — ENSEMBLE TECHNIQUES AND UNSUPERVISED LEARNING
+
+---
+
+## 1. Ensemble Learning
+
+### What it is
+Ensemble learning combines predictions from multiple models to produce a better overall prediction than any single model alone.
+
+**Weak learner:** A model that performs only slightly better than random guessing (e.g., a shallow decision tree / decision stump).
+
+**Strong learner:** A model with high accuracy. Ensemble methods combine weak learners to build a strong learner.
+
+---
+
+### Voting
+
+Used to combine predictions of multiple trained classifiers.
+
+**Hard Voting:** Each model votes for a class, and the majority class wins.
+
+**Soft Voting:** Each model outputs a probability for each class. Probabilities are averaged, and the class with the highest average probability wins. Soft voting generally performs better.
+
+---
+
+### Bagging (Bootstrap Aggregating)
+
+- Train multiple models **in parallel**, each on a different random bootstrap sample (sampling with replacement from training data).
+- Aggregate predictions (majority vote for classification, average for regression).
+- Reduces **variance** (helps with overfitting).
+- **Example:** Random Forest.
+
+---
+
+### Boosting
+
+- Train models **sequentially**. Each new model focuses more on the examples that the previous model got wrong.
+- Reduces **bias** (helps with underfitting).
+- Final prediction is a weighted combination of all models.
+
+**AdaBoost (Adaptive Boosting):**
+- Assigns higher weights to misclassified examples.
+- Each weak learner's weight in the final vote depends on its accuracy.
+
+**Gradient Boosting:**
+- Each new tree is trained to predict the residual errors (mistakes) of the previous model.
+- Powerful and accurate.
+
+**XGBoost:**
+- An optimized, regularized implementation of Gradient Boosting.
+- Very fast, handles missing values, widely used in competitions and industry.
+
+---
+
+### Stacking
+
+- Train multiple **diverse base models** (e.g., Decision Tree, SVM, KNN) on the training data.
+- Their predictions are used as features for a **meta-model** (e.g., Logistic Regression) that learns how to best combine them.
+- More flexible than voting — the meta-model learns the optimal combination.
+
+---
+
+### Bagging vs Boosting vs Stacking
+
+| | Bagging | Boosting | Stacking |
+|---|---|---|---|
+| **Training** | Parallel | Sequential | Two levels |
+| **Focus** | Reduces variance | Reduces bias | Combines diverse models |
+| **Models** | Same type | Same type | Different types |
+| **Example** | Random Forest | AdaBoost, XGBoost | Blending models |
+| **Risk** | May underfit | Can overfit if too many estimators | More complex to implement |
+
+---
+
+## 2. Unsupervised Learning
+
+Unsupervised learning finds patterns in data without labeled outputs. The model has no "right answers" to learn from.
+
+**Applications:**
+- **Clustering:** Group similar data points (customer segmentation).
+- **Dimensionality Reduction:** Reduce number of features while preserving structure (PCA).
+- **Anomaly Detection:** Identify unusual points.
+- **Generative Models:** Learn the data distribution (GANs, GMMs).
+
+---
+
+## 3. K-Means Clustering
+
+### What it is
+An unsupervised algorithm that partitions data into **K clusters**, where each data point belongs to the cluster with the nearest **centroid** (cluster center).
+
+### Working
+
+1. Choose K (number of clusters).
+2. Randomly initialize K centroids.
+3. **Assignment step:** Assign each point to the nearest centroid (using Euclidean distance).
+4. **Update step:** Recompute each centroid as the mean of all points assigned to it.
+5. Repeat steps 3–4 until centroids no longer change (convergence).
+
+### Choosing K — Elbow Method
+Run K-Means for different values of K. Plot the **Within-Cluster Sum of Squares (WCSS)** vs K. The "elbow" point (where WCSS stops decreasing sharply) is the optimal K.
+
+### Advantages and Limitations
+**Advantages:** Simple, fast, scales to large datasets.
+
+**Limitations:**
+- Must specify K in advance.
+- Sensitive to initial centroid placement (use K-Means++ for better initialization).
+- Assumes spherical (round), equally-sized clusters.
+- Sensitive to outliers.
+- Only assigns hard cluster membership (not probabilistic).
+
+---
+
+## 4. Instance-Based Learning — K-Nearest Neighbors (KNN)
+
+### What it is
+KNN is a non-parametric, lazy learning algorithm. It makes predictions based on the K most similar (nearest) training examples to the new input.
+
+**Lazy learning:** No explicit training phase. The model just stores the training data and computes at prediction time.
+
+### Working
+
+1. Store all training data.
+2. For a new input, compute the distance to all training points.
+3. Find the K nearest neighbors.
+4. **Classification:** Majority vote among K neighbors.
+5. **Regression:** Average of K neighbors' values.
+
+### Choosing K
+- Small K → noisy boundary, high variance (overfitting).
+- Large K → smooth boundary, high bias (underfitting).
+- Use cross-validation to find optimal K.
+
+### Distance Measures
+- **Euclidean Distance:** Most common. Straight-line distance.
+- **Manhattan Distance:** Sum of absolute differences.
 
 ### Feature Scaling
+KNN is distance-based, so features must be scaled (standardized or normalized) to prevent features with large ranges from dominating.
 
-Many ML algorithms are sensitive to the scale of features.
+### Advantages and Limitations
+**Advantages:** Simple, no training time, naturally handles multi-class, adapts to new data easily.
 
-**Normalization (Min-Max Scaling):**
-```
-x_scaled = (x − min) / (max − min)
+**Limitations:** Slow prediction on large datasets (computes distance to all points), sensitive to irrelevant features and feature scale, high memory usage.
 
-Result: all values between 0 and 1
-Sensitive to outliers (if max is an outlier, everything gets compressed)
-```
+---
 
-**Standardization (Z-score):**
-```
-x_scaled = (x − mean) / std_dev
+### KNN vs K-Means
 
-Result: mean=0, std=1
-More robust to outliers
-```
-
-**Normalization vs Standardization:**
-
-| | Normalization | Standardization |
+| | KNN | K-Means |
 |---|---|---|
-| Output range | [0, 1] | Unbounded (centered at 0) |
-| Sensitive to outliers | Yes | Less so |
-| When to use | Fixed range needed, no outliers | Normal distribution, outliers present |
-| Required for | KNN, SVM, Neural Networks | Linear/Logistic Regression, PCA |
-| Not needed for | Decision Trees, Random Forest | Decision Trees, Random Forest |
-
-**Critical rule:** Always fit scaling parameters on training data only. Apply the same parameters to validation and test data.
-
-### Encoding
-
-Converting categorical values to numbers.
-
-- **Label Encoding:** City → 0, 1, 2 (implies false ordering for non-ordinal data)
-- **One-Hot Encoding:** One binary column per category (no false ordering)
-- **Ordinal Encoding:** Education: High School=0, Bachelor=1, Master=2 (for ordered categories)
+| **Type** | Supervised (classification/regression) | Unsupervised (clustering) |
+| **K means** | Number of nearest neighbors | Number of clusters |
+| **Training** | No training (lazy) | Iterative training |
+| **Output** | Class label or value | Cluster assignment |
 
 ---
 
-## 5.4 Important Generic ML Concepts
+## 5. Gaussian Mixture Model (GMM)
 
----
+### What it is
+GMM is a probabilistic unsupervised model that assumes data is generated from a **mixture of K Gaussian (normal) distributions**, each with its own mean and covariance.
 
-### Parametric vs Non-Parametric Models
+**Soft clustering:** Unlike K-Means (hard assignment), GMM gives each point a **probability of belonging to each cluster**.
 
-**Parametric Models:**
-- Assume a fixed-form mathematical model (e.g., linear function)
-- A fixed number of parameters regardless of dataset size
-- Fast to train; may underfit if the assumed form is wrong
-- Examples: Linear Regression, Logistic Regression, Naive Bayes
+### GMM vs K-Means
 
-**Non-Parametric Models:**
-- No fixed assumption about the data's form
-- The number of parameters grows with the data
-- More flexible; may overfit; slower with large datasets
-- Examples: Decision Trees, KNN, SVM (with RBF kernel)
-
-| | Parametric | Non-Parametric |
+| | K-Means | GMM |
 |---|---|---|
-| Assumptions | Strong (fixed form) | Weak (learns from data) |
-| Parameters | Fixed number | Grows with data |
-| Flexibility | Low | High |
-| Risk | Underfitting | Overfitting |
-| Speed | Fast | Slower |
+| Cluster boundary | Hard (each point → one cluster) | Soft (probability per cluster) |
+| Cluster shape | Spherical (equal-size) | Elliptical (flexible shape) |
+| Output | Cluster label | Probability distribution |
+| Underlying model | Distance-based | Probabilistic |
+
+### Expectation-Maximization (EM) for GMM
+
+EM is the algorithm used to fit GMM parameters (means, covariances, and mixing weights).
+
+**E-step (Expectation):** For each data point, compute the probability that it belongs to each Gaussian component (soft assignment).
+
+**M-step (Maximization):** Update the Gaussian parameters (mean, covariance, weight) using the soft assignments from the E-step to maximize the likelihood of the data.
+
+**Iterative:** Repeat E and M steps until convergence (log-likelihood stops improving).
+
+**Key relationship:** EM is to GMM what Lloyd's algorithm is to K-Means — it's the optimization procedure used to learn the model parameters. EM is more general and can be applied to other latent variable models.
+
+### Applications
+- Density estimation
+- Soft clustering
+- Anomaly detection
+- Generative modeling
+
+---
+---
+
+# UNIT IV — NEURAL NETWORKS
 
 ---
 
-### Generative vs Discriminative Models
+## 1. Neural Network Fundamentals
 
-**Discriminative Models:**
-- Learn the decision boundary between classes directly
-- Model: P(y | x) → "Given this input, what's the probability of each class?"
-- Examples: Logistic Regression, SVM, Neural Networks
+### What is a Neural Network?
+A Neural Network is a computational model inspired by the human brain. It consists of layers of interconnected **neurons** (nodes) that learn to transform inputs into outputs.
 
-**Generative Models:**
-- Learn the distribution of each class
-- Model: P(x | y) and P(y) → "What does data from each class look like?"
-- Can generate new samples
-- Examples: Naive Bayes, Gaussian Mixture Models, GANs, LLMs
+### Neuron (Node)
+Each neuron:
+1. Receives inputs (features or outputs of previous layer).
+2. Computes a weighted sum: `z = wᵀx + b`
+3. Applies an **activation function** to introduce non-linearity.
+4. Passes output to the next layer.
 
-| | Generative | Discriminative |
-|---|---|---|
-| Models | P(x,y) or P(x\|y) | P(y\|x) |
-| Can generate data? | Yes | No |
-| Accuracy | Often lower | Often higher |
-| Example | Naive Bayes | Logistic Regression |
+- **Weights (w):** Learned parameters that control the strength of connections.
+- **Bias (b):** A learned offset that shifts the activation.
 
----
-
-### Eager vs Lazy Learning
-
-**Eager Learning:**
-- The algorithm generalizes from training data immediately during training
-- Training is slow; prediction is fast
-- Examples: Decision Trees, Neural Networks, Linear Regression
-
-**Lazy Learning:**
-- The algorithm stores all training data; no generalization during "training"
-- Training is instant; prediction is slow (must search all stored data)
-- Examples: KNN (K-Nearest Neighbors)
-
----
-
-### Classification vs Regression
-
-| | Classification | Regression |
-|---|---|---|
-| Output | Discrete category | Continuous number |
-| Examples | Spam/Not Spam, Cat/Dog | House price, Temperature |
-| Metrics | Accuracy, F1, AUC | MAE, RMSE, R² |
-| Loss function | Cross-Entropy | Mean Squared Error |
-
----
-
-## 5.5 Class Imbalance
-
-### What is it?
-
-When one class has far more samples than another.
+### Layers
 
 ```
-Fraud detection:
-  Not Fraud: 990,000 samples (99%)
-  Fraud:       10,000 samples (1%)
+Input Layer → Hidden Layer(s) → Output Layer
 ```
 
-### Why is it a problem?
+- **Input Layer:** Receives raw features.
+- **Hidden Layer(s):** Learn intermediate representations.
+- **Output Layer:** Produces the final prediction.
 
-A model that always predicts "Not Fraud" achieves 99% accuracy but is completely useless.
-
-### Solutions
-
-- **SMOTE:** Generate synthetic minority class examples (not just copies)
-- **Oversampling:** Duplicate minority class samples
-- **Undersampling:** Remove majority class samples
-- **Class Weights:** Tell the model to pay more attention to the minority class
-- **Threshold adjustment:** Lower the decision threshold for the minority class
+### Forward Propagation
+Data flows from input → through hidden layers → to output. Each layer computes `activation(Wx + b)`. The final output is the prediction.
 
 ---
 
-## 5.6 Curse of Dimensionality
+### Multilayer Perceptron (MLP)
 
-### What is it?
+An MLP is a feedforward neural network with one or more hidden layers.
 
-As the number of features (dimensions) increases, data becomes increasingly sparse and distances lose meaning.
+**Architecture:** Input → [Hidden Layer 1] → [Hidden Layer 2] → ... → Output
 
-### Why does it matter?
+**Working:** Input is passed forward through each layer. Each layer applies a linear transformation followed by an activation function.
 
-In 2D, you need a small amount of data to cover the space. In 100D, you would need an astronomically large amount of data to cover the same fraction of the space.
+**Perceptron vs MLP:**
 
-```
-In 1D: 10 points can cover a line reasonably well
-In 2D: 100 points might cover a 2D space reasonably
-In 10D: 10^10 points needed for equivalent coverage
-In 100D: essentially empty no matter how much data you have
-```
-
-### Consequences
-
-- Distance-based algorithms (KNN, SVM) struggle — all points become equally distant
-- Models need exponentially more data as dimensions grow
-- Overfitting becomes more likely
-
-### Solutions
-
-- Dimensionality reduction (PCA, embeddings)
-- Feature selection (remove irrelevant features)
-- Regularization
-
----
-
-## 5.7 Correlation vs Causation
-
-**Correlation:** Two variables move together — when X increases, Y tends to increase (or decrease).
-
-**Causation:** X actually causes Y to change.
-
-**They are not the same.**
-
-```
-Example:
-  Ice cream sales and drowning deaths are positively correlated.
-  Ice cream does NOT cause drowning.
-  Hot weather causes both.
-  "Hot weather" is the hidden confounding variable.
-```
-
-**Why it matters in ML:**
-- ML models find correlations. They do not discover causation.
-- Relying on a correlating but non-causal feature can break the model when conditions change.
-- Example: A model predicting hospital readmission might learn that "having a certain doctor" correlates with readmission — but it's actually that this doctor treats the sickest patients.
-
----
-
-## 5.8 IID Assumption
-
-**IID = Independent and Identically Distributed**
-
-Most ML algorithms assume that training and test data are drawn from the same distribution (identically distributed) and that each sample is independent of others.
-
-**Independent:** Knowing one sample tells you nothing about another.
-**Identically Distributed:** All samples come from the same underlying population.
-
-**Why it matters:**
-- If test data comes from a different distribution than training data → model fails
-- If samples are correlated (time-series) → standard cross-validation is wrong (you'd leak future data)
-
----
-
-## 5.9 Distribution Shift, Data Drift, and Concept Drift
-
-After deploying a model, the real world can change. The model was trained on old data, but new data might be different.
-
-### Data Drift (Feature Drift)
-
-The distribution of the input features changes over time.
-
-```
-Example:
-  Model trained on 2022 user data.
-  By 2024, user demographics have shifted.
-  The input features now look different → model performance degrades.
-```
-
-### Concept Drift
-
-The relationship between features and the target changes.
-
-```
-Example:
-  Fraud detection model trained on 2022 fraud patterns.
-  By 2024, fraudsters use completely different methods.
-  Same input features → different fraud behavior → model is outdated.
-```
-
-### Data Drift vs Concept Drift
-
-| | Data Drift | Concept Drift |
-|---|---|---|
-| What changes | Input feature distribution | Input-output relationship |
-| Example | Users now tend to be older | "Premium user" behavior changed |
-| Fix | Retrain on new data | Retrain with new labels |
-
-### Model Monitoring
-
-After deployment, continuously monitor:
-- Input feature distributions
-- Prediction distributions
-- Model performance metrics (if ground truth available)
-
----
-
-## 5.10 Interpretability and Explainability
-
-### Black-Box Models
-
-Complex models (deep neural networks, large ensembles) can be highly accurate but hard to understand. You can't easily explain why they made a specific prediction.
-
-**Problem:** In healthcare, finance, and legal domains, you often need to explain decisions.
-
-### Interpretable Models
-
-Models where predictions can be understood directly:
-- Linear Regression: coefficients tell you the exact contribution of each feature
-- Decision Trees: you can follow the path from root to leaf
-
-### Explainability
-
-For black-box models, post-hoc tools add explanations:
-
-- **SHAP:** Shows how each feature contributed to a specific prediction
-- **LIME:** Local approximation of the model around one prediction
-
-### Why It Matters
-
-- Regulatory requirements (EU AI Act, GDPR)
-- Debugging model failures
-- Building user trust
-- Detecting biased models
-
-### Human-in-the-Loop
-
-In high-stakes applications (medical diagnosis, loan approval), a human reviews the model's recommendation before acting. The model assists; the human decides.
-
----
-
-## Unit 5 — Interview Questions
-
-**Q1: What is the curse of dimensionality?**
-A: As the number of features increases, data becomes increasingly sparse. Distance-based algorithms struggle because all points become equally distant. More data is needed exponentially. Solutions: feature selection, PCA, regularization.
-
-**Q2: What is the difference between feature selection and feature extraction?**
-A: Feature selection chooses a subset of existing features to keep. Feature extraction creates new, more informative features from the original ones. PCA is feature extraction — it creates new axes (principal components) that are combinations of original features.
-
-**Q3: What is the IID assumption?**
-A: Training and test data are Independent and Identically Distributed — drawn independently from the same population distribution. Violations: time-series data (not independent), distribution shift (not identical). When violated, standard ML evaluation is unreliable.
-
-**Q4: What is the difference between data drift and concept drift?**
-A: Data drift means the input feature distribution changed (users are older now). Concept drift means the relationship between inputs and outputs changed (fraud behavior changed). Both degrade model performance and require retraining.
-
-**Q5: What is the difference between normalization and standardization?**
-A: Normalization scales features to [0,1]. Standardization transforms to mean=0, std=1. Use normalization for bounded ranges without outliers. Use standardization when data is normally distributed or has outliers. Neither is needed for tree-based models.
-
-**Q6: What is the difference between parametric and non-parametric models?**
-A: Parametric models assume a fixed mathematical form with a fixed number of parameters (e.g., Linear Regression). Non-parametric models have no fixed form and grow in complexity with data (e.g., KNN). Parametric models are faster and may underfit; non-parametric models are more flexible and may overfit.
-
-**Q7: What is a generative model?**
-A: A model that learns the distribution of the data P(x,y) and can generate new samples. Examples: Naive Bayes, GANs, LLMs. Discriminative models learn P(y|x) — the direct mapping from input to output — but cannot generate data.
-
-**Q8: Why is correlation not causation?**
-A: Two variables can be correlated due to a third (confounding) variable, not because one causes the other. ML models find correlations in data, not causal relationships. A correlated but non-causal feature may work during training but fail when conditions change.
-
-**Q9: Why is model interpretability important?**
-A: In high-stakes domains (healthcare, finance, law), decisions must be explainable. Black-box models can be accurate but untrustworthy. Interpretability helps debug failures, detect biases, satisfy regulations, and build user trust.
-
-**Q10: What is class imbalance and why is accuracy misleading for it?**
-A: Class imbalance is when one class has far more samples. A model predicting the majority class always achieves high accuracy without learning anything useful. Use Precision, Recall, F1, or AUC-ROC instead.
-
-**Q11: What should you monitor after deploying a model?**
-A: Input feature distributions (data drift), prediction distributions, and model performance metrics (accuracy, F1, etc.). When drift is detected, investigate and retrain on fresh data.
-
-**Q12: What is human-in-the-loop?**
-A: A system design where a human reviews model predictions before action is taken. Used in high-stakes scenarios where errors are costly (medical diagnosis, loan approval). The model assists the human decision-maker rather than replacing them.
-
----
-
-# Core ML Quick Revision
-
----
-
-## 1. Complete Core ML Flow
-
-```
-Problem Definition
-      ↓
-Collect Data
-      ↓
-Understand Data (EDA)
-      ↓
-Clean Data
-      ↓
-Engineer Features
-      ↓
-Split: Train / Validation / Test
-      ↓
-Choose Model (Hypothesis Space + Inductive Bias)
-      ↓
-Train (Minimize Loss via Optimization / Gradient Descent)
-      ↓
-Evaluate (Bias? Variance? Overfitting? Underfitting?)
-      ↓
-Regularize / Tune Hyperparameters
-      ↓
-Cross-Validate
-      ↓
-Final Test Set Evaluation
-      ↓
-Deploy
-      ↓
-Monitor (Data Drift / Concept Drift)
-      ↓
-Retrain When Needed
-```
-
----
-
-## 2. Important Definitions
-
-| Term | One-Line Definition |
+| Perceptron | MLP |
 |---|---|
-| Machine Learning | Systems that learn patterns from data instead of following explicit rules |
-| Model | The artifact produced by training an algorithm on data |
-| Algorithm | The procedure used to learn from data |
-| Parameters | Values learned during training (weights, biases) |
-| Hyperparameters | Settings chosen before training (learning rate, depth) |
-| Loss | Error on one sample |
-| Cost | Average loss over all training samples |
-| Gradient | Direction of steepest increase in the cost function |
-| Gradient Descent | Iteratively move parameters opposite to gradient to minimize cost |
-| Hypothesis | A specific function mapping inputs to outputs |
-| Hypothesis Space | All functions the chosen model can represent |
-| Inductive Bias | Assumptions built into the algorithm to guide learning |
-| Generalization | Performing well on new, unseen data |
-| Overfitting | Memorizing training data including noise; fails on new data |
-| Underfitting | Too simple to capture the true pattern |
-| Regularization | Adding a complexity penalty to prevent overfitting |
-| Cross-Validation | Rotating validation folds for reliable evaluation |
-| Data Leakage | Test information leaking into training; causes false good results |
-| Bias (statistical) | Systematic error in predictions; model too simple |
-| Variance | Sensitivity of predictions to which training data was used |
+| Single layer, single neuron | Multiple layers and neurons |
+| Step function activation | Non-linear activations (ReLU, Sigmoid) |
+| Only linearly separable | Can learn non-linear patterns |
 
 ---
 
-## 3. Critical Conceptual Distinctions
+## 2. Activation Functions
 
-| Pair | Key Difference |
-|---|---|
-| AI vs ML | AI is broad; ML specifically learns from data |
-| Algorithm vs Model | Algorithm = procedure; Model = result of training |
-| Parameter vs Hyperparameter | Learned vs manually set |
-| Loss vs Cost | Per sample vs average over all samples |
-| Training Error vs Test Error | On training data vs on unseen data |
-| Inductive Bias vs Statistical Bias | Design assumption vs performance problem |
-| Bias vs Variance | Systematic error vs sensitivity to training data |
-| Overfitting vs Underfitting | Too complex vs too simple |
-| Validation vs Test | Tune on validation; final report on test |
-| Normalization vs Standardization | [0,1] range vs mean=0, std=1 |
-| Feature Selection vs Extraction | Choose from existing vs create new |
-| Data Drift vs Concept Drift | Features change vs input-output relationship changes |
-| Data Leakage vs Overfitting | Pipeline error vs model complexity problem |
-| Parametric vs Non-Parametric | Fixed form vs grows with data |
-| Generative vs Discriminative | Models P(x,y) vs P(y\|x) |
+**Why needed:** Without activation functions, multiple layers would collapse into a single linear transformation. Non-linear activations allow neural networks to learn complex patterns.
 
----
-
-## 4. Bias-Variance Summary
-
-```
-Bias² + Variance + Irreducible Noise = Total Error
-
-High Bias   → simple model, systematic error, underfitting
-High Variance → complex model, sensitive to data, overfitting
-
-Simple model: High Bias, Low Variance
-Complex model: Low Bias, High Variance
-
-Optimal: balance that minimizes total error
-```
-
----
-
-## 5. Overfitting / Underfitting Summary
-
-| | Underfitting | Good Fit | Overfitting |
+| Function | Formula | Range | Use Case |
 |---|---|---|---|
-| Training error | High | Low | Very Low |
-| Test error | High | Low | High |
-| Gap | Small (both bad) | Small (both good) | Large |
-| Cause | Too simple | Balanced | Too complex |
-| Fix | Add complexity, less regularization | — | Regularize, simplify, more data |
+| **Sigmoid** | `1 / (1 + e⁻ˣ)` | (0, 1) | Binary output, logistic regression |
+| **Tanh** | `(eˣ − e⁻ˣ) / (eˣ + e⁻ˣ)` | (−1, 1) | Hidden layers (zero-centered) |
+| **ReLU** | `max(0, x)` | [0, ∞) | Default for hidden layers |
+| **Leaky ReLU** | `max(αx, x)` where α ≈ 0.01 | (−∞, ∞) | Fix for dying ReLU |
+| **Softmax** | `eˣⁱ / Σeˣʲ` | (0, 1), sums to 1 | Multi-class output layer |
+
+**Key notes:**
+- Sigmoid and Tanh cause vanishing gradient problems in deep networks.
+- ReLU is fast and avoids this in most cases.
+- Softmax converts a vector of scores to class probabilities.
 
 ---
 
-## 6. Inductive Bias Summary
+## 3. Neural Network Training
 
-- Every learning algorithm has inductive bias
-- It is necessary — without assumptions, learning is impossible
-- It comes from the choice of model family, loss, and regularization
-- It is NOT the same as statistical bias
-- It is a design choice, not a performance problem
-- More inductive bias = stronger assumptions = narrower hypothesis space
-
----
-
-## 7. Hypothesis / Hypothesis Space Summary
-
-```
-All possible functions
-        ↓
-Hypothesis Space (constrained by algorithm choice)
-        ↓
-Training (search within the space)
-        ↓
-Best hypothesis on training data
-        ↓
-Generalization (hope it works on unseen data)
-```
+### Steps:
+1. **Forward Propagation:** Pass input through the network, compute prediction.
+2. **Calculate Loss:** Compare prediction to true label using a loss function.
+   - Regression: MSE
+   - Binary classification: Binary Cross-Entropy
+   - Multi-class: Categorical Cross-Entropy
+3. **Backward Propagation (Backpropagation):** Calculate how much each weight contributed to the error (gradients).
+4. **Weight Update (Gradient Descent):** Adjust weights in the direction that reduces loss.
+5. Repeat for all batches and epochs.
 
 ---
 
-## 8. Loss / Optimization Summary
+## 4. Backpropagation
 
+### What it is
+Backpropagation is the algorithm used to calculate gradients of the loss with respect to every weight in the network, enabling gradient descent to update them.
+
+### Process
+
+**Forward Pass:** Input flows through layers → prediction is computed → loss is computed.
+
+**Backward Pass:** Starting from the output, compute ∂Loss/∂w for each weight using the **chain rule** of calculus, moving backward layer by layer.
+
+**Weight Update:**
 ```
-Prediction → Loss → Gradient → Parameter Update → Lower Loss → Repeat
-
-Loss:  error on one sample
-Cost:  average loss (what we minimize)
-Gradient: direction of steepest cost increase
-Learning rate: step size
-Convergence: when cost stops decreasing significantly
+w = w − α × (∂Loss/∂w)
 ```
 
----
-
-## 9. Evaluation Summary
-
-**Classification:** Accuracy (balanced), Precision (FP costly), Recall (FN costly), F1 (both matter)
-
-**Regression:** MAE (robust, interpretable), RMSE (penalizes large errors), R² (variance explained)
-
-**Workflow:** Train → evaluate on validation → tune → final evaluation on test (once)
+**Relationship with Gradient Descent:** Backpropagation **calculates the gradients**. Gradient Descent **uses those gradients to update the weights**. They work together — neither alone is sufficient.
 
 ---
 
-## 10. Data Problems Summary
+## 5. Shallow vs Deep Networks
 
-| Problem | Effect | Fix |
+| | Shallow Network | Deep Network |
 |---|---|---|
-| Missing values | Model errors or biased results | Impute or drop |
-| Outliers | Distorts model (especially linear) | Remove, clip, transform |
-| Imbalanced classes | Accuracy misleading | SMOTE, class weights, F1 |
-| Data leakage | False good results in training | Correct pipeline |
-| Data drift | Model degrades over time | Monitor, retrain |
-| Concept drift | Model becomes obsolete | Retrain with new labels |
+| Hidden Layers | 0 or 1 | 2+ (often many more) |
+| Complexity | Simple | High |
+| Patterns Learned | Simple, low-level | Hierarchical, abstract |
+| Parameters | Fewer | Many more |
+
+**Representation Learning:** Deep networks automatically learn hierarchical representations of data:
+- Early layers → edges, textures.
+- Middle layers → shapes, parts.
+- Final layers → objects, concepts.
+
+**Advantage of depth:** Can approximate complex functions with fewer neurons than a wide shallow network. Better performance on complex tasks (images, speech, text).
 
 ---
 
-## 11. Top Interview Questions
+## 6. Vanishing Gradient Problem
 
-1. What is machine learning?
-2. How does a model learn from data?
-3. What is a hypothesis space?
-4. What is inductive bias and why is it necessary?
-5. What is the difference between inductive bias and statistical bias?
-6. What is overfitting? What causes it? How do you fix it?
-7. What is underfitting?
-8. What is the bias-variance tradeoff?
-9. What is generalization?
-10. Why do we have train/validation/test splits?
-11. What is data leakage and why is it dangerous?
-12. What is cross-validation?
-13. What is regularization?
-14. What is gradient descent?
-15. Why is accuracy misleading for imbalanced data?
-16. When do you prefer recall over precision?
-17. What is the curse of dimensionality?
-18. What is the difference between data drift and concept drift?
-19. What is the IID assumption?
-20. What is an irreducible error?
+### Definition
+During backpropagation in deep networks, gradients get multiplied across many layers. If the gradients are small (< 1), they shrink exponentially as they travel backward → weights in early layers barely update → network stops learning.
+
+### Cause
+Sigmoid and Tanh activations squeeze outputs into a small range (0 to 1 or −1 to 1). Gradients of these functions are always ≤ 0.25, so multiplying them across many layers makes gradients near zero.
+
+### Effect
+Early layers learn very slowly or not at all. The network effectively becomes shallow.
+
+### Solution: ReLU
+
+**ReLU (Rectified Linear Unit):** `f(x) = max(0, x)`
+
+- Gradient is 1 for positive inputs → no shrinking.
+- Simple and fast to compute.
+- Greatly alleviates vanishing gradient in deep networks.
+
+**Dying ReLU Problem:** If a neuron always gets negative input, it always outputs 0. Its gradient is also 0, so it never updates — the neuron "dies."
+
+**Leaky ReLU:** Fixes dying ReLU by allowing a small negative slope:
+```
+f(x) = max(αx, x)   where α ≈ 0.01
+```
+Gradient is never exactly zero, so neurons don't die.
 
 ---
 
-## 12. Core ML Concepts Cheat Sheet
+## 7. Hyperparameter Tuning
+
+### Parameters vs Hyperparameters
+
+| Parameters | Hyperparameters |
+|---|---|
+| Learned from data during training | Set manually before training |
+| Weights, biases | Learning rate, batch size, epochs |
+
+### Important Neural Network Hyperparameters
+
+| Hyperparameter | Effect |
+|---|---|
+| **Learning Rate** | Controls step size in gradient descent; most critical HP |
+| **Batch Size** | Samples per weight update; affects speed and stability |
+| **Epochs** | Number of full passes through the training data |
+| **Number of Layers** | Controls model depth and capacity |
+| **Number of Neurons** | Controls model width per layer |
+| **Optimizer** | Algorithm for weight update (SGD, Adam, RMSprop) |
+| **Dropout Rate** | Fraction of neurons dropped; controls regularization |
+
+### Tuning Strategies
+
+**Grid Search:** Try every combination of a predefined set of hyperparameter values. Exhaustive but slow.
+
+**Random Search:** Randomly sample hyperparameter combinations. Faster and often finds better results than grid search.
+
+**Automated Tuning (AutoML/Bayesian Optimization):** Uses algorithms to intelligently explore the hyperparameter space based on past results.
+
+---
+
+## 8. Batch Normalization
+
+### What it is
+Batch Normalization (BatchNorm) normalizes the output of each layer during training so that it has zero mean and unit variance, then applies learnable scale and shift parameters.
+
+### Why it's needed
+As training progresses, the distribution of inputs to each layer shifts (called **Internal Covariate Shift**), making training slow and unstable.
+
+### Working (Conceptual)
+For each mini-batch:
+1. Compute the mean and variance of the batch's activations.
+2. Normalize the activations.
+3. Apply learnable parameters γ (scale) and β (shift) to restore expressiveness.
+
+### Benefits
+- Faster and more stable training.
+- Allows higher learning rates.
+- Acts as a mild regularizer (reduces need for Dropout).
+
+### Training vs Inference
+- **Training:** Uses the mean and variance of the current mini-batch.
+- **Inference:** Uses a running average of mean and variance computed during training (since there may be no batch).
+
+---
+
+## 9. Regularization
+
+### Definition
+Regularization adds a penalty to the loss function to discourage overly complex models, reducing overfitting.
+
+### L1 Regularization (Lasso)
+Adds sum of absolute values of weights to the loss:
+```
+Loss_new = Loss + λ × Σ|wᵢ|
+```
+- Drives many weights to exactly **zero** → sparse model → automatic feature selection.
+
+### L2 Regularization (Ridge)
+Adds sum of squared weights to the loss:
+```
+Loss_new = Loss + λ × Σwᵢ²
+```
+- Drives weights toward zero but rarely exactly zero → all features are kept but shrunk.
+- Most commonly used.
+
+**λ (lambda):** Regularization strength. Larger λ → stronger penalty → simpler model.
+
+---
+
+### Dropout
+
+**What it is:** During each training step, randomly "drop out" (set to zero) a fraction of neurons. Each training step uses a different random subset of neurons.
+
+**Why it reduces overfitting:**
+- Neurons cannot rely on specific other neurons → learn more robust, independent features.
+- Acts as training many different subnetworks simultaneously and averaging them (ensemble effect).
+
+**Training vs Inference:**
+- **Training:** Neurons are randomly dropped with probability `p` (dropout rate).
+- **Inference:** All neurons are active, but their outputs are scaled by `(1 − p)` to account for the higher number of active neurons.
+
+---
+---
+
+# UNIT V — DESIGN AND ANALYSIS OF ML EXPERIMENTS
+
+---
+
+## 1. ML Experiment Design
+
+A structured ML experiment follows these steps:
+
+1. **Define the problem:** Classification, regression, clustering? What is the target variable?
+2. **Dataset preparation:** Collect, clean, and explore data. Handle missing values and outliers.
+3. **Train/Validation/Test split:** Partition data before any preprocessing to avoid data leakage.
+4. **Data preprocessing:** Scaling, encoding categorical variables, handling imbalance.
+5. **Feature selection:** Remove irrelevant or redundant features.
+6. **Model training:** Fit the model on the training set.
+7. **Evaluation:** Evaluate on the validation set, tune hyperparameters.
+8. **Model comparison:** Compare multiple models using consistent metrics.
+9. **Final test:** Evaluate the chosen model once on the test set.
+
+> **Data leakage warning:** Never use test data for any decision (preprocessing, feature selection, tuning) before the final evaluation.
+
+---
+
+## 2. Cross-Validation
+
+### What it is
+A technique to evaluate model performance more reliably by training and validating on multiple different splits of the data, rather than a single fixed split.
+
+### K-Fold Cross-Validation
+1. Split the dataset into **K equal-sized folds**.
+2. For each fold: train on the other K−1 folds, validate on this fold.
+3. Repeat K times. Average the K validation scores.
+
+This ensures every sample is used for both training and validation.
+
+**Common choice:** K = 5 or K = 10.
+
+### Stratified K-Fold
+Ensures that each fold has roughly the same proportion of class labels as the full dataset. Important for imbalanced datasets.
+
+### Advantages and Limitations
+**Advantages:** More reliable estimate of model performance, uses all data for both training and validation.
+
+**Limitations:** Computationally expensive (trains K models), slow for large datasets or complex models.
+
+---
+
+### Resampling
+
+**Resampling** means repeatedly drawing samples from a dataset to estimate statistics or validate models.
+
+**Bootstrapping:**
+- Draw N samples **with replacement** from a dataset of size N.
+- Some samples appear multiple times; some not at all (~37% are left out — the "out-of-bag" samples).
+- The out-of-bag samples can be used as a validation set.
+- Used in Random Forest to create diverse training sets for each tree.
+- Also used to estimate confidence intervals for model performance metrics.
+
+---
+
+## 3. Classification Performance Metrics
+
+### Confusion Matrix
+
+For a binary classifier:
 
 ```
-THE LEARNING PROBLEM:
-  Data + Algorithm → Training → Model → Prediction
-
-THE GOAL:
-  Good Generalization: Low error on new, unseen data
-
-HOW LEARNING HAPPENS:
-  Gradient Descent minimizes Cost Function
-  Adjusting Parameters to reduce prediction error
-
-THE FUNDAMENTAL TENSION:
-  Simple model → High Bias (underfits)
-  Complex model → High Variance (overfits)
-  Goal → balance both
-
-KEY MECHANISMS:
-  Regularization → prevent overfitting by penalizing complexity
-  Cross-Validation → reliable evaluation without wasting data
-  Hypothesis Space → what the model can represent
-  Inductive Bias → how the model makes assumptions to learn
-
-EVALUATION:
-  Never evaluate on training data
-  Use validation for tuning
-  Use test set ONCE for final report
-
-DEPLOYMENT:
-  Monitor for drift
-  Retrain when performance degrades
+                  Predicted Positive   Predicted Negative
+Actual Positive        TP                   FN
+Actual Negative        FP                   TN
 ```
+
+- **TP (True Positive):** Correctly predicted positive.
+- **TN (True Negative):** Correctly predicted negative.
+- **FP (False Positive):** Predicted positive, but actually negative. (Type I Error)
+- **FN (False Negative):** Predicted negative, but actually positive. (Type II Error)
+
+### Evaluation Metrics
+
+| Metric | Formula | Meaning |
+|---|---|---|
+| **Accuracy** | (TP + TN) / Total | Overall correctness |
+| **Precision** | TP / (TP + FP) | Of all predicted positives, how many are correct? |
+| **Recall (Sensitivity)** | TP / (TP + FN) | Of all actual positives, how many were found? |
+| **F1 Score** | 2 × (Precision × Recall) / (Precision + Recall) | Harmonic mean of Precision and Recall |
+| **Specificity** | TN / (TN + FP) | Of all actual negatives, how many were correctly identified? |
+
+### ROC Curve and AUC
+
+- **ROC Curve (Receiver Operating Characteristic):** Plots **True Positive Rate (Recall)** vs **False Positive Rate** at different classification thresholds.
+- **AUC (Area Under the Curve):** A single number summarizing the ROC curve.
+  - AUC = 1.0 → perfect classifier.
+  - AUC = 0.5 → random classifier (no skill).
+
+### Choosing Metrics
+
+| Situation | Preferred Metric |
+|---|---|
+| Balanced dataset | Accuracy |
+| Imbalanced dataset | F1 Score, AUC-ROC |
+| Minimizing false positives is critical (e.g., spam) | Precision |
+| Minimizing false negatives is critical (e.g., cancer detection) | Recall |
 
 ---
 
-# How These Concepts Lead to ML Algorithms
+## 4. Model Evaluation and Comparison
+
+### Single Model Evaluation
+- Evaluate on the **test set** only after all tuning is complete.
+- Report relevant metrics (accuracy, F1, AUC) based on the problem type.
+- Analyze training vs validation vs test performance to diagnose overfitting/underfitting.
+
+### Comparing Multiple Models
+- Use the same train/test splits and cross-validation procedure for all models.
+- Compare using the same evaluation metric.
+- Do not choose the model based on test set performance alone — use validation/CV performance.
+
+### Statistical Significance
+A difference in model performance on a single test set might be due to chance. Statistical tests determine if the difference is **statistically significant** (i.e., real, not random).
+
+### Statistical Tests for Model Comparison
+
+**t-Test (Independent):**
+- Compares means of two independent groups.
+- Use when comparing models on completely different test sets.
+- Assumes normal distribution.
+
+**McNemar's Test:**
+- Specifically designed for comparing two classifiers on the **same test set**.
+- Uses the confusion of one model vs the other (which model got which samples wrong).
+- Preferred for comparing classifiers in practice.
+
+**K-Fold Cross-Validation Paired t-Test:**
+- Run K-Fold CV for both models.
+- Perform a paired t-test on the K validation scores.
+- "Paired" because both models are evaluated on the same folds.
+- More reliable than a single test set comparison.
+
+| Test | When to Use |
+|---|---|
+| **Independent t-Test** | Two models on different datasets |
+| **McNemar's Test** | Two classifiers on the same test set |
+| **Paired t-Test (K-Fold)** | Two models evaluated with K-Fold CV |
 
 ---
 
-The concepts in this document are the foundation. ML algorithms are specific implementations of these ideas.
-
-```
-Core ML Concepts
-      ↓
-Learning Problem (What are we predicting?)
-      ↓
-Hypothesis Space (What function family to use?)
-      ↓
-Loss Function (How do we measure error?)
-      ↓
-Optimization (How do we minimize that error?)
-      ↓
-Generalization (How do we ensure it works on new data?)
-      ↓
-Model Evaluation (How do we measure success?)
-      ↓
-Supervised / Unsupervised Problem Setup
-      ↓
-ML Algorithms
-```
-
-### How Algorithms Map to These Concepts
-
-| Algorithm | Hypothesis Space | Loss | Optimization | Inductive Bias |
-|---|---|---|---|---|
-| Linear Regression | Linear functions | MSE | Gradient Descent | Relationship is linear |
-| Logistic Regression | Sigmoid of linear | Cross-Entropy | Gradient Descent | Linear decision boundary |
-| Decision Tree | Tree-based rules | Gini/Entropy | Greedy search | Axis-aligned splits |
-| KNN | All nearest-neighbor rules | None (no training) | No training | Similar inputs → similar outputs |
-| SVM | Max-margin hyperplane | Hinge loss | Quadratic programming | Maximum margin separability |
-| K-Means | Centroid-based partitions | WCSS | EM-like iteration | Spherical, equal-sized clusters |
-
-Every algorithm you will study is a specific answer to:
-- What hypothesis space should we search?
-- What loss should we minimize?
-- What optimization algorithm do we use?
-- What inductive bias are we building in?
-
-Understanding these core concepts means you can learn any new algorithm quickly — because you already understand the foundations it is built on.
-
----
-
-*End of ML Core Concepts Notes*
+*End of ML Study Notes*
