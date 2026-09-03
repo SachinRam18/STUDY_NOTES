@@ -1,63 +1,5 @@
-# Java OOP — Interview Master Notes
 
-> **Target:** Beginner → Strong Intermediate → Interview Expert  
-> **Language:** Java (8+, with modern features noted)  
-> **Purpose:** Complete preparation for Java OOP interviews at product-based companies
-
----
-
-# How to Use These Notes
-
-## Recommended Study Order
-
-1. **Unit 1** — Foundations first. You cannot understand polymorphism without understanding objects, references, constructors, and `static`.
-2. **Unit 2** — Encapsulation, Inheritance, Polymorphism. The heart of OOP interviews.
-3. **Unit 3** — Abstraction, Interfaces, Advanced OOP. Where interviewers test depth.
-4. **Unit 4** — Advanced Object Behavior. Where most candidates fail.
-5. **Unit 5** — Design, SOLID, Patterns. Where senior-level questions live.
-
-## How to Practice Code
-
-- **Type every example** yourself. Do not just read.
-- **Predict the output** before running. Write your prediction on paper.
-- **If your prediction is wrong**, stop and understand why. This is where learning happens.
-- **Modify examples** — change access modifiers, add `static`, remove `@Override`, use `null`. See what breaks.
-
-## How to Approach Output Questions
-
-1. Identify the **reference type** and **object type**.
-2. Determine what is resolved at **compile time** (fields, static methods, overloaded methods).
-3. Determine what is resolved at **runtime** (overridden instance methods).
-4. Trace the **constructor chain** (parent first, then child).
-5. Watch for **initialization order** (static blocks → instance blocks → constructors).
-
-## What Must Be Memorized
-
-- Access modifier rules (private, default, protected, public)
-- Overriding rules (access, return type, exceptions)
-- Overload resolution order (widening → boxing → varargs)
-- `equals()`/`hashCode()` contract
-- Initialization order in inheritance
-
-## What Must Be Understood
-
-- Why Java is pass-by-value (not pass-by-reference)
-- Why fields are not polymorphic
-- Why `static` methods are hidden, not overridden
-- How dynamic method dispatch works
-- Why composition is preferred over inheritance
-
-## What Should Be Practiced Repeatedly
-
-- Output-based questions (minimum 100)
-- Constructor chaining problems
-- Casting problems (upcasting, downcasting, `ClassCastException`)
-- `equals()`/`hashCode()` implementation
-- Design problems using SOLID
-
----
-
-# Java OOP Interview Roadmap
+# Java OOP 
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -80,7 +22,7 @@
 │  ├── Abstract Classes, Interfaces, Interface Evolution          │
 │  ├── Multiple Inheritance, Default Method Conflicts             │
 │  ├── Composition vs Inheritance, Association/Aggregation        │
-│  └── final, Nested Classes, Anonymous Classes                   │
+│  └── final, Nested Classes, Anonymous Classes, Generics         │
 │                                                                 │
 │  UNIT 4: Advanced Object Behavior + Java-Specific Traps         │
 │  ├── Immutable Classes, String Immutability                     │
@@ -104,7 +46,7 @@
 
 ---
 
-# UNIT 1 — Java OOP Foundations + Object & Class Internals
+# UNIT 1 — Java OOP Foundations
 
 ---
 
@@ -124,13 +66,13 @@ Object-Oriented Programming is a programming paradigm that organizes software ar
 
 ### Procedural vs OOP
 
-| Aspect | Procedural | OOP |
-|--------|-----------|-----|
-| Focus | Functions/procedures | Objects |
-| Data | Shared, passed between functions | Encapsulated inside objects |
-| Reusability | Copy-paste or function libraries | Inheritance, composition |
-| Security | Data exposed globally | Data hidden via access modifiers |
-| Example | C | Java, C++, Python |
+| Aspect      | Procedural                       | OOP                              |
+| ----------- | -------------------------------- | -------------------------------- |
+| Focus       | Functions/procedures             | Objects                          |
+| Data        | Shared, passed between functions | Encapsulated inside objects      |
+| Reusability | Copy-paste or function libraries | Inheritance, composition         |
+| Security    | Data exposed globally            | Data hidden via access modifiers |
+| Example     | C                                | Java, C++, Python                |
 
 ### The Four Pillars of OOP
 
@@ -189,14 +131,14 @@ System.out.println(s1 == s2); // false — different objects
 
 ### Primitive vs Reference Types
 
-| Aspect | Primitive | Reference |
-|--------|----------|-----------|
-| Examples | `int`, `char`, `boolean`, `double` | `String`, `Student`, `int[]` |
-| Stored | Directly holds the value | Holds a reference (address) to the object |
-| Default | `0`, `false`, `'\u0000'` | `null` |
-| Memory | Stack (local) or part of object (heap) | Reference on stack, object on heap |
-| `==` compares | Values | References (addresses) |
-| Passed to method | Copy of value | Copy of reference |
+| Aspect           | Primitive                              | Reference                                 |
+| ---------------- | -------------------------------------- | ----------------------------------------- |
+| Examples         | `int`, `char`, `boolean`, `double`     | `String`, `Student`, `int[]`              |
+| Stored           | Directly holds the value               | Holds a reference (address) to the object |
+| Default          | `0`, `false`, `'\u0000'`               | `null`                                    |
+| Memory           | Stack (local) or part of object (heap) | Reference on stack, object on heap        |
+| `==` compares    | Values                                 | References (addresses)                    |
+| Passed to method | Copy of value                          | Copy of reference                         |
 
 ```java
 int a = 10;        // primitive — holds value 10 directly
@@ -398,6 +340,7 @@ System.out.println(s1.name); // "Bob"
 ### What is a Constructor?
 
 A constructor is a special block of code that initializes a newly created object. It has:
+
 - The **same name** as the class
 - **No return type** (not even `void`)
 - Is called automatically when `new` is used
@@ -405,6 +348,7 @@ A constructor is a special block of code that initializes a newly created object
 ### Default Constructor
 
 If you write **no constructor at all**, Java provides a **default constructor** automatically. It:
+
 - Takes no arguments
 - Has an empty body (effectively)
 - Calls `super()` implicitly
@@ -568,6 +512,7 @@ Overriding requires the same method name in parent and child. Since constructors
 ### Private Constructor
 
 A constructor can be `private`. This is used in:
+
 - **Singleton pattern** — prevent external instantiation
 - **Utility classes** — classes with only static methods (like `Math`)
 - **Factory methods** — control object creation
@@ -629,6 +574,7 @@ new Child();
 ```
 
 **Output:**
+
 ```
 1. Parent static block
   1b. Child static block
@@ -874,6 +820,7 @@ class Demo {
 ```
 
 **Output:**
+
 ```
 1. Static var init
 2. Static block
@@ -919,6 +866,7 @@ public class Main {
 ```
 
 **Output:**
+
 ```
 A static
 B static
@@ -963,11 +911,13 @@ new Child();
 ```
 
 **Output:**
+
 ```
 Child x = 0
 ```
 
 **Why?**
+
 1. `new Child()` → calls `Child()` → implicit `super()` → calls `Parent()`
 2. Inside `Parent()`, `printX()` is called. But `printX()` is overridden in `Child`.
 3. Dynamic dispatch calls `Child.printX()`.
@@ -993,6 +943,7 @@ new A();
 ```
 
 **Output:**
+
 ```
 A static block: x=30
 A instance block: y=40
@@ -1017,6 +968,7 @@ new Top();
 ```
 
 **Output:**
+
 ```
 Base
 Mid
@@ -1047,6 +999,7 @@ new C();
 ```
 
 **Output:**
+
 ```
 A static
 B static
@@ -1062,14 +1015,14 @@ C()
 
 ### The Four Levels
 
-| Modifier | Same Class | Same Package | Subclass (Different Package) | Different Package (Non-subclass) |
-|----------|-----------|-------------|------------------------------|----------------------------------|
-| `private` | ✅ | ❌ | ❌ | ❌ |
-| default (no keyword) | ✅ | ✅ | ❌ | ❌ |
-| `protected` | ✅ | ✅ | ✅* | ❌ |
-| `public` | ✅ | ✅ | ✅ | ✅ |
+| Modifier             | Same Class | Same Package | Subclass (Different Package) | Different Package (Non-subclass) |
+| -------------------- | ---------- | ------------ | ---------------------------- | -------------------------------- |
+| `private`            | ✅         | ❌           | ❌                           | ❌                               |
+| default (no keyword) | ✅         | ✅           | ❌                           | ❌                               |
+| `protected`          | ✅         | ✅           | ✅\*                         | ❌                               |
+| `public`             | ✅         | ✅           | ✅                           | ✅                               |
 
-*`protected` in a different package subclass: accessible only through inheritance, NOT through a reference of the parent type.
+\*`protected` in a different package subclass: accessible only through inheritance, NOT through a reference of the parent type.
 
 ### `private` — Most Restrictive
 
@@ -1158,6 +1111,7 @@ System.out.println(s);  // calls s.toString() implicitly
 ```
 
 Overriding `toString()`:
+
 ```java
 class Student {
     String name;
@@ -1289,6 +1243,7 @@ System.out.println(p1.equals(p2)); // true — content comparison
 ### Output Questions
 
 **Question 1:**
+
 ```java
 String s1 = "Java";
 String s2 = "Java";
@@ -1302,6 +1257,7 @@ System.out.println(s1.equals(s3)); // ?
 ```
 
 **Answer:**
+
 ```
 true   — same pool object
 false  — pool vs heap
@@ -1310,6 +1266,7 @@ true   — same content
 ```
 
 **Question 2:**
+
 ```java
 Integer a = 127;
 Integer b = 127;
@@ -1321,6 +1278,7 @@ System.out.println(c == d);  // ?
 ```
 
 **Answer:**
+
 ```
 true   — Integer caches values -128 to 127
 false  — 128 is outside cache range, different objects
@@ -1441,6 +1399,7 @@ System.out.println(set.contains(new Student("Alice", 20))); // likely false!
 ### 10 Output Questions
 
 **Q1:**
+
 ```java
 class A {
     static { System.out.print("1 "); }
@@ -1450,10 +1409,12 @@ class A {
 new A();
 new A();
 ```
+
 **Output:** `1 2 3 2 3`  
 **Concept:** Static block runs once; instance block and constructor run per object.
 
 **Q2:**
+
 ```java
 String s1 = "abc";
 String s2 = "abc";
@@ -1462,10 +1423,12 @@ System.out.println(s1 == s2);
 System.out.println(s1 == s3);
 System.out.println(s1.equals(s3));
 ```
+
 **Output:** `true`, `false`, `true`  
 **Concept:** String pool reuse, heap object, `equals()` content comparison.
 
 **Q3:**
+
 ```java
 class Test {
     int x;
@@ -1474,10 +1437,12 @@ class Test {
 }
 new Test();
 ```
+
 **Output:** `10`  
 **Concept:** `this(10)` calls parameterized constructor first, sets x to 10.
 
 **Q4:**
+
 ```java
 class A {
     A() { this(5); System.out.print("A() "); }
@@ -1488,10 +1453,12 @@ class B extends A {
 }
 new B();
 ```
+
 **Output:** `A(int) A() B()`  
 **Concept:** B() → super() → A() → this(5) → A(int) prints → A() prints → B() prints.
 
 **Q5:**
+
 ```java
 class Parent {
     Parent() { show(); }
@@ -1503,10 +1470,12 @@ class Child extends Parent {
 }
 new Child();
 ```
+
 **Output:** `Child: 0`  
 **Concept:** During Parent constructor, `show()` dispatches to Child's override, but `x` is not yet initialized (still 0).
 
 **Q6:**
+
 ```java
 class Test {
     static int a;
@@ -1517,9 +1486,11 @@ class Test {
 }
 new Test();
 ```
+
 **Output:** `a=5 b=15`
 
 **Q7:**
+
 ```java
 Integer x = 100;
 Integer y = 100;
@@ -1528,19 +1499,23 @@ Integer q = 200;
 System.out.println(x == y);
 System.out.println(p == q);
 ```
+
 **Output:** `true`, `false`  
 **Concept:** Integer cache range is -128 to 127.
 
 **Q8:**
+
 ```java
 class A { A() { System.out.print("A "); } }
 class B extends A { B() { System.out.print("B "); } }
 class C extends B { C() { System.out.print("C "); } }
 new C();
 ```
+
 **Output:** `A B C`
 
 **Q9:**
+
 ```java
 class Demo {
     static Demo d = new Demo();
@@ -1550,7 +1525,9 @@ class Demo {
 }
 new Demo();
 ```
+
 **Output:**
+
 ```
 instance block
 constructor
@@ -1558,9 +1535,11 @@ static block
 instance block
 constructor
 ```
+
 **Concept:** `static Demo d = new Demo();` triggers instance creation during static initialization — before the static block runs.
 
 **Q10:**
+
 ```java
 class Test {
     int x = 10;
@@ -1570,12 +1549,14 @@ class Test {
 Test t = new Test();
 System.out.println(t.x);
 ```
+
 **Output:** `20`  
 **Concept:** Field init (x=10) → instance block (x=15) → constructor (x=20). Final value is 20.
 
 ### 5 Debugging Questions
 
 **D1:**
+
 ```java
 class Student {
     String name;
@@ -1586,9 +1567,11 @@ class Student {
 Student s = new Student("Alice");
 System.out.println(s.name); // prints null
 ```
+
 **Fix:** `this.name = name;`
 
 **D2:**
+
 ```java
 class Parent {
     Parent(int x) {}
@@ -1597,18 +1580,22 @@ class Child extends Parent {
     // COMPILE ERROR: no default constructor in Parent
 }
 ```
+
 **Fix:** Add `Child() { super(0); }` or add no-arg constructor in Parent.
 
 **D3:**
+
 ```java
 class A {
     A() { this(5); }
     A(int x) { this(); }  // COMPILE ERROR: recursive constructor invocation
 }
 ```
+
 **Fix:** Remove circular `this()` call.
 
 **D4:**
+
 ```java
 class Test {
     static void show() {
@@ -1616,15 +1603,18 @@ class Test {
     }
 }
 ```
+
 **Fix:** Remove `this` reference or make the method non-static.
 
 **D5:**
+
 ```java
 class Box {
     final int size;
     // COMPILE ERROR: final variable 'size' might not have been initialized
 }
 ```
+
 **Fix:** Initialize `size` at declaration, in an instance block, or in ALL constructors.
 
 ### 5 "Why" Questions
@@ -1637,7 +1627,7 @@ class Box {
 
 4. **Why is `String` immutable?** — Security (used in class loading, network connections), thread safety (shared without synchronization), caching (String pool, hashCode caching), and performance.
 
-5. **Why can a static method not be overridden?** — Overriding is runtime polymorphism based on the object type. Static methods belong to the class, not the object. They are resolved at compile time based on the reference type. They can be *hidden* but not *overridden*.
+5. **Why can a static method not be overridden?** — Overriding is runtime polymorphism based on the object type. Static methods belong to the class, not the object. They are resolved at compile time based on the reference type. They can be _hidden_ but not _overridden_.
 
 ---
 
@@ -1650,6 +1640,7 @@ class Box {
 ### What is Encapsulation?
 
 Encapsulation is the practice of:
+
 1. **Bundling** data (fields) and methods that operate on that data into a single class
 2. **Hiding** the internal state from the outside world using access modifiers
 3. **Providing controlled access** through public getters/setters
@@ -1786,14 +1777,14 @@ Java avoids this ambiguity (the "Diamond Problem") by not allowing multiple clas
 
 ### What is Inherited?
 
-| Member | Inherited? |
-|--------|-----------|
-| `public` fields/methods | ✅ Yes |
-| `protected` fields/methods | ✅ Yes |
-| default (package-private) fields/methods | ✅ Only in same package |
-| `private` fields/methods | ❌ No (exist in parent, but not accessible) |
-| Constructors | ❌ Never |
-| Static members | Accessible, but belong to the declaring class |
+| Member                                   | Inherited?                                    |
+| ---------------------------------------- | --------------------------------------------- |
+| `public` fields/methods                  | ✅ Yes                                        |
+| `protected` fields/methods               | ✅ Yes                                        |
+| default (package-private) fields/methods | ✅ Only in same package                       |
+| `private` fields/methods                 | ❌ No (exist in parent, but not accessible)   |
+| Constructors                             | ❌ Never                                      |
+| Static members                           | Accessible, but belong to the declaring class |
 
 **Important distinction:** `private` members are NOT inherited (not accessible), but they DO exist in the child object's memory (the parent's part of the object still has them).
 
@@ -1922,11 +1913,13 @@ class Calculator {
 ### What Makes Overloading Valid?
 
 Methods are overloaded if they differ in:
+
 - **Number** of parameters
 - **Type** of parameters
 - **Order** of parameter types
 
 Methods are NOT overloaded if they differ only in:
+
 - Return type (COMPILE ERROR if same name and params but different return)
 - Access modifier
 - Exception declarations
@@ -2095,18 +2088,18 @@ a.sound();  // Output: Meow
 
 ### Rules for Overriding
 
-| Rule | Requirement |
-|------|------------|
-| Method name | Must be exactly the same |
-| Parameters | Must be exactly the same |
-| Return type | Same or covariant (subtype) |
-| Access modifier | Same or wider (more accessible) |
-| Exceptions (checked) | Same, narrower, or none — CANNOT be broader |
-| Exceptions (unchecked) | Any — no restriction |
-| `static` methods | CANNOT be overridden (they are hidden) |
-| `final` methods | CANNOT be overridden |
-| `private` methods | NOT visible to child — not overriding |
-| Constructors | CANNOT be overridden |
+| Rule                   | Requirement                                 |
+| ---------------------- | ------------------------------------------- |
+| Method name            | Must be exactly the same                    |
+| Parameters             | Must be exactly the same                    |
+| Return type            | Same or covariant (subtype)                 |
+| Access modifier        | Same or wider (more accessible)             |
+| Exceptions (checked)   | Same, narrower, or none — CANNOT be broader |
+| Exceptions (unchecked) | Any — no restriction                        |
+| `static` methods       | CANNOT be overridden (they are hidden)      |
+| `final` methods        | CANNOT be overridden                        |
+| `private` methods      | NOT visible to child — not overriding       |
+| Constructors           | CANNOT be overridden                        |
 
 ### `@Override` Annotation
 
@@ -2189,20 +2182,20 @@ class Child extends Parent {
 
 ## 2.6 Overloading vs Overriding — Detailed Comparison
 
-| Aspect | Overloading | Overriding |
-|--------|------------|-----------|
-| Where? | Same class (or inherited) | Parent–Child classes |
-| Method name | Same | Same |
-| Parameters | MUST be different | MUST be same |
-| Return type | Can be anything | Same or covariant |
-| Access modifier | Can be anything | Same or wider |
-| Binding | Compile-time (static binding) | Runtime (dynamic binding) |
-| Which decides? | Reference type + argument types | Object type |
-| `static` methods | Can be overloaded | Cannot be overridden (hidden) |
-| `private` methods | Can be overloaded | Cannot be overridden (not visible) |
-| `final` methods | Can be overloaded | Cannot be overridden |
-| Polymorphism type | Compile-time | Runtime |
-| Exceptions | No rules | Checked exception restrictions |
+| Aspect            | Overloading                     | Overriding                         |
+| ----------------- | ------------------------------- | ---------------------------------- |
+| Where?            | Same class (or inherited)       | Parent–Child classes               |
+| Method name       | Same                            | Same                               |
+| Parameters        | MUST be different               | MUST be same                       |
+| Return type       | Can be anything                 | Same or covariant                  |
+| Access modifier   | Can be anything                 | Same or wider                      |
+| Binding           | Compile-time (static binding)   | Runtime (dynamic binding)          |
+| Which decides?    | Reference type + argument types | Object type                        |
+| `static` methods  | Can be overloaded               | Cannot be overridden (hidden)      |
+| `private` methods | Can be overloaded               | Cannot be overridden (not visible) |
+| `final` methods   | Can be overloaded               | Cannot be overridden               |
+| Polymorphism type | Compile-time                    | Runtime                            |
+| Exceptions        | No rules                        | Checked exception restrictions     |
 
 ### Critical Distinction with Code
 
@@ -2297,12 +2290,12 @@ class Child extends Parent {
 Parent p = new Child();   // Reference: Parent, Object: Child
 ```
 
-| What | Resolved by | Result |
-|------|------------|--------|
-| `p.x` | Reference type (Parent) | `10` |
-| `p.show()` | Object type (Child) | `"Child show"` |
-| `p.parentOnly()` | Compiles (Parent has it) | `"Only in Parent"` |
-| `p.childOnly()` | COMPILE ERROR | Parent doesn't have `childOnly()` |
+| What             | Resolved by              | Result                            |
+| ---------------- | ------------------------ | --------------------------------- |
+| `p.x`            | Reference type (Parent)  | `10`                              |
+| `p.show()`       | Object type (Child)      | `"Child show"`                    |
+| `p.parentOnly()` | Compiles (Parent has it) | `"Only in Parent"`                |
+| `p.childOnly()`  | COMPILE ERROR            | Parent doesn't have `childOnly()` |
 
 ### The Golden Rule
 
@@ -2335,12 +2328,14 @@ p.show();                  // ?
 ```
 
 **Output:**
+
 ```
 10
 Child
 ```
 
 **Why?**
+
 - `p.x` → `10` because **fields are NOT polymorphic**. Reference type is `Parent`, so `Parent.x = 10`.
 - `p.show()` → `"Child"` because **instance methods ARE polymorphic**. Object type is `Child`, so `Child.show()` runs.
 
@@ -2358,6 +2353,7 @@ Object o = new String("hello");  // upcasting
 ```
 
 After upcasting:
+
 - You can only access members declared in the **reference type** (Parent)
 - Overridden methods will execute the **child's version** at runtime
 - You CANNOT access child-specific methods
@@ -2575,6 +2571,7 @@ System.out.println(((Parent) c).type); // "Parent"
 ### 20 Output Questions
 
 **Q1:**
+
 ```java
 class A { void show() { System.out.println("A"); } }
 class B extends A { void show() { System.out.println("B"); } }
@@ -2582,9 +2579,11 @@ class C extends B { void show() { System.out.println("C"); } }
 A obj = new C();
 obj.show();
 ```
+
 **Output:** `C` — Dynamic dispatch goes to the actual object type (C).
 
 **Q2:**
+
 ```java
 class A {
     int x = 10;
@@ -2597,10 +2596,12 @@ A obj = new B();
 System.out.println(obj.x);
 obj.show();
 ```
+
 **Output:** `10`, `10`  
 `obj.x` → reference type A → 10. `obj.show()` → not overridden in B → A's show() → prints A's x (10).
 
 **Q3:**
+
 ```java
 class Parent {
     void show(int x) { System.out.println("Parent int"); }
@@ -2612,10 +2613,12 @@ Parent p = new Child();
 p.show(5);
 // p.show("hi");  // would this compile?
 ```
+
 **Output:** `Parent int`  
 `p.show("hi")` would NOT compile — Parent has no `show(String)`. Child's `show(String)` is an overload, not override.
 
 **Q4:**
+
 ```java
 class A {
     static void show() { System.out.println("A"); }
@@ -2626,9 +2629,11 @@ class B extends A {
 A obj = new B();
 obj.show();
 ```
+
 **Output:** `A` — Static methods use reference type. `obj` is type A.
 
 **Q5:**
+
 ```java
 class A {
     void show() { System.out.println("A"); }
@@ -2642,9 +2647,11 @@ class C extends B {
 B obj = new C();
 obj.show();
 ```
+
 **Output:** `C` — Object type is C, C overrides show().
 
 **Q6:**
+
 ```java
 class Parent {
     int x = 5;
@@ -2658,10 +2665,12 @@ Parent p = new Child();
 System.out.println(p.x);
 System.out.println(p.getX());
 ```
+
 **Output:** `5`, `10`  
 `p.x` → reference type Parent → 5. `p.getX()` → dynamic dispatch → Child's getX() → Child's x → 10.
 
 **Q7:**
+
 ```java
 class A { void m(int x) { System.out.println("A-int"); } }
 class B extends A {
@@ -2671,11 +2680,13 @@ class B extends A {
 A a = new B();
 a.m(5);
 ```
+
 **Output:** `B-int`  
 Compile time: A has `m(int)` → compiles. Runtime: B overrides `m(int)` → B-int.
 Note: `a.m(5L)` would NOT compile because A has no `m(long)`.
 
 **Q8:**
+
 ```java
 class Animal {
     void eat() { System.out.println("Animal eats"); }
@@ -2688,10 +2699,12 @@ Animal a = new Dog();
 a.eat();
 // a.bark();  // ?
 ```
+
 **Output:** `Dog eats`  
 `a.bark()` would NOT compile — Animal reference does not know about bark().
 
 **Q9:**
+
 ```java
 class A {
     A() { print(); }
@@ -2703,10 +2716,12 @@ class B extends A {
 }
 new B();
 ```
+
 **Output:** `B: 0`  
 A's constructor calls `print()`, which dispatches to B's `print()`. But B's `x` is not initialized yet (still 0).
 
 **Q10:**
+
 ```java
 class A {
     String name = "A";
@@ -2720,19 +2735,23 @@ A obj = new B();
 System.out.println(obj.name);
 System.out.println(obj.getName());
 ```
+
 **Output:** `A`, `B`  
 Field: reference type (A). Method: object type (B).
 
 **Q11:**
+
 ```java
 void show(Object o) { System.out.println("Object"); }
 void show(String s) { System.out.println("String"); }
 
 show(null);
 ```
+
 **Output:** `String` — Most specific type is chosen.
 
 **Q12:**
+
 ```java
 class P {
     protected void show() { System.out.println("P"); }
@@ -2743,9 +2762,11 @@ class C extends P {
 P p = new C();
 p.show();
 ```
+
 **Output:** `C`
 
 **Q13:**
+
 ```java
 class A {
     void show(long x) { System.out.println("long"); }
@@ -2756,10 +2777,12 @@ class B extends A {
 A a = new B();
 a.show(5);
 ```
+
 **Output:** `long`  
 Compile time: A has `show(long)`. int 5 widens to long. B's `show(int)` is an overload not visible through A reference.
 
 **Q14:**
+
 ```java
 class A {
     static int x = 10;
@@ -2772,16 +2795,20 @@ class B extends A {
 A a = new B();
 System.out.println(a.x + " " + a.y);
 ```
+
 **Output:** `10 20` — Both static and instance fields use reference type.
 
 **Q15:**
+
 ```java
 Animal a = new Animal();
 Dog d = (Dog) a;  // what happens?
 ```
+
 **Answer:** Compiles (compiler allows it), but throws `ClassCastException` at runtime. The actual object is `Animal`, not `Dog`.
 
 **Q16:**
+
 ```java
 class A {
     void show() throws Exception { System.out.println("A"); }
@@ -2792,10 +2819,12 @@ class B extends A {
 A a = new B();
 a.show();
 ```
+
 **Output:** `B`  
 Valid — overriding method can throw NO exception (narrower than parent's Exception).
 
 **Q17:**
+
 ```java
 class A {
     private void show() { System.out.println("A"); }
@@ -2807,10 +2836,12 @@ class B extends A {
 A a = new B();
 a.call();
 ```
+
 **Output:** `A`  
 `private` methods are not overridden. `call()` in A invokes A's `show()`.
 
 **Q18:**
+
 ```java
 class A {
     int x = 10;
@@ -2825,9 +2856,11 @@ class B extends A {
 }
 new B().print();
 ```
+
 **Output:** `20`, `10`, `10`
 
 **Q19:**
+
 ```java
 class Base {
     void show(int x) { System.out.println("Base int"); }
@@ -2838,10 +2871,12 @@ class Der extends Base {
 Base b = new Der();
 b.show(5);
 ```
+
 **Output:** `Base int`  
 `show(Integer)` in Der is an **overload**, not an override. Base reference → only `show(int)` visible → exact match.
 
 **Q20:**
+
 ```java
 class A {
     final void show() { System.out.println("A"); }
@@ -2852,6 +2887,7 @@ class B extends A {
 A a = new B();
 a.show();
 ```
+
 **Output:** `A` — final methods cannot be overridden.
 
 ### 10 Tricky Inheritance Questions
@@ -2888,6 +2924,7 @@ a.show();
 ### 5 Casting Problems
 
 **C1:**
+
 ```java
 Object o = "Hello";
 String s = (String) o;      // OK — o actually is a String
@@ -2895,6 +2932,7 @@ Integer i = (Integer) o;    // ClassCastException at runtime
 ```
 
 **C2:**
+
 ```java
 Object o = new Integer(5);
 Number n = (Number) o;      // OK — Integer IS-A Number
@@ -2902,6 +2940,7 @@ Double d = (Double) o;      // ClassCastException — Integer is not a Double
 ```
 
 **C3:**
+
 ```java
 class A {}
 class B extends A {}
@@ -2912,6 +2951,7 @@ C c = (C) a;  // ClassCastException — actual object is B, not C
 ```
 
 **C4:**
+
 ```java
 List<String> list = new ArrayList<>();
 Object o = list;
@@ -2920,6 +2960,7 @@ ArrayList<String> al = (ArrayList<String>) o;  // OK at runtime
 ```
 
 **C5:**
+
 ```java
 int[] arr = {1, 2, 3};
 Object o = arr;            // OK — arrays are objects
@@ -2978,6 +3019,7 @@ Abstraction means **hiding the implementation complexity** and exposing only the
 ### What is an Abstract Class?
 
 An abstract class is a class that:
+
 - Is declared with the `abstract` keyword
 - **Cannot be instantiated** directly
 - Can contain abstract methods (no body) and concrete methods (with body)
@@ -3022,23 +3064,23 @@ s.displayColor();               // Color: Red
 
 ### What Can an Abstract Class Contain?
 
-| Member | Allowed? |
-|--------|---------|
-| Abstract methods | ✅ Yes |
-| Concrete methods | ✅ Yes |
-| Constructors | ✅ Yes (called via `super()` by subclasses) |
-| Instance variables | ✅ Yes |
-| Static variables | ✅ Yes |
-| Static methods | ✅ Yes |
-| Final methods | ✅ Yes (cannot be overridden by subclasses) |
-| Private methods | ✅ Yes (Java 9+) |
-| `main()` method | ✅ Yes |
+| Member             | Allowed?                                    |
+| ------------------ | ------------------------------------------- |
+| Abstract methods   | ✅ Yes                                      |
+| Concrete methods   | ✅ Yes                                      |
+| Constructors       | ✅ Yes (called via `super()` by subclasses) |
+| Instance variables | ✅ Yes                                      |
+| Static variables   | ✅ Yes                                      |
+| Static methods     | ✅ Yes                                      |
+| Final methods      | ✅ Yes (cannot be overridden by subclasses) |
+| Private methods    | ✅ Yes (Java 9+)                            |
+| `main()` method    | ✅ Yes                                      |
 
 ### Illegal Combinations
 
 ```java
 // abstract + final — COMPILE ERROR
-// abstract final class X {}  
+// abstract final class X {}
 // Reason: abstract must be extended, final prevents extension
 
 // abstract + private — COMPILE ERROR
@@ -3294,23 +3336,24 @@ new C().show();  // Output: "B" — class always wins
 
 ## 3.8 Abstract Class vs Interface — Deep Comparison
 
-| Feature | Abstract Class | Interface |
-|---------|---------------|-----------|
-| Keyword | `abstract class` | `interface` |
-| Instantiation | Cannot | Cannot |
-| Constructors | ✅ Yes | ❌ No |
-| Instance fields | ✅ Yes | ❌ Only `public static final` |
-| Abstract methods | ✅ Yes | ✅ Yes (implicitly) |
-| Concrete methods | ✅ Yes | ✅ Default methods (Java 8+) |
-| Static methods | ✅ Yes (inherited) | ✅ Yes (NOT inherited) |
-| Private methods | ✅ Yes | ✅ Yes (Java 9+) |
-| Final methods | ✅ Yes | ❌ No |
-| Multiple inheritance | ❌ Single class only | ✅ Multiple interfaces |
-| Access modifiers | Any | `public` (methods), `public static final` (fields) |
+| Feature              | Abstract Class       | Interface                                          |
+| -------------------- | -------------------- | -------------------------------------------------- |
+| Keyword              | `abstract class`     | `interface`                                        |
+| Instantiation        | Cannot               | Cannot                                             |
+| Constructors         | ✅ Yes               | ❌ No                                              |
+| Instance fields      | ✅ Yes               | ❌ Only `public static final`                      |
+| Abstract methods     | ✅ Yes               | ✅ Yes (implicitly)                                |
+| Concrete methods     | ✅ Yes               | ✅ Default methods (Java 8+)                       |
+| Static methods       | ✅ Yes (inherited)   | ✅ Yes (NOT inherited)                             |
+| Private methods      | ✅ Yes               | ✅ Yes (Java 9+)                                   |
+| Final methods        | ✅ Yes               | ❌ No                                              |
+| Multiple inheritance | ❌ Single class only | ✅ Multiple interfaces                             |
+| Access modifiers     | Any                  | `public` (methods), `public static final` (fields) |
 
 ### When to Use Each
 
 **Use abstract class when:**
+
 - You want to share **state** (fields) among related classes
 - You need **constructors**
 - You want to provide a **common base implementation** that subclasses refine
@@ -3318,6 +3361,7 @@ new C().show();  // Output: "B" — class always wins
 - Example: `abstract class Vehicle` with fields `speed`, `fuel`
 
 **Use interface when:**
+
 - You want to define a **capability/behavior** that unrelated classes can implement
 - You need **multiple inheritance**
 - You want to define a **contract** without dictating any implementation
@@ -3364,13 +3408,13 @@ class Car {
 
 ### Why Composition is Preferred
 
-| Aspect | Inheritance | Composition |
-|--------|-----------|-------------|
-| Coupling | Tight (child depends on parent internals) | Loose (depends only on interface) |
-| Flexibility | Fixed at compile time | Can change at runtime |
-| Reuse | Only in subclass hierarchy | Any class can compose |
-| Encapsulation | Breaks (child sees protected members) | Preserves (only public API used) |
-| Testing | Harder (need parent) | Easier (can mock components) |
+| Aspect        | Inheritance                               | Composition                       |
+| ------------- | ----------------------------------------- | --------------------------------- |
+| Coupling      | Tight (child depends on parent internals) | Loose (depends only on interface) |
+| Flexibility   | Fixed at compile time                     | Can change at runtime             |
+| Reuse         | Only in subclass hierarchy                | Any class can compose             |
+| Encapsulation | Breaks (child sees protected members)     | Preserves (only public API used)  |
+| Testing       | Harder (need parent)                      | Easier (can mock components)      |
 
 **Rule of thumb:** "Favor composition over inheritance" (from Effective Java by Joshua Bloch).
 
@@ -3466,6 +3510,7 @@ s.name = "Bob";         // OK — you can change the object's state
 ```
 
 **Critical distinction:**
+
 - `final` reference → You cannot point `s` to a **different object**
 - `final` reference does NOT make the object **immutable** — you can still modify its fields
 - To make an object truly immutable, you need: `final` class, `private final` fields, no setters, defensive copying
@@ -3630,9 +3675,478 @@ Runnable r2 = () -> System.out.println("Running");
 ```
 
 Anonymous classes are still needed when:
+
 - The interface has multiple methods
 - You need to extend a class (not just implement an interface)
 - You need `this` to refer to the anonymous class itself
+
+---
+
+## 3.16 Generics
+
+### What are Generics?
+
+Introduced in **Java 5**, **Generics** allow types (classes, interfaces, and methods) to be parameterized when defined. They provide **compile-time type safety** by allowing you to specify the exact type of objects a collection or class can hold.
+
+```java
+// Without Generics (Pre-Java 5) — raw types
+List list = new ArrayList();
+list.add("Hello");
+String s = (String) list.get(0); // Explicit cast required
+
+// With Generics (Java 5+) — parameterized type
+List<String> list = new ArrayList<>();
+list.add("Hello");
+String s = list.get(0); // No cast needed, type-safe
+```
+
+### Why Generics Exists
+
+1. **Compile-Time Type Safety** — Detect type mismatches during compilation instead of getting a `ClassCastException` at runtime.
+2. **Elimination of Explicit Casts** — The compiler automatically adds casts in the background, making code cleaner and less error-prone.
+3. **Code Reusability & Generic Algorithms** — Write algorithms that work on different types without duplicating code.
+
+### Pre-Generics (Raw Types) vs Post-Generics
+
+| Aspect         | Raw Types (Pre-Java 5)                   | Generics (Java 5+)           |
+| -------------- | ---------------------------------------- | ---------------------------- |
+| Type Checking  | Done at **runtime** (or none)            | Done at **compile time**     |
+| Type Casting   | Required manually `(String) list.get(0)` | Automated by compiler        |
+| Error Catching | `ClassCastException` at runtime          | Compile error (fails fast)   |
+| Performance    | Marginal overhead from casting           | Clean, cast-free source code |
+
+```java
+// Pre-Java 5 Danger: Silent Runtime Failure
+List list = new ArrayList();
+list.add("Alice");
+list.add(100); // Compiles without error!
+
+for (Object obj : list) {
+    String name = (String) obj; // Throws ClassCastException at runtime for 100!
+}
+
+// Java 5+ Safety: Compile-Time Error
+List<String> list = new ArrayList<>();
+list.add("Alice");
+// list.add(100); // COMPILE ERROR: incompatible types: int cannot be converted to String
+```
+
+---
+
+### Generic Classes and Interfaces
+
+A class or interface that declares one or more **type parameters** in angle brackets `<T>`.
+
+#### Naming Conventions for Type Parameters
+
+- **`T`** — Type
+- **`E`** — Element (used heavily in Java Collections Framework)
+- **`K`** — Key (used in Maps)
+- **`V`** — Value (used in Maps)
+- **`N`** — Number
+- **`S`, `U`, `V`** — 2nd, 3rd, 4th types
+
+#### Single Type Parameter Example
+
+```java
+class Box<T> {
+    private T item;
+
+    public void set(T item) {
+        this.item = item;
+    }
+
+    public T get() {
+        return item;
+    }
+}
+
+// Instantiation with Diamond Operator (<> added in Java 7)
+Box<Integer> intBox = new Box<>();
+intBox.set(42);
+int val = intBox.get(); // Unboxing automatically applies
+
+Box<String> strBox = new Box<>();
+strBox.set("Java");
+// strBox.set(100); // COMPILE ERROR
+```
+
+#### Multiple Type Parameters Example
+
+```java
+interface Pair<K, V> {
+    K getKey();
+    V getValue();
+}
+
+class OrderedPair<K, V> implements Pair<K, V> {
+    private K key;
+    private V value;
+
+    public OrderedPair(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
+
+    @Override public K getKey() { return key; }
+    @Override public V getValue() { return value; }
+}
+
+Pair<String, Integer> p = new OrderedPair<>("Age", 25);
+```
+
+---
+
+### Generic Methods
+
+A method can declare its own type parameters independent of the class. The type parameter is placed **before the return type**.
+
+```java
+class Utility {
+
+    // Generic instance method
+    public <T> void printArray(T[] array) {
+        for (T element : array) {
+            System.out.print(element + " ");
+        }
+        System.out.println();
+    }
+
+    // Static generic method
+    public static <K, V> boolean compare(Pair<K, V> p1, Pair<K, V> p2) {
+        return p1.getKey().equals(p2.getKey()) &&
+               p1.getValue().equals(p2.getValue());
+    }
+}
+
+// Invocation (Type inference determines T automatically)
+Integer[] intArray = {1, 2, 3, 4};
+String[] strArray = {"A", "B", "C"};
+
+Utility util = new Utility();
+util.printArray(intArray); // T inferred as Integer
+util.printArray(strArray); // T inferred as String
+```
+
+---
+
+### Bounded Type Parameters
+
+Restricts the types that can be passed as type arguments.
+
+#### Upper Bounds (`<T extends SuperType>`)
+
+Restricts the type parameter to a specific class/interface or its subclasses/subinterfaces.
+
+```java
+// T must be Number or a subclass of Number (Integer, Double, Float, etc.)
+class NumericStats<T extends Number> {
+    private T[] numbers;
+
+    public NumericStats(T[] numbers) {
+        this.numbers = numbers;
+    }
+
+    public double getAverage() {
+        double sum = 0.0;
+        for (T num : numbers) {
+            sum += num.doubleValue(); // doubleValue() is available on Number
+        }
+        return sum / numbers.length;
+    }
+}
+
+NumericStats<Integer> intStats = new NumericStats<>(new Integer[]{1, 2, 3, 4});
+System.out.println(intStats.getAverage()); // 2.5
+
+// NumericStats<String> strStats; // COMPILE ERROR: String is not a subclass of Number
+```
+
+#### Multiple Bounds (`<T extends ClassA & InterfaceB & InterfaceC>`)
+
+If a type parameter has multiple bounds, the **class bound must come first**, followed by interface bounds.
+
+```java
+interface Printable { void print(); }
+interface Serializable {}
+
+// Class MUST come first before interfaces
+class Processor<T extends Number & Printable & Serializable> {
+    void process(T item) {
+        item.print();
+    }
+}
+```
+
+> **Note:** Lower bounds (`T super X`) are **NOT allowed** in type parameter declarations (`class Box<T super Integer>` is a COMPILE ERROR). Lower bounds are only valid with wildcards (`<? super T>`).
+
+---
+
+### Wildcards in Generics (`?`)
+
+The question mark `?` represents an **unknown type** in generic code.
+
+```java
+List<?> list; // A list of unknown type
+```
+
+#### 1. Unbounded Wildcard (`<?>`)
+
+Used when reading objects as `Object` or when the method only relies on capabilities provided in class `Object` or `List` methods that don't depend on the type parameter (e.g. `size()`, `clear()`).
+
+```java
+void printList(List<?> list) {
+    for (Object elem : list) {
+        System.out.print(elem + " ");
+    }
+    System.out.println();
+}
+
+printList(Arrays.asList(1, 2, 3));       // Works with List<Integer>
+printList(Arrays.asList("A", "B", "C")); // Works with List<String>
+```
+
+**Key Rule:** You **cannot add** elements to a `List<?>` (except `null`), because compiler cannot guarantee what actual type the list holds.
+
+#### 2. Upper Bounded Wildcard (`<? extends T>`) — Covariance
+
+Restricts the unknown type to `T` or a **subclass** of `T`.
+
+```java
+// Accepts List<Integer>, List<Double>, List<Number>, etc.
+double sumOfList(List<? extends Number> list) {
+    double s = 0.0;
+    for (Number n : list) { // Safe to read as Number
+        s += n.doubleValue();
+    }
+    return s;
+}
+```
+
+**Restriction:** You **cannot write/add** elements (except `null`) to a `List<? extends Number>`.
+
+```java
+List<? extends Number> list = new ArrayList<Integer>();
+// list.add(10); // COMPILE ERROR! Compiler doesn't know if actual list is List<Double> or List<Integer>
+```
+
+#### 3. Lower Bounded Wildcard (`<? super T>`) — Contravariance
+
+Restricts the unknown type to `T` or a **superclass** of `T`.
+
+```java
+// Accepts List<Integer>, List<Number>, List<Object>
+void addIntegers(List<? super Integer> list) {
+    for (int i = 1; i <= 5; i++) {
+        list.add(i); // Safe to add Integer or its subclasses
+    }
+}
+```
+
+**Restriction:** Reading from `List<? super Integer>` only yields `Object` because the list could actually be `List<Object>`.
+
+---
+
+### The PECS Rule (Producer Extends, Consumer Super)
+
+The **PECS** guideline dictates when to use `extends` vs `super` wildcards:
+
+- **Producer Extends (`<? extends T>`)**: If your generic structure **produces** data (you read `get()` from it), use `? extends T`.
+- **Consumer Super (`<? super T>`)**: If your generic structure **consumes** data (you write `add()` to it), use `? super T`.
+
+```java
+class CollectionsUtils {
+    // dest CONSUMES elements (writes to dest) → super
+    // src PRODUCES elements (reads from src) → extends
+    public static <T> void copy(List<? super T> dest, List<? extends T> src) {
+        for (int i = 0; i < src.size(); i++) {
+            dest.set(i, src.get(i)); // Read from src (T), write into dest (T)
+        }
+    }
+}
+```
+
+#### Wildcard Comparison Summary
+
+| Wildcard      | Syntax              | Read Ability | Write Ability        | Primary Use Case                |
+| ------------- | ------------------- | ------------ | -------------------- | ------------------------------- |
+| Unbounded     | `List<?>`           | As `Object`  | Only `null`          | Inspection, `size()`, `clear()` |
+| Upper Bounded | `List<? extends T>` | As `T`       | Only `null`          | **Producer** (Reading data)     |
+| Lower Bounded | `List<? super T>`   | As `Object`  | Elements of type `T` | **Consumer** (Writing data)     |
+
+---
+
+### Subtyping and Invariance in Generics
+
+In Java, arrays are **covariant**, but Generics are **invariant**.
+
+#### Array Covariance (Dangerous at Runtime)
+
+```java
+String[] strArray = new String[]{"Hello", "World"};
+Object[] objArray = strArray; // OK — String[] IS-A Object[]
+
+objArray[0] = 100; // COMPILE OK, but throws ArrayStoreException at RUNTIME!
+```
+
+#### Generic Invariance (Safe at Compile Time)
+
+`List<String>` is **NOT** a subtype of `List<Object>`, even though `String` IS-A `Object`.
+
+```java
+List<String> strList = new ArrayList<>();
+// List<Object> objList = strList; // COMPILE ERROR: incompatible types!
+
+// Why? Because if allowed, this would break type safety:
+// objList.add(100); // Adding Integer to a List<String>!
+// String s = strList.get(0); // ClassCastException!
+```
+
+```
+Subtyping Comparison:
+
+Arrays (Covariant):
+Integer[]  ───IS-A───>  Number[]  ───IS-A───>  Object[]
+
+Generics (Invariant):
+List<Integer> ───NOT A SUBTYPE───> List<Number> ───NOT A SUBTYPE───> List<Object>
+
+Generics with Wildcard (Covariant):
+List<Integer> ───IS-A───> List<? extends Number> ───IS-A───> List<? extends Object>
+```
+
+---
+
+### Type Erasure
+
+To preserve backward compatibility with pre-Java 5 legacy bytecode, Java implements Generics using **Type Erasure**.
+
+Generics exist **only at compile time**. The Java compiler erases all generic type information during compilation.
+
+#### How Type Erasure Works
+
+1. **Replaces Type Parameters with Bounds:**
+   - `<T>` is replaced with `Object`.
+   - `<T extends Number>` is replaced with `Number`.
+2. **Inserts Type Casts:** Compiler automatically inserts type casts in bytecode where necessary.
+3. **Generates Bridge Methods:** Compiler creates synthetic methods to preserve polymorphism in parameterized classes.
+
+#### Code Transformation by Compiler
+
+```java
+// Code written by developer:
+public class Node<T> {
+    private T data;
+    public Node(T data) { this.data = data; }
+    public T getData() { return data; }
+}
+
+Node<String> node = new Node<>("Java");
+String s = node.getData();
+
+// Bytecode generated after Type Erasure:
+public class Node {
+    private Object data;
+    public Node(Object data) { this.data = data; }
+    public Object getData() { return data; }
+}
+
+Node node = new Node("Java");
+String s = (String) node.getData(); // Compiler inserted cast
+```
+
+---
+
+### Restrictions & Limitations of Generics
+
+Because of Type Erasure, Generics in Java have the following strict limitations:
+
+1. **Cannot Instantiate Generics with Primitive Types**
+
+   ```java
+   // List<int> list = new ArrayList<>(); // COMPILE ERROR
+   List<Integer> list = new ArrayList<>(); // OK (Use Wrapper classes)
+   ```
+
+2. **Cannot Create Instances of Type Parameters**
+
+   ```java
+   class Example<T> {
+       void create() {
+           // T obj = new T(); // COMPILE ERROR — type T is erased at runtime!
+       }
+   }
+   ```
+
+3. **Cannot Create Arrays of Parameterized Types**
+
+   ```java
+   // List<String>[] arrayOfLists = new List<String>[10]; // COMPILE ERROR
+   // T[] arr = new T[10]; // COMPILE ERROR
+   ```
+
+4. **Cannot Declare `static` Fields of Generic Type Parameters**
+
+   ```java
+   class Counter<T> {
+       // private static T count; // COMPILE ERROR
+       // Static variables are shared across ALL instances regardless of T.
+   }
+   ```
+
+5. **Cannot Use `instanceof` with Parameterized Types**
+
+   ```java
+   List<String> list = new ArrayList<>();
+   // if (list instanceof ArrayList<String>) {} // COMPILE ERROR
+   if (list instanceof ArrayList<?>) {}        // OK — unbounded wildcard allowed
+   ```
+
+6. **Cannot Catch or Create Generic Exception Classes**
+
+   ```java
+   // class GenericException<T> extends Exception {} // COMPILE ERROR
+   ```
+
+7. **Cannot Overload Methods Where Erasures Lead to Same Signature**
+   ```java
+   class Printer {
+       // Both methods erase to print(List list) -> COMPILE ERROR!
+       // void print(List<String> l) {}
+       // void print(List<Integer> l) {}
+   }
+   ```
+
+---
+
+### Raw Types and Legacy Code
+
+A **Raw Type** is the name of a generic class or interface without type arguments (e.g., `List` instead of `List<String>`).
+
+#### Heap Pollution
+
+Occurs when a variable of a parameterized type refers to an object that is not of that parameterized type.
+
+```java
+List<String> strList = new ArrayList<>();
+List rawList = strList; // Warning: Unchecked assignment
+rawList.add(42);       // Heap Pollution! Integer added to List<String>
+
+// Later in code:
+String s = strList.get(0); // Throws ClassCastException at runtime!
+```
+
+#### Suppressing Warnings (`@SuppressWarnings("unchecked")`)
+
+Use `@SuppressWarnings("unchecked")` to inform the compiler that you have verified the type safety of legacy code interactions.
+
+```java
+@SuppressWarnings("unchecked")
+public List<String> getLegacyData() {
+    List rawList = getOldList();
+    return (List<String>) rawList; // Suppresses compiler warning
+}
+```
 
 ---
 
@@ -3669,6 +4183,7 @@ Anonymous classes are still needed when:
 ### 15 Output Questions
 
 **Q1:**
+
 ```java
 interface A {
     default void show() { System.out.println("A"); }
@@ -3681,9 +4196,11 @@ class C implements A, B {
 }
 new C().show();
 ```
+
 **Output:** `A` — Explicitly delegates to A's default method.
 
 **Q2:**
+
 ```java
 abstract class Base {
     Base() { System.out.println("Base"); }
@@ -3693,9 +4210,11 @@ class Child extends Base {
 }
 new Child();
 ```
+
 **Output:** `Base`, `Child` — Abstract class constructors are called via `super()`.
 
 **Q3:**
+
 ```java
 interface I {
     int X = 10;
@@ -3708,9 +4227,11 @@ class C implements I {
 }
 new C().show();
 ```
+
 **Output:** `10`
 
 **Q4:**
+
 ```java
 interface A {
     default void show() { System.out.println("A"); }
@@ -3721,9 +4242,11 @@ class B {
 class C extends B implements A {}
 new C().show();
 ```
+
 **Output:** `B` — Class method wins over interface default method.
 
 **Q5:**
+
 ```java
 abstract class Shape {
     abstract double area();
@@ -3735,26 +4258,32 @@ class Circle extends Shape {
 Shape s = new Circle();
 s.describe();
 ```
+
 **Output:** `Area = 78.5` — `area()` dispatches to Circle's implementation.
 
 **Q6:**
+
 ```java
 final int x;
 x = 10;
 // x = 20;  // COMPILE ERROR
 System.out.println(x);
 ```
+
 **Output:** `10` — Blank final can be assigned once.
 
 **Q7:**
+
 ```java
 final Student s = new Student("Alice");
 s.name = "Bob";
 System.out.println(s.name);
 ```
+
 **Output:** `Bob` — `final` prevents reference reassignment, not object mutation.
 
 **Q8:**
+
 ```java
 interface Drawable {
     void draw();
@@ -3765,18 +4294,22 @@ Drawable d = new Drawable() {
 d.draw();
 System.out.println(d.getClass().getName());
 ```
+
 **Output:** `Drawing`, then something like `Main$1` — Anonymous class has a compiler-generated name.
 
 **Q9:**
+
 ```java
 interface A { default void m() { System.out.println("A"); } }
 interface B extends A { default void m() { System.out.println("B"); } }
 class C implements A, B { }
 new C().m();
 ```
+
 **Output:** `B` — B is more specific than A (subtype wins).
 
 **Q10:**
+
 ```java
 interface I {
     static void show() { System.out.println("Interface"); }
@@ -3785,9 +4318,11 @@ class C implements I { }
 // C.show();     // COMPILE ERROR — static interface methods not inherited
 I.show();
 ```
+
 **Output:** `Interface`
 
 **Q11:**
+
 ```java
 abstract class A {
     A() { show(); }
@@ -3799,9 +4334,11 @@ class B extends A {
 }
 new B();
 ```
+
 **Output:** `x = 0` — Same trap as before: field not yet initialized during parent constructor.
 
 **Q12:**
+
 ```java
 class Outer {
     private int x = 10;
@@ -3811,9 +4348,11 @@ class Outer {
 }
 new Outer().new Inner().show();
 ```
+
 **Output:** `10` — Inner class can access outer's private members.
 
 **Q13:**
+
 ```java
 interface A { void m(); }
 interface B { void m(); }
@@ -3825,9 +4364,11 @@ B b = new C();
 a.m();
 b.m();
 ```
+
 **Output:** `C`, `C` — Same method signature, one implementation satisfies both interfaces.
 
 **Q14:**
+
 ```java
 class Outer {
     static int x = 10;
@@ -3837,14 +4378,17 @@ class Outer {
 }
 new Outer.Nested().show();
 ```
+
 **Output:** `10` — Static nested class can access outer's static members.
 
 **Q15:**
+
 ```java
 final class A {}
 // class B extends A {} // COMPILE ERROR
 System.out.println("A is final");
 ```
+
 **Output:** `A is final`
 
 ### 10 Interface Questions
@@ -4552,6 +5096,7 @@ Object result = p.produce();  // returns "Hello"
 ```
 
 **Rules:**
+
 - Applies only to **reference types**, not primitives
 - `int` cannot be covariant with `long` (primitives don't have inheritance)
 - The return type must be a **subtype** of the parent's return type
@@ -4657,6 +5202,7 @@ new B();
 ```
 
 **Output:**
+
 ```
 A static block
 B static block
@@ -4668,6 +5214,7 @@ B()
 ```
 
 **Trace:**
+
 1. Class loading: A static → B static
 2. `new B()` → `B()` → `super(10)` → `A(int)` → `this()` → `A()`
 3. Before `A()` body: A instance block runs → prints "A instance block"
@@ -4683,6 +5230,7 @@ B()
 ### 30 Output Questions
 
 **Q1:**
+
 ```java
 String a = "Hello";
 String b = "Hello";
@@ -4691,10 +5239,12 @@ System.out.println(a == b);
 System.out.println(a == c);
 System.out.println(a.equals(c));
 ```
+
 **Output:** `true`, `false`, `true`  
 **Concept:** String pool vs heap object.
 
 **Q2:**
+
 ```java
 void change(int[] arr) {
     arr[0] = 100;
@@ -4704,10 +5254,12 @@ int[] nums = {1, 2, 3};
 change(nums);
 System.out.println(nums[0] + " " + nums.length);
 ```
+
 **Output:** `100 3`  
 **Concept:** Mutation visible, reassignment not.
 
 **Q3:**
+
 ```java
 void modify(StringBuilder sb) {
     sb.append(" World");
@@ -4717,20 +5269,24 @@ StringBuilder sb = new StringBuilder("Hello");
 modify(sb);
 System.out.println(sb);
 ```
+
 **Output:** `Hello World`  
 **Concept:** `.append()` mutates; reassignment is local.
 
 **Q4:**
+
 ```java
 String s = "Java";
 s.concat(" Rocks");
 s.toUpperCase();
 System.out.println(s);
 ```
+
 **Output:** `Java`  
 **Concept:** String is immutable; results not assigned.
 
 **Q5:**
+
 ```java
 Integer a = 127, b = 127;
 Integer c = 128, d = 128;
@@ -4739,10 +5295,12 @@ System.out.println(c == d);
 System.out.println(a.equals(b));
 System.out.println(c.equals(d));
 ```
+
 **Output:** `true`, `false`, `true`, `true`  
 **Concept:** Integer cache [-128, 127].
 
 **Q6:**
+
 ```java
 void swap(Integer a, Integer b) {
     Integer temp = a;
@@ -4753,10 +5311,12 @@ Integer x = 1, y = 2;
 swap(x, y);
 System.out.println(x + " " + y);
 ```
+
 **Output:** `1 2`  
 **Concept:** Pass-by-value — references not swapped.
 
 **Q7:**
+
 ```java
 class A {
     static { System.out.print("1 "); }
@@ -4771,48 +5331,58 @@ class B extends A {
 new B();
 new B();
 ```
+
 **Output:** `1 4 2 3 5 6 2 3 5 6`
 
 **Q8:**
+
 ```java
 final int[] arr = {1, 2, 3};
 arr[0] = 10;
 // arr = new int[]{4, 5, 6};  // COMPILE ERROR
 System.out.println(arr[0]);
 ```
+
 **Output:** `10`  
 **Concept:** `final` prevents reassignment, not mutation.
 
 **Q9:**
+
 ```java
 String s1 = "ab" + "cd";
 String s2 = "abcd";
 System.out.println(s1 == s2);
 ```
+
 **Output:** `true`  
 **Concept:** Compile-time constant folding — "ab" + "cd" is resolved to "abcd" at compile time.
 
 **Q10:**
+
 ```java
 String a = "ab";
 String b = a + "cd";
 String c = "abcd";
 System.out.println(b == c);
 ```
+
 **Output:** `false`  
 **Concept:** `a` is a variable (not a compile-time constant), so `a + "cd"` creates a new object at runtime.
 
 **Q11:**
+
 ```java
 final String a = "ab";
 String b = a + "cd";
 String c = "abcd";
 System.out.println(b == c);
 ```
+
 **Output:** `true`  
 **Concept:** `a` is a compile-time constant (`final` String literal), so `a + "cd"` is resolved at compile time to "abcd".
 
 **Q12:**
+
 ```java
 class Test {
     int x;
@@ -4826,27 +5396,33 @@ Object c = b;
 System.out.println(a.equals(b));
 System.out.println(a.equals(c));
 ```
+
 **Output:** `true`, `false`  
 **Concept:** `equals(Test t)` is OVERLOADING, not overriding. `a.equals(c)` calls `Object.equals(Object)` which uses `==`.
 
 **Q13:**
+
 ```java
 System.out.println(null instanceof Object);
 System.out.println(null instanceof String);
 ```
+
 **Output:** `false`, `false`  
 **Concept:** `null` is never an instance of anything.
 
 **Q14:**
+
 ```java
 Object o = "Hello";
 System.out.println(o instanceof String);
 System.out.println(o instanceof Object);
 System.out.println(o instanceof Integer);
 ```
+
 **Output:** `true`, `true`, `false`
 
 **Q15:**
+
 ```java
 class Parent {
     int x = 10;
@@ -4860,14 +5436,18 @@ class Child extends Parent {
 Parent p = new Child();
 System.out.println(p.x);
 ```
+
 **Output:**
+
 ```
 Child: 0
 10
 ```
+
 **Concept:** Constructor calls overridden method (Child x=0), then p.x is Parent's field.
 
 **Q16:**
+
 ```java
 class A implements Cloneable {
     int[] data = {1, 2, 3};
@@ -4880,19 +5460,23 @@ A a2 = a1.clone();
 a2.data[0] = 99;
 System.out.println(a1.data[0]);
 ```
+
 **Output:** `99`  
 **Concept:** `super.clone()` is shallow — both share the same array.
 
 **Q17:**
+
 ```java
 String s = null;
 System.out.println("Hello" .equals(s));
 System.out.println(s.equals("Hello"));
 ```
+
 **Output:** `false`, then `NullPointerException`  
 **Concept:** Always call `.equals()` on the known non-null object.
 
 **Q18:**
+
 ```java
 void method(Object o) { System.out.println("Object"); }
 void method(String s) { System.out.println("String"); }
@@ -4900,9 +5484,11 @@ void method(Integer i) { System.out.println("Integer"); }
 
 method(null);
 ```
+
 **Output:** COMPILE ERROR — ambiguous. `String` and `Integer` are both equally specific.
 
 **Q19:**
+
 ```java
 class A {
     void show() { System.out.println("A"); }
@@ -4913,9 +5499,11 @@ class B extends A {
 A a = null;
 // a.show();  // what happens?
 ```
+
 **Answer:** `NullPointerException` at runtime (compiles fine).
 
 **Q20:**
+
 ```java
 class A {
     static void show() { System.out.println("A"); }
@@ -4923,35 +5511,43 @@ class A {
 A a = null;
 a.show();
 ```
+
 **Output:** `A`  
 **Concept:** Static methods are resolved by reference type at compile time. `null` doesn't matter — no object is needed.
 
 **Q21:**
+
 ```java
 Boolean b = null;
 if (b) { System.out.println("true"); }
 ```
+
 **Output:** `NullPointerException`  
 **Concept:** Unboxing `null` to `boolean` throws NPE.
 
 **Q22:**
+
 ```java
 System.out.println(1 + 2 + "3");
 System.out.println("1" + 2 + 3);
 ```
+
 **Output:** `33`, `123`  
 **Concept:** Left-to-right evaluation. `1+2=3`, then `3+"3"="33"`. `"1"+2="12"`, then `"12"+3="123"`.
 
 **Q23:**
+
 ```java
 Object[] objs = new String[3];
 objs[0] = "Hello";     // OK
 objs[1] = new Object(); // ?
 ```
+
 **Output:** `ArrayStoreException` at runtime.  
 **Concept:** Array covariance in Java. Compiles, but runtime checks actual array type.
 
 **Q24:**
+
 ```java
 class Box {
     int size;
@@ -4965,10 +5561,12 @@ Set<Box> set = new HashSet<>();
 set.add(new Box(5));
 System.out.println(set.contains(new Box(5)));
 ```
+
 **Output:** Likely `false`  
 **Concept:** `hashCode()` not overridden → different hash codes → different buckets.
 
 **Q25:**
+
 ```java
 class A {
     A() { this(10); System.out.print("A() "); }
@@ -4980,18 +5578,22 @@ class B extends A {
 }
 new B(5);
 ```
+
 **Output:** `A(int) A() B() B(int)`
 
 **Q26:**
+
 ```java
 String s1 = new String("Hello");
 String s2 = new String("Hello");
 System.out.println(s1 == s2);
 System.out.println(s1.intern() == s2.intern());
 ```
+
 **Output:** `false`, `true`
 
 **Q27:**
+
 ```java
 class Base {
     void m() throws IOException { System.out.println("Base"); }
@@ -5002,10 +5604,12 @@ class Derived extends Base {
 Base b = new Derived();
 b.m();
 ```
+
 **Output:** `Derived`  
 **Concept:** Valid override — `FileNotFoundException` is narrower than `IOException`.
 
 **Q28:**
+
 ```java
 class Parent {
     static void show() { System.out.println("Parent"); }
@@ -5018,19 +5622,23 @@ p.show();
 Child c = new Child();
 c.show();
 ```
+
 **Output:** `Parent`, `Child`  
 **Concept:** Static method hiding — reference type determines which runs.
 
 **Q29:**
+
 ```java
 double d = 0.1 + 0.2;
 System.out.println(d == 0.3);
 System.out.println(d);
 ```
+
 **Output:** `false`, `0.30000000000000004`  
 **Concept:** Floating-point precision.
 
 **Q30:**
+
 ```java
 class A {
     void show(Object o) { System.out.println("Object"); }
@@ -5041,6 +5649,7 @@ class B extends A {
 A a = new B();
 a.show("Hello");
 ```
+
 **Output:** `Object`  
 **Concept:** `show(String)` in B is overloading, not overriding. A reference only sees `show(Object)`.
 
@@ -5070,6 +5679,7 @@ a.show("Hello");
 ### 10 Debugging Questions
 
 **D1:**
+
 ```java
 class Employee {
     String name;
@@ -5078,10 +5688,12 @@ class Employee {
     }
 }
 ```
+
 **Problem:** Overloads `equals()` instead of overriding it.  
 **Fix:** `public boolean equals(Object o)` with proper casting.
 
 **D2:**
+
 ```java
 class Point {
     int x, y;
@@ -5091,9 +5703,11 @@ class Point {
     }
 }
 ```
+
 **Fix:** Add `if (o == null || getClass() != o.getClass()) return false;`
 
 **D3:**
+
 ```java
 class Item {
     String name;
@@ -5107,9 +5721,11 @@ Set<Item> set = new HashSet<>();
 set.add(new Item("A"));
 System.out.println(set.contains(new Item("A"))); // likely false
 ```
+
 **Fix:** Override `hashCode()` to match `equals()`.
 
 **D4:**
+
 ```java
 final class Immutable {
     private final List<String> items;
@@ -5119,18 +5735,22 @@ final class Immutable {
     List<String> getItems() { return items; }  // BUG: returns mutable reference
 }
 ```
+
 **Fix:** `this.items = new ArrayList<>(items);` and `return Collections.unmodifiableList(items);`
 
 **D5:**
+
 ```java
 String s = "Hello";
 if (s == "Hello") {
     System.out.println("Equal");
 }
 ```
+
 **Problem:** Works coincidentally (string pool), but fragile. Use `.equals()`.
 
 **D6:**
+
 ```java
 void changeValue(int x) {
     x = 100;
@@ -5140,9 +5760,11 @@ int val = 5;
 changeValue(val);
 System.out.println("Outside: " + val);
 ```
+
 **Not a bug** but a misunderstanding: val is unchanged outside (pass-by-value).
 
 **D7:**
+
 ```java
 class Parent {
     Parent() { init(); }
@@ -5155,19 +5777,23 @@ class Child extends Parent {
 }
 new Child().show();
 ```
+
 **Problem:** Works here, but if `init()` in Child used other uninitialized fields, it could NPE. Fragile design.
 
 **D8:**
+
 ```java
 Map<int[], String> map = new HashMap<>();
 int[] key = {1, 2, 3};
 map.put(key, "value");
 System.out.println(map.get(new int[]{1, 2, 3}));  // null
 ```
+
 **Problem:** Arrays use identity-based `hashCode()` and `equals()`. Different array objects are never equal via `==`.  
 **Fix:** Use `List<Integer>` as key instead.
 
 **D9:**
+
 ```java
 class A {
     void show() throws Exception { }
@@ -5176,9 +5802,11 @@ class B extends A {
     void show() throws Exception, SQLException { } // BUG?
 }
 ```
+
 **Problem:** `SQLException` IS-A `Exception`, so this is actually fine (no new broader exception). But if it were `throws IOException, ClassNotFoundException` and parent had `throws IOException` — that would be a compile error.
 
 **D10:**
+
 ```java
 class Counter {
     static int count = 0;
@@ -5189,6 +5817,7 @@ class Counter {
     public int hashCode() { return 1; }  // BUG: all same hash code
 }
 ```
+
 **Problem:** Every Counter equals every other Counter. HashMap with Counter keys has only one bucket and every put overwrites.
 
 ### 10 "Predict: Compile Error / Runtime Exception / Output" Questions
@@ -5236,6 +5865,7 @@ class Counter {
 **Definition:** A class should have only ONE reason to change. It should do ONE thing.
 
 **Bad Code:**
+
 ```java
 class Employee {
     String name;
@@ -5249,6 +5879,7 @@ class Employee {
 ```
 
 **Good Code:**
+
 ```java
 class Employee {
     String name;
@@ -5270,7 +5901,7 @@ class ReportGenerator {
 
 **Interview Explanation:** "Each class has exactly one reason to change. If pay rules change, only `PayCalculator` changes. If DB changes, only `EmployeeRepository` changes."
 
-**Common Misunderstanding:** SRP doesn't mean one method per class. It means one *responsibility* — one axis of change.
+**Common Misunderstanding:** SRP doesn't mean one method per class. It means one _responsibility_ — one axis of change.
 
 ---
 
@@ -5279,6 +5910,7 @@ class ReportGenerator {
 **Definition:** Classes should be **open for extension** but **closed for modification**.
 
 **Bad Code:**
+
 ```java
 class AreaCalculator {
     double calculate(Object shape) {
@@ -5294,6 +5926,7 @@ class AreaCalculator {
 ```
 
 **Good Code:**
+
 ```java
 interface Shape {
     double area();
@@ -5326,6 +5959,7 @@ class Triangle implements Shape {
 **Definition:** Objects of a superclass should be replaceable with objects of a subclass without breaking the program.
 
 **Bad Code:**
+
 ```java
 class Bird {
     void fly() { System.out.println("Flying"); }
@@ -5345,6 +5979,7 @@ void makeBirdFly(Bird b) {
 ```
 
 **Good Code:**
+
 ```java
 interface Bird {
     void eat();
@@ -5372,6 +6007,7 @@ class Penguin implements Bird {
 **Definition:** No client should be forced to depend on methods it does not use. Prefer smaller, focused interfaces.
 
 **Bad Code:**
+
 ```java
 interface Worker {
     void code();
@@ -5389,6 +6025,7 @@ class Developer implements Worker {
 ```
 
 **Good Code:**
+
 ```java
 interface Coder { void code(); }
 interface Tester { void test(); }
@@ -5413,6 +6050,7 @@ class TeamLead implements Coder, Manager {
 **Definition:** High-level modules should NOT depend on low-level modules. Both should depend on **abstractions**.
 
 **Bad Code:**
+
 ```java
 class MySQLDatabase {
     void save(String data) { System.out.println("Saving to MySQL"); }
@@ -5429,6 +6067,7 @@ class UserService {
 ```
 
 **Good Code:**
+
 ```java
 interface Database {
     void save(String data);
@@ -5462,12 +6101,12 @@ UserService service = new UserService(new PostgresDatabase());
 
 ## 5.2 Coupling vs Cohesion
 
-| Aspect | Coupling | Cohesion |
-|--------|---------|---------|
-| Definition | How much one class depends on another | How focused a class's responsibilities are |
-| Goal | LOW coupling | HIGH cohesion |
-| Bad | Class A directly creates and uses B's internals | Class does 10 unrelated things |
-| Good | Class A uses B through an interface | Class does one thing well |
+| Aspect     | Coupling                                        | Cohesion                                   |
+| ---------- | ----------------------------------------------- | ------------------------------------------ |
+| Definition | How much one class depends on another           | How focused a class's responsibilities are |
+| Goal       | LOW coupling                                    | HIGH cohesion                              |
+| Bad        | Class A directly creates and uses B's internals | Class does 10 unrelated things             |
+| Good       | Class A uses B through an interface             | Class does one thing well                  |
 
 **Good Design = Low Coupling + High Cohesion**
 
@@ -5607,6 +6246,7 @@ Singleton.INSTANCE.doSomething();
 ```
 
 **Why recommended:**
+
 - Thread-safe by default
 - Serialization-safe (no duplicate instances)
 - Reflection-safe (cannot create enum instances via reflection)
@@ -5849,6 +6489,7 @@ record Student(int id, String name) {}
 ```
 
 This single line automatically generates:
+
 - `private final` fields
 - All-args constructor
 - `id()` and `name()` accessor methods (NOT `getId()`)
@@ -5867,6 +6508,7 @@ System.out.println(s.equals(s2)); // true
 ```
 
 ### Records are:
+
 - Implicitly `final` (cannot be extended)
 - Cannot extend other classes (implicitly extend `java.lang.Record`)
 - Can implement interfaces
@@ -5931,13 +6573,13 @@ System.out.println(upper.transformTwice("hello")); // "HELLO"
 
 ### Built-in Functional Interfaces
 
-| Interface | Method | Purpose |
-|-----------|--------|---------|
-| `Predicate<T>` | `boolean test(T t)` | Test a condition |
-| `Function<T,R>` | `R apply(T t)` | Transform input to output |
-| `Consumer<T>` | `void accept(T t)` | Consume input, no return |
-| `Supplier<T>` | `T get()` | Supply a value, no input |
-| `Runnable` | `void run()` | Run with no input/output |
+| Interface       | Method              | Purpose                   |
+| --------------- | ------------------- | ------------------------- |
+| `Predicate<T>`  | `boolean test(T t)` | Test a condition          |
+| `Function<T,R>` | `R apply(T t)`      | Transform input to output |
+| `Consumer<T>`   | `void accept(T t)`  | Consume input, no return  |
+| `Supplier<T>`   | `T get()`           | Supply a value, no input  |
+| `Runnable`      | `void run()`        | Run with no input/output  |
 
 ---
 
@@ -5957,6 +6599,7 @@ Process payments via multiple methods (credit card, UPI, wallet). Apply discount
 **Step 5 — Composition over inheritance:** PaymentProcessor HAS-A PaymentMethod (composition/strategy).
 
 **Step 6 — Interfaces:**
+
 ```java
 interface PaymentMethod {
     boolean pay(double amount);
@@ -5969,6 +6612,7 @@ interface DiscountStrategy {
 ```
 
 **Step 7 — Class Diagram:**
+
 ```
 PaymentProcessor ──uses──> PaymentMethod (interface)
                              ├── CreditCardPayment
@@ -5981,6 +6625,7 @@ PaymentProcessor ──creates─> Receipt
 ```
 
 **Step 8 — Implementation:**
+
 ```java
 interface PaymentMethod {
     boolean pay(double amount);
@@ -6036,6 +6681,7 @@ class PaymentProcessor {
 ```
 
 **Step 9 — SOLID Applied:**
+
 - SRP: Each class has one job
 - OCP: New payment methods = new class, no modification
 - LSP: Any `PaymentMethod` can substitute another
@@ -6045,6 +6691,7 @@ class PaymentProcessor {
 **Step 10 — Design Decisions:** Strategy pattern for payment methods. Composition for processor-to-method relationship.
 
 **Step 11 — Interviewer Follow-ups:**
+
 - "How would you add refunds?" → Add `refund()` to `PaymentMethod` or create separate `RefundService`.
 - "How would you log transactions?" → Observer pattern or decorator.
 - "What if discount stacking is needed?" → Chain of responsibility or composite discount.
@@ -6480,540 +7127,541 @@ class FileManager {
 ### A. Basic Questions (30 Questions)
 
 1. **What is Object-Oriented Programming (OOP)?**
-   *Answer:* OOP is a programming paradigm based on the concept of "objects," which can contain data (fields/attributes) and code (methods/behaviors). It focuses on organizing software around data rather than functions and logic.
+   _Answer:_ OOP is a programming paradigm based on the concept of "objects," which can contain data (fields/attributes) and code (methods/behaviors). It focuses on organizing software around data rather than functions and logic.
 
 2. **What are the four main pillars of OOP?**
-   *Answer:* The four pillars are Encapsulation (data hiding and bundling), Inheritance (code reuse and hierarchies), Polymorphism (one interface, many implementations), and Abstraction (hiding implementation details).
+   _Answer:_ The four pillars are Encapsulation (data hiding and bundling), Inheritance (code reuse and hierarchies), Polymorphism (one interface, many implementations), and Abstraction (hiding implementation details).
 
 3. **What is a class in Java?**
-   *Answer:* A class is a blueprint or template from which individual objects are created. It defines the state (fields) and behavior (methods) that its instances will have.
+   _Answer:_ A class is a blueprint or template from which individual objects are created. It defines the state (fields) and behavior (methods) that its instances will have.
 
 4. **What is an object in Java?**
-   *Answer:* An object is an instance of a class. It has state, behavior, and identity. It occupies memory on the heap.
+   _Answer:_ An object is an instance of a class. It has state, behavior, and identity. It occupies memory on the heap.
 
 5. **What is the difference between a class and an object?**
-   *Answer:* A class is a logical template/blueprint that does not occupy memory (except class metadata in Metaspace). An object is a physical instance of that blueprint that occupies memory on the heap.
+   _Answer:_ A class is a logical template/blueprint that does not occupy memory (except class metadata in Metaspace). An object is a physical instance of that blueprint that occupies memory on the heap.
 
 6. **What is a constructor in Java?**
-   *Answer:* A constructor is a block of code similar to a method that is called when an instance of an object is created. It has no return type and has the same name as the class.
+   _Answer:_ A constructor is a block of code similar to a method that is called when an instance of an object is created. It has no return type and has the same name as the class.
 
 7. **What is the default constructor?**
-   *Answer:* If no constructor is written in a class, the compiler automatically generates a no-argument constructor that calls the parent class's no-arg constructor via `super()`.
+   _Answer:_ If no constructor is written in a class, the compiler automatically generates a no-argument constructor that calls the parent class's no-arg constructor via `super()`.
 
 8. **What is constructor overloading?**
-   *Answer:* Defining multiple constructors within the same class, each having a different parameter list (different number, types, or order of parameters).
+   _Answer:_ Defining multiple constructors within the same class, each having a different parameter list (different number, types, or order of parameters).
 
 9. **Can a constructor be private?**
-   *Answer:* Yes. Private constructors are used to prevent direct instantiation of a class (e.g., in Utility classes, Singleton patterns, or Factory patterns).
+   _Answer:_ Yes. Private constructors are used to prevent direct instantiation of a class (e.g., in Utility classes, Singleton patterns, or Factory patterns).
 
 10. **What is the `this` keyword in Java?**
-    *Answer:* `this` is a reference variable that refers to the current object. It is used to access fields, invoke methods, or chain constructors within the same class.
+    _Answer:_ `this` is a reference variable that refers to the current object. It is used to access fields, invoke methods, or chain constructors within the same class.
 
 11. **What is the `super` keyword in Java?**
-    *Answer:* `super` is a reference variable used to refer to the immediate parent class object. It can be used to call parent constructors, fields, or overridden methods.
+    _Answer:_ `super` is a reference variable used to refer to the immediate parent class object. It can be used to call parent constructors, fields, or overridden methods.
 
 12. **What is the difference between `this()` and `super()`?**
-    *Answer:* `this()` invokes another constructor in the same class, while `super()` invokes a constructor of the immediate parent class. Both must be the first statement in a constructor.
+    _Answer:_ `this()` invokes another constructor in the same class, while `super()` invokes a constructor of the immediate parent class. Both must be the first statement in a constructor.
 
 13. **What is a static variable?**
-    *Answer:* A static variable (or class variable) belongs to the class itself rather than instances. Only one copy of the static variable exists in memory, shared by all instances.
+    _Answer:_ A static variable (or class variable) belongs to the class itself rather than instances. Only one copy of the static variable exists in memory, shared by all instances.
 
 14. **What is a static method?**
-    *Answer:* A static method belongs to the class and can be invoked without creating an instance. It can only access other static members directly and cannot use `this` or `super`.
+    _Answer:_ A static method belongs to the class and can be invoked without creating an instance. It can only access other static members directly and cannot use `this` or `super`.
 
 15. **What is a static block?**
-    *Answer:* A static block is a block of code inside a class that runs once when the class is first loaded into the JVM. It is commonly used to initialize static variables.
+    _Answer:_ A static block is a block of code inside a class that runs once when the class is first loaded into the JVM. It is commonly used to initialize static variables.
 
 16. **What is inheritance?**
-    *Answer:* Inheritance is a mechanism where one class (subclass/child) inherits the fields and methods of another class (superclass/parent), promoting code reuse.
+    _Answer:_ Inheritance is a mechanism where one class (subclass/child) inherits the fields and methods of another class (superclass/parent), promoting code reuse.
 
 17. **Which keyword is used to implement inheritance in Java?**
-    *Answer:* The `extends` keyword is used for inheritance between classes, and the `implements` keyword is used to implement interfaces.
+    _Answer:_ The `extends` keyword is used for inheritance between classes, and the `implements` keyword is used to implement interfaces.
 
 18. **Why does Java not support multiple inheritance with classes?**
-    *Answer:* To avoid ambiguity and compiler complexity, such as the Diamond Problem, where a class inherits conflicting implementations of the same method from two different parent classes.
+    _Answer:_ To avoid ambiguity and compiler complexity, such as the Diamond Problem, where a class inherits conflicting implementations of the same method from two different parent classes.
 
 19. **What is method overloading?**
-    *Answer:* Having multiple methods in the same class with the same name but different parameter signatures (compile-time polymorphism).
+    _Answer:_ Having multiple methods in the same class with the same name but different parameter signatures (compile-time polymorphism).
 
 20. **What is method overriding?**
-    *Answer:* Providing a specific implementation in a subclass for a method that is already defined in its superclass (runtime polymorphism).
+    _Answer:_ Providing a specific implementation in a subclass for a method that is already defined in its superclass (runtime polymorphism).
 
 21. **What is compile-time (static) polymorphism?**
-    *Answer:* Polymorphism resolved at compile time, typically achieved via method overloading. The compiler decides which method to call based on reference type and arguments.
+    _Answer:_ Polymorphism resolved at compile time, typically achieved via method overloading. The compiler decides which method to call based on reference type and arguments.
 
 22. **What is runtime (dynamic) polymorphism?**
-    *Answer:* Polymorphism resolved at runtime, achieved via method overriding and dynamic method dispatch. The JVM decides which method to run based on the actual object type.
+    _Answer:_ Polymorphism resolved at runtime, achieved via method overriding and dynamic method dispatch. The JVM decides which method to run based on the actual object type.
 
 23. **What is encapsulation?**
-    *Answer:* Encapsulation is the wrapping of data (variables) and code (methods) together as a single unit, keeping fields private and providing public getters/setters to validate access.
+    _Answer:_ Encapsulation is the wrapping of data (variables) and code (methods) together as a single unit, keeping fields private and providing public getters/setters to validate access.
 
 24. **What is abstraction?**
-    *Answer:* Abstraction is the process of hiding implementation details and showing only the essential features of an object, achieved via abstract classes and interfaces.
+    _Answer:_ Abstraction is the process of hiding implementation details and showing only the essential features of an object, achieved via abstract classes and interfaces.
 
 25. **What is an abstract class?**
-    *Answer:* A class declared with the `abstract` keyword that cannot be instantiated. It can contain both abstract methods (without bodies) and concrete methods (with bodies).
+    _Answer:_ A class declared with the `abstract` keyword that cannot be instantiated. It can contain both abstract methods (without bodies) and concrete methods (with bodies).
 
 26. **What is an interface?**
-    *Answer:* A blueprint of a class that contains public static final constants and abstract/default/static methods. It represents a contract that implementing classes must fulfill.
+    _Answer:_ A blueprint of a class that contains public static final constants and abstract/default/static methods. It represents a contract that implementing classes must fulfill.
 
 27. **What is the default access modifier in Java?**
-    *Answer:* If no modifier is specified, it is package-private (default). It allows access only to classes within the same package.
+    _Answer:_ If no modifier is specified, it is package-private (default). It allows access only to classes within the same package.
 
 28. **What does the `final` keyword mean for a class?**
-    *Answer:* A `final` class cannot be subclassed (inherited). Example: `java.lang.String` is final.
+    _Answer:_ A `final` class cannot be subclassed (inherited). Example: `java.lang.String` is final.
 
 29. **What does the `final` keyword mean for a method?**
-    *Answer:* A `final` method cannot be overridden by any subclass.
+    _Answer:_ A `final` method cannot be overridden by any subclass.
 
 30. **What is the root class of all classes in Java?**
-    *Answer:* `java.lang.Object` is the root class of the entire Java class hierarchy.
+    _Answer:_ `java.lang.Object` is the root class of the entire Java class hierarchy.
 
 ---
 
 ### B. Intermediate Questions (40 Questions)
 
 31. **What is the difference between a default constructor and a no-arg constructor?**
-    *Answer:* A default constructor is automatically created by the compiler if no constructors are defined. A no-arg constructor is written explicitly by the developer and takes no arguments.
+    _Answer:_ A default constructor is automatically created by the compiler if no constructors are defined. A no-arg constructor is written explicitly by the developer and takes no arguments.
 
 32. **Can we overload the main method in Java?**
-    *Answer:* Yes. You can define other `main` methods with different parameters, but the JVM will only call the standard `public static void main(String[] args)` method.
+    _Answer:_ Yes. You can define other `main` methods with different parameters, but the JVM will only call the standard `public static void main(String[] args)` method.
 
 33. **Can we override static methods?**
-    *Answer:* No. Static methods belong to the class, not the object. Declaring a static method in a subclass with the same signature is called **method hiding**, not overriding.
+    _Answer:_ No. Static methods belong to the class, not the object. Declaring a static method in a subclass with the same signature is called **method hiding**, not overriding.
 
 34. **Can we override private methods?**
-    *Answer:* No. Private methods are not visible to subclasses, so they cannot be inherited or overridden.
+    _Answer:_ No. Private methods are not visible to subclasses, so they cannot be inherited or overridden.
 
 35. **What is the difference between `==` and `equals()` in Java?**
-    *Answer:* `==` is a binary operator that compares memory addresses (reference equality) for objects or values for primitives. `equals()` is a method in the `Object` class that can be overridden to compare object states (content equality).
+    _Answer:_ `==` is a binary operator that compares memory addresses (reference equality) for objects or values for primitives. `equals()` is a method in the `Object` class that can be overridden to compare object states (content equality).
 
 36. **What is the contract between `equals()` and `hashCode()`?**
-    *Answer:* If two objects are equal according to the `equals(Object)` method, they must return the same integer value from their `hashCode()` method.
+    _Answer:_ If two objects are equal according to the `equals(Object)` method, they must return the same integer value from their `hashCode()` method.
 
 37. **What happens if you override `equals()` but not `hashCode()`?**
-    *Answer:* It violates the contract. Hash-based collections (like `HashMap` or `HashSet`) will fail to retrieve or store objects correctly because equal objects might have different hashcodes, landing in different buckets.
+    _Answer:_ It violates the contract. Hash-based collections (like `HashMap` or `HashSet`) will fail to retrieve or store objects correctly because equal objects might have different hashcodes, landing in different buckets.
 
 38. **What is covariant return type?**
-    *Answer:* An overriding method in a subclass can return a subtype of the return type declared in the parent method. This is only valid for reference types.
+    _Answer:_ An overriding method in a subclass can return a subtype of the return type declared in the parent method. This is only valid for reference types.
 
 39. **What is method hiding in Java?**
-    *Answer:* If a subclass defines a static method with the same signature as a static method in the superclass, the subclass method hides the superclass method. The method called is determined by the reference type.
+    _Answer:_ If a subclass defines a static method with the same signature as a static method in the superclass, the subclass method hides the superclass method. The method called is determined by the reference type.
 
 40. **What is field hiding in Java?**
-    *Answer:* If a subclass defines a variable with the same name as a variable in the superclass, the subclass variable hides the parent variable. Fields are not polymorphic, and resolution is based on the reference type.
+    _Answer:_ If a subclass defines a variable with the same name as a variable in the superclass, the subclass variable hides the parent variable. Fields are not polymorphic, and resolution is based on the reference type.
 
 41. **What is upcasting? Is it safe?**
-    *Answer:* Upcasting is casting a subclass object reference to a superclass reference type. It is implicit, safe, and handled automatically by the compiler.
+    _Answer:_ Upcasting is casting a subclass object reference to a superclass reference type. It is implicit, safe, and handled automatically by the compiler.
 
 42. **What is downcasting? When is it used?**
-    *Answer:* Downcasting is casting a superclass reference back to a subclass reference type. It must be explicit and can throw a `ClassCastException` at runtime if the object is not of the target subtype.
+    _Answer:_ Downcasting is casting a superclass reference back to a subclass reference type. It must be explicit and can throw a `ClassCastException` at runtime if the object is not of the target subtype.
 
 43. **What is the role of the `instanceof` operator?**
-    *Answer:* It tests whether an object reference points to an instance of a specific class or interface type. It returns a boolean and is safe to use with null (returns false).
+    _Answer:_ It tests whether an object reference points to an instance of a specific class or interface type. It returns a boolean and is safe to use with null (returns false).
 
 44. **What is pattern matching for `instanceof`?**
-    *Answer:* Introduced as a standard feature in Java 16, it allows casting an object implicitly if the type check passes: `if (obj instanceof String s) { System.out.println(s.length()); }`.
+    _Answer:_ Introduced as a standard feature in Java 16, it allows casting an object implicitly if the type check passes: `if (obj instanceof String s) { System.out.println(s.length()); }`.
 
 45. **What is the difference between an abstract class and an interface?**
-    *Answer:* Abstract classes can have instance variables, constructors, and non-public members. Interfaces can only have public static final fields, cannot have constructors, and support multiple inheritance.
+    _Answer:_ Abstract classes can have instance variables, constructors, and non-public members. Interfaces can only have public static final fields, cannot have constructors, and support multiple inheritance.
 
 46. **What are default methods in interfaces? Why were they introduced?**
-    *Answer:* Introduced in Java 8, default methods have a body inside an interface and are declared with the `default` keyword. They allow adding new methods to interfaces without breaking existing implementations.
+    _Answer:_ Introduced in Java 8, default methods have a body inside an interface and are declared with the `default` keyword. They allow adding new methods to interfaces without breaking existing implementations.
 
 47. **What is the difference between Association, Aggregation, and Composition?**
-    *Answer:* Association is a general relationship. Aggregation is a weak "has-a" relationship where the child can outlive the parent. Composition is a strong "has-a" relationship where the child's lifetime is bound to the parent.
+    _Answer:_ Association is a general relationship. Aggregation is a weak "has-a" relationship where the child can outlive the parent. Composition is a strong "has-a" relationship where the child's lifetime is bound to the parent.
 
 48. **What is delegation?**
-    *Answer:* Delegation is an alternative to inheritance where an object routes a request to a helper object: `class Printer { void print() { helper.print(); } }`.
+    _Answer:_ Delegation is an alternative to inheritance where an object routes a request to a helper object: `class Printer { void print() { helper.print(); } }`.
 
 49. **What is an inner class?**
-    *Answer:* A non-static nested class defined inside another class. It has access to all members of the outer class, including private ones, and requires an instance of the outer class to be instantiated.
+    _Answer:_ A non-static nested class defined inside another class. It has access to all members of the outer class, including private ones, and requires an instance of the outer class to be instantiated.
 
 50. **What is a static nested class?**
-    *Answer:* A nested class declared as static. It does not require an outer class instance and can only access static members of the outer class.
+    _Answer:_ A nested class declared as static. It does not require an outer class instance and can only access static members of the outer class.
 
 51. **What is a local inner class?**
-    *Answer:* A class defined inside a block or method. It is only visible inside that block and can access local variables only if they are final or effectively final.
+    _Answer:_ A class defined inside a block or method. It is only visible inside that block and can access local variables only if they are final or effectively final.
 
 52. **What is an anonymous inner class?**
-    *Answer:* A class without a name defined and instantiated in a single expression, typically used to provide one-off implementations of interfaces or abstract classes.
+    _Answer:_ A class without a name defined and instantiated in a single expression, typically used to provide one-off implementations of interfaces or abstract classes.
 
 53. **What is the difference between a shallow copy and a deep copy?**
-    *Answer:* A shallow copy copies only the object references, meaning the copied object shares references to mutable fields. A deep copy creates new instances of all nested mutable objects, isolating the copy.
+    _Answer:_ A shallow copy copies only the object references, meaning the copied object shares references to mutable fields. A deep copy creates new instances of all nested mutable objects, isolating the copy.
 
 54. **Can we make an abstract class final?**
-    *Answer:* No. Abstract classes must be extended to be useful, while final classes cannot be extended. Combining them is a compile-time error.
+    _Answer:_ No. Abstract classes must be extended to be useful, while final classes cannot be extended. Combining them is a compile-time error.
 
 55. **Can an interface be final?**
-    *Answer:* No. Interfaces must be implemented to be useful, while final prevents implementation. It is a compile-time error.
+    _Answer:_ No. Interfaces must be implemented to be useful, while final prevents implementation. It is a compile-time error.
 
 56. **What is the difference between private, default, protected, and public?**
-    *Answer:* Private is same-class only. Default is same-package only. Protected is same-package + subclasses. Public is accessible everywhere.
+    _Answer:_ Private is same-class only. Default is same-package only. Protected is same-package + subclasses. Public is accessible everywhere.
 
 57. **Can a subclass method restrict the access modifier of the overridden parent method?**
-    *Answer:* No. The overriding method's modifier must be equal to or wider (more accessible) than the parent's. Narrowing access is a compile-time error.
+    _Answer:_ No. The overriding method's modifier must be equal to or wider (more accessible) than the parent's. Narrowing access is a compile-time error.
 
 58. **What checked exceptions can an overriding method throw?**
-    *Answer:* The overriding method can only throw the same checked exception, a subclass of it, or no checked exception at all. It cannot throw broader or new checked exceptions.
+    _Answer:_ The overriding method can only throw the same checked exception, a subclass of it, or no checked exception at all. It cannot throw broader or new checked exceptions.
 
 59. **Are there any restrictions on unchecked exceptions when overriding?**
-    *Answer:* No. Overriding methods can throw any runtime (unchecked) exceptions, regardless of what the parent method declares.
+    _Answer:_ No. Overriding methods can throw any runtime (unchecked) exceptions, regardless of what the parent method declares.
 
 60. **What is the role of `super()` in constructors?**
-    *Answer:* It invokes the parent class constructor. If not explicitly declared, the compiler inserts a call to `super()` automatically as the first line of the child constructor.
+    _Answer:_ It invokes the parent class constructor. If not explicitly declared, the compiler inserts a call to `super()` automatically as the first line of the child constructor.
 
 61. **Why is calling overridable methods in constructors dangerous?**
-    *Answer:* If the parent constructor calls an overridden method, the subclass version will execute before the subclass fields have been initialized, leading to bugs or NullPointerExceptions.
+    _Answer:_ If the parent constructor calls an overridden method, the subclass version will execute before the subclass fields have been initialized, leading to bugs or NullPointerExceptions.
 
 62. **What is class loading in Java?**
-    *Answer:* It is the process by which JVM ClassLoaders read `.class` files, load bytecode into memory (Metaspace), verify it, resolve symbols, and initialize static variables.
+    _Answer:_ It is the process by which JVM ClassLoaders read `.class` files, load bytecode into memory (Metaspace), verify it, resolve symbols, and initialize static variables.
 
 63. **What is the order of initialization in a class when an object is instantiated?**
-    *Answer:* Static variables/blocks (textual order) -> Instance variables/blocks (textual order) -> Constructor body.
+    _Answer:_ Static variables/blocks (textual order) -> Instance variables/blocks (textual order) -> Constructor body.
 
 64. **What is the difference between a final field and an effectively final variable?**
-    *Answer:* A final field is explicitly declared with the `final` keyword. An effectively final variable is not declared final, but its value is never changed after initialization.
+    _Answer:_ A final field is explicitly declared with the `final` keyword. An effectively final variable is not declared final, but its value is never changed after initialization.
 
 65. **What is a marker interface?**
-    *Answer:* An interface with no methods or fields, used to deliver metadata or instructions to the compiler or JVM (e.g., `Serializable`, `Cloneable`).
+    _Answer:_ An interface with no methods or fields, used to deliver metadata or instructions to the compiler or JVM (e.g., `Serializable`, `Cloneable`).
 
 66. **What are the drawbacks of using inheritance?**
-    *Answer:* Tight coupling between parent and child (breaking encapsulation), rigid structure determined at compile time, and potential inheritance of unwanted behavior.
+    _Answer:_ Tight coupling between parent and child (breaking encapsulation), rigid structure determined at compile time, and potential inheritance of unwanted behavior.
 
 67. **How does composition improve testability?**
-    *Answer:* By composing dependencies rather than inheriting them, you can easily mock or stub those dependencies during unit testing.
+    _Answer:_ By composing dependencies rather than inheriting them, you can easily mock or stub those dependencies during unit testing.
 
 68. **Why are static methods not polymorphic?**
-    *Answer:* Polymorphism relies on runtime dynamic dispatch (finding methods based on the heap object). Static methods are linked to the class at compile time (static binding).
+    _Answer:_ Polymorphism relies on runtime dynamic dispatch (finding methods based on the heap object). Static methods are linked to the class at compile time (static binding).
 
 69. **Can a subclass inherit constructors?**
-    *Answer:* No. Subclasses do not inherit parent constructors. They must write their own or rely on default constructors, which chain to the parent constructor via `super()`.
+    _Answer:_ No. Subclasses do not inherit parent constructors. They must write their own or rely on default constructors, which chain to the parent constructor via `super()`.
 
 70. **Why does Java allow multiple inheritance of interfaces but not classes?**
-    *Answer:* Interfaces do not carry state (instance variables) and did not traditionally carry method implementations, which prevents state conflicts or structural inheritance complexity.
+    _Answer:_ Interfaces do not carry state (instance variables) and did not traditionally carry method implementations, which prevents state conflicts or structural inheritance complexity.
 
 ---
 
 ### C. Advanced Questions (40 Questions)
 
 71. **How does dynamic method dispatch work under the hood in the JVM?**
-    *Answer:* The JVM uses a method table called the **vtable** (virtual method table) for each class. When an overridden instance method is called, the JVM looks up the actual runtime object's vtable to dispatch the call.
+    _Answer:_ The JVM uses a method table called the **vtable** (virtual method table) for each class. When an overridden instance method is called, the JVM looks up the actual runtime object's vtable to dispatch the call.
 
 72. **What is the difference between static binding and dynamic binding?**
-    *Answer:* Static binding (compile-time) occurs for static, private, and final methods, which are resolved by the compiler. Dynamic binding (runtime) occurs for overridable instance methods, resolved by the JVM based on the object type.
+    _Answer:_ Static binding (compile-time) occurs for static, private, and final methods, which are resolved by the compiler. Dynamic binding (runtime) occurs for overridable instance methods, resolved by the JVM based on the object type.
 
 73. **Why does Java have Integer caches? What are the implications?**
-    *Answer:* To save memory, Java caches Integer objects for values between -128 and 127. Comparing cached Integers with `==` returns true, but values outside this range return false, which is a common interview trap.
+    _Answer:_ To save memory, Java caches Integer objects for values between -128 and 127. Comparing cached Integers with `==` returns true, but values outside this range return false, which is a common interview trap.
 
 74. **How do you design a thread-safe Singleton using double-checked locking? Explain the role of `volatile`.**
-    *Answer:* Use a volatile static field. Double-check `instance == null` before and after synchronization. `volatile` prevents instruction reordering during instantiation (allocating memory -> writing address -> running constructor).
+    _Answer:_ Use a volatile static field. Double-check `instance == null` before and after synchronization. `volatile` prevents instruction reordering during instantiation (allocating memory -> writing address -> running constructor).
 
 75. **What are records in Java? How do they differ from normal classes?**
-    *Answer:* Records (introduced in Java 16) are final classes designed to be pure data carriers. They automatically generate final fields, constructor, accessors, `equals()`, `hashCode()`, and `toString()`. They cannot extend any class.
+    _Answer:_ Records (introduced in Java 16) are final classes designed to be pure data carriers. They automatically generate final fields, constructor, accessors, `equals()`, `hashCode()`, and `toString()`. They cannot extend any class.
 
 76. **What are sealed classes in Java? What is their benefit?**
-    *Answer:* Sealed classes (introduced in Java 17) restrict which classes can extend or implement them using the `permits` clause. They enable compile-time exhaustiveness checks in switch expressions.
+    _Answer:_ Sealed classes (introduced in Java 17) restrict which classes can extend or implement them using the `permits` clause. They enable compile-time exhaustiveness checks in switch expressions.
 
 77. **What is the Liskov Substitution Principle (LSP)? Give an example of a violation.**
-    *Answer:* LSP states that subclasses must be substitutable for their superclasses. A classic violation is the `Rectangle` class extended by a `Square` where overriding `setWidth` changes the height, breaking Rectangle's invariants.
+    _Answer:_ LSP states that subclasses must be substitutable for their superclasses. A classic violation is the `Rectangle` class extended by a `Square` where overriding `setWidth` changes the height, breaking Rectangle's invariants.
 
 78. **Explain the Dependency Inversion Principle (DIP). How does it relate to Dependency Injection (DI)?**
-    *Answer:* DIP states that high-level modules should depend on abstractions (interfaces), not concrete implementations. DI is the practice of passing these abstractions into classes (e.g., via constructor injection).
+    _Answer:_ DIP states that high-level modules should depend on abstractions (interfaces), not concrete implementations. DI is the practice of passing these abstractions into classes (e.g., via constructor injection).
 
 79. **How would you implement a deep copy using serialization?**
-    *Answer:* Serialize the object into a byte array stream and immediately deserialize it back. This creates a fully independent clone of the object and all its reachable nested objects.
+    _Answer:_ Serialize the object into a byte array stream and immediately deserialize it back. This creates a fully independent clone of the object and all its reachable nested objects.
 
 80. **Why is `clone()` deprecated in favor of copy constructors?**
-    *Answer:* `clone()` does not call constructors, is shallow by default, forces throwing `CloneNotSupportedException`, and relies on a magic JVM mechanism instead of standard Java code.
+    _Answer:_ `clone()` does not call constructors, is shallow by default, forces throwing `CloneNotSupportedException`, and relies on a magic JVM mechanism instead of standard Java code.
 
 81. **What is defensive copying? Where is it critical?**
-    *Answer:* Defensive copying is copying mutable inputs/outputs in constructors and getters to prevent external code from modifying the internal state of an immutable class.
+    _Answer:_ Defensive copying is copying mutable inputs/outputs in constructors and getters to prevent external code from modifying the internal state of an immutable class.
 
 82. **What are the rules for creating an immutable class in Java?**
-    *Answer:* Class must be final; all fields must be private and final; no setters; perform defensive copying for all mutable fields; return unmodifiable views for collections.
+    _Answer:_ Class must be final; all fields must be private and final; no setters; perform defensive copying for all mutable fields; return unmodifiable views for collections.
 
 83. **How does `String.intern()` interact with the String Pool?**
-    *Answer:* It checks if the string exists in the String pool. If yes, it returns the pool reference. If no, it adds the string to the pool and returns that reference.
+    _Answer:_ It checks if the string exists in the String pool. If yes, it returns the pool reference. If no, it adds the string to the pool and returns that reference.
 
 84. **What is the Diamond Problem? How is it resolved in Java 8+ with default methods?**
-    *Answer:* The Diamond Problem is when a class implements two interfaces that provide the same default method signature. The compiler rejects this and forces the implementing class to override and resolve the conflict.
+    _Answer:_ The Diamond Problem is when a class implements two interfaces that provide the same default method signature. The compiler rejects this and forces the implementing class to override and resolve the conflict.
 
 85. **Why can't non-static inner classes define static members (before Java 16)?**
-    *Answer:* Inner classes are bound to an instance of the outer class. Having static fields would mean class-level state that violates their instance-dependent nature. Java 16+ relaxed this.
+    _Answer:_ Inner classes are bound to an instance of the outer class. Having static fields would mean class-level state that violates their instance-dependent nature. Java 16+ relaxed this.
 
 86. **What is the difference between `getClass()` and `instanceof` inside `equals()`?**
-    *Answer:* `instanceof` returns true for subclasses, which breaks symmetry if the subclass overrides equals. `getClass() == o.getClass()` ensures strict type equality, which is symmetric.
+    _Answer:_ `instanceof` returns true for subclasses, which breaks symmetry if the subclass overrides equals. `getClass() == o.getClass()` ensures strict type equality, which is symmetric.
 
 87. **How does the JVM garbage collector detect unreachable objects?**
-    *Answer:* Using Root Reachability Analysis. It starts from GC Roots (thread stack frames, static variables, JNI references) and traces references. Objects not reachable from these roots are collected.
+    _Answer:_ Using Root Reachability Analysis. It starts from GC Roots (thread stack frames, static variables, JNI references) and traces references. Objects not reachable from these roots are collected.
 
 88. **What is an "Island of Isolation" in Java Garbage Collection?**
-    *Answer:* A group of objects that reference each other, but have no references from any live GC Roots. The JVM detects that the entire group is unreachable and collects them.
+    _Answer:_ A group of objects that reference each other, but have no references from any live GC Roots. The JVM detects that the entire group is unreachable and collects them.
 
 89. **What is the difference between high-cohesion and low-coupling?**
-    *Answer:* High-cohesion means a class does one cohesive thing. Low-coupling means classes do not depend on the implementation details of each other, communicating through interfaces instead.
+    _Answer:_ High-cohesion means a class does one cohesive thing. Low-coupling means classes do not depend on the implementation details of each other, communicating through interfaces instead.
 
 90. **What is the Open/Closed Principle? Give a real-world coding scenario.**
-    *Answer:* Open for extension, closed for modification. If you need a new shipping rate calculator, you write a new class implementing the `ShippingCalculator` interface instead of editing the existing one.
+    _Answer:_ Open for extension, closed for modification. If you need a new shipping rate calculator, you write a new class implementing the `ShippingCalculator` interface instead of editing the existing one.
 
 91. **What is the Interface Segregation Principle?**
-    *Answer:* Clients should not be forced to implement interface methods they don't use. Split large interfaces into smaller, specialized ones (e.g., `Readable` and `Writable`).
+    _Answer:_ Clients should not be forced to implement interface methods they don't use. Split large interfaces into smaller, specialized ones (e.g., `Readable` and `Writable`).
 
 92. **How does Constructor Injection prevent circular dependencies?**
-    *Answer:* If Class A requires B in its constructor, and B requires A, the JVM cannot instantiate either without the other, causing a compile-time or startup error, forcing cleaner design.
+    _Answer:_ If Class A requires B in its constructor, and B requires A, the JVM cannot instantiate either without the other, causing a compile-time or startup error, forcing cleaner design.
 
 93. **What is the strategy pattern? How does it differ from state pattern?**
-    *Answer:* Strategy pattern configures a class with an algorithm at runtime. State pattern changes class behavior dynamically as its internal state changes.
+    _Answer:_ Strategy pattern configures a class with an algorithm at runtime. State pattern changes class behavior dynamically as its internal state changes.
 
 94. **Explain the observer pattern. How do you implement it in modern Java without deprecated APIs?**
-    *Answer:* Use custom listener interfaces or standard functional interfaces like `Consumer<Event>` instead of the deprecated `java.util.Observer` and `Observable`.
+    _Answer:_ Use custom listener interfaces or standard functional interfaces like `Consumer<Event>` instead of the deprecated `java.util.Observer` and `Observable`.
 
 95. **What is the difference between Eager Initialization and Lazy Initialization in Singleton?**
-    *Answer:* Eager creates the instance when the class is loaded. Lazy delays instance creation until `getInstance()` is called, saving memory but requiring synchronization.
+    _Answer:_ Eager creates the instance when the class is loaded. Lazy delays instance creation until `getInstance()` is called, saving memory but requiring synchronization.
 
 96. **What is the Builder pattern? When is it preferred over factory?**
-    *Answer:* Builder creates complex objects step-by-step using a fluent API. It is preferred when objects have many optional parameters, avoiding telescoping constructors.
+    _Answer:_ Builder creates complex objects step-by-step using a fluent API. It is preferred when objects have many optional parameters, avoiding telescoping constructors.
 
 97. **Can a nested class access the private variables of its outer class?**
-    *Answer:* Yes. Both static nested classes and inner classes have full access to the private members of their enclosing outer class.
+    _Answer:_ Yes. Both static nested classes and inner classes have full access to the private members of their enclosing outer class.
 
 98. **Why are local variables accessed by local inner classes required to be final or effectively final?**
-    *Answer:* Because the local class instance may outlive the method execution (heap vs stack). The JVM copies the local variable value into the inner class instance, requiring the value to be constant to maintain consistency.
+    _Answer:_ Because the local class instance may outlive the method execution (heap vs stack). The JVM copies the local variable value into the inner class instance, requiring the value to be constant to maintain consistency.
 
 99. **What is covariant exception throwing?**
-    *Answer:* An overriding subclass method can declare to throw a subclass (more specific type) of the checked exceptions declared in the parent method signature.
+    _Answer:_ An overriding subclass method can declare to throw a subclass (more specific type) of the checked exceptions declared in the parent method signature.
 
-100. **Does Java support pass-by-reference for arrays?**
-     *Answer:* No. Arrays are objects. Java passes a copy of the reference pointing to the array on the heap. You can mutate array contents, but reassigning the array reference does not affect the caller's array.
+100.  **Does Java support pass-by-reference for arrays?**
+      _Answer:_ No. Arrays are objects. Java passes a copy of the reference pointing to the array on the heap. You can mutate array contents, but reassigning the array reference does not affect the caller's array.
 
 ---
 
 ### G. "Why?" Questions (30 Questions)
 
 1. **Why is Java not a purely object-oriented language?**
-   *Answer:* Because it supports primitive data types (`int`, `char`, `double`, etc.) which are not objects and do not inherit from `Object`.
+   _Answer:_ Because it supports primitive data types (`int`, `char`, `double`, etc.) which are not objects and do not inherit from `Object`.
 
 2. **Why does Java not support multiple class inheritance but supports multiple interface inheritance?**
-   *Answer:* Multiple class inheritance leads to the Diamond Problem where method implementation conflicts arise from having state and multiple concrete method bodies. Interfaces traditionally lacked state and method bodies, eliminating these conflicts.
+   _Answer:_ Multiple class inheritance leads to the Diamond Problem where method implementation conflicts arise from having state and multiple concrete method bodies. Interfaces traditionally lacked state and method bodies, eliminating these conflicts.
 
 3. **Why must `this()` or `super()` be the first statement in a constructor?**
-   *Answer:* To ensure that parent class variables and state are fully constructed and initialized before the subclass executes any of its own initialization logic.
+   _Answer:_ To ensure that parent class variables and state are fully constructed and initialized before the subclass executes any of its own initialization logic.
 
 4. **Why cannot static methods access instance variables?**
-   *Answer:* Static methods belong to the class and are loaded when the class is loaded. They can be run without any instances. Instance variables exist only inside specific objects on the heap.
+   _Answer:_ Static methods belong to the class and are loaded when the class is loaded. They can be run without any instances. Instance variables exist only inside specific objects on the heap.
 
 5. **Why can't we override static methods?**
-   *Answer:* Overriding relies on runtime dynamic dispatch (dynamic binding) based on the heap object. Static methods belong to the class, not instances, and are resolved at compile time (static binding).
+   _Answer:_ Overriding relies on runtime dynamic dispatch (dynamic binding) based on the heap object. Static methods belong to the class, not instances, and are resolved at compile time (static binding).
 
 6. **Why can't a constructor be static?**
-   *Answer:* A constructor is used to initialize a new instance of an object, which implies an object-level context. `static` implies a class-level context without an instance.
+   _Answer:_ A constructor is used to initialize a new instance of an object, which implies an object-level context. `static` implies a class-level context without an instance.
 
 7. **Why does Java use a String Pool?**
-   *Answer:* To conserve memory. Strings are highly common. Storing literals in a pool allows identical string values to share the same memory slot on the heap.
+   _Answer:_ To conserve memory. Strings are highly common. Storing literals in a pool allows identical string values to share the same memory slot on the heap.
 
 8. **Why are Strings immutable in Java?**
-   *Answer:* For security (network/DB credentials), caching `hashCode()` for hash collections, maintaining safety in the String Pool, and ensuring thread-safety without locks.
+   _Answer:_ For security (network/DB credentials), caching `hashCode()` for hash collections, maintaining safety in the String Pool, and ensuring thread-safety without locks.
 
 9. **Why are array declarations covariant in Java?**
-   *Answer:* Covariant arrays (e.g., `Object[] objs = new String[5]`) were introduced early in Java to support writing generic algorithms (like sorting) before Generics were added in Java 5.
+   _Answer:_ Covariant arrays (e.g., `Object[] objs = new String[5]`) were introduced early in Java to support writing generic algorithms (like sorting) before Generics were added in Java 5.
 
 10. **Why does overriding method not allow throwing broader checked exceptions?**
-    *Answer:* To preserve polymorphism. A client holding a superclass reference expects to catch only the exceptions declared by the superclass. Throwing a broader checked exception would bypass compile-time catch checks.
+    _Answer:_ To preserve polymorphism. A client holding a superclass reference expects to catch only the exceptions declared by the superclass. Throwing a broader checked exception would bypass compile-time catch checks.
 
 11. **Why is composition preferred over inheritance?**
-    *Answer:* It maintains encapsulation, reduces tight coupling between classes, allows changing helper behaviors at runtime (flexible strategies), and avoids complex hierarchies.
+    _Answer:_ It maintains encapsulation, reduces tight coupling between classes, allows changing helper behaviors at runtime (flexible strategies), and avoids complex hierarchies.
 
 12. **Why is `equals()` and `hashCode()` contract necessary for HashMaps?**
-    *Answer:* HashMap uses `hashCode()` to find the correct bucket, and `equals()` to find the specific key inside that bucket. Failing the contract prevents matching keys.
+    _Answer:_ HashMap uses `hashCode()` to find the correct bucket, and `equals()` to find the specific key inside that bucket. Failing the contract prevents matching keys.
 
 13. **Why does `null instanceof String` return false?**
-    *Answer:* `instanceof` checks if the referenced object is of a specific type. Since `null` does not point to any object, it cannot be an instance of any class.
+    _Answer:_ `instanceof` checks if the referenced object is of a specific type. Since `null` does not point to any object, it cannot be an instance of any class.
 
 14. **Why can't abstract methods be final?**
-    *Answer:* `abstract` means a method must be overridden in a subclass, while `final` prevents the method from being overridden. They are logically contradictory.
+    _Answer:_ `abstract` means a method must be overridden in a subclass, while `final` prevents the method from being overridden. They are logically contradictory.
 
 15. **Why can't we declare private methods inside an interface before Java 9?**
-    *Answer:* Interfaces define public contracts. With default methods in Java 8, private methods became necessary to share common code between default methods without exposing them to the API.
+    _Answer:_ Interfaces define public contracts. With default methods in Java 8, private methods became necessary to share common code between default methods without exposing them to the API.
 
 16. **Why is `volatile` required in double-checked locking?**
-    *Answer:* The compilation process can reorder instructions (allocating memory -> writing address -> running constructor). `volatile` prevents this reordering, ensuring threads don't see a partially constructed instance.
+    _Answer:_ The compilation process can reorder instructions (allocating memory -> writing address -> running constructor). `volatile` prevents this reordering, ensuring threads don't see a partially constructed instance.
 
 17. **Why do we need defensive copying for mutable fields in immutable objects?**
-    *Answer:* Because if you store a reference to a mutable object directly, external code can still modify the mutable object, thereby changing the state of your "immutable" object.
+    _Answer:_ Because if you store a reference to a mutable object directly, external code can still modify the mutable object, thereby changing the state of your "immutable" object.
 
 18. **Why do local inner classes need variables to be final or effectively final?**
-    *Answer:* The local inner class object may outlive the stack frame of the method. The JVM copies the variables into the inner class instance; they must be final to avoid data inconsistency.
+    _Answer:_ The local inner class object may outlive the stack frame of the method. The JVM copies the variables into the inner class instance; they must be final to avoid data inconsistency.
 
 19. **Why is the `clone()` method protected in the Object class?**
-    *Answer:* To force class developers to implement the `Cloneable` interface and override the `clone()` method explicitly, preventing random, potentially unsafe shallow copying of all objects.
+    _Answer:_ To force class developers to implement the `Cloneable` interface and override the `clone()` method explicitly, preventing random, potentially unsafe shallow copying of all objects.
 
 20. **Why is `getClass() != o.getClass()` safer than `o instanceof Class` in `equals()`?**
-    *Answer:* `instanceof` evaluates to true for subclasses, violating the symmetry requirement of the `equals()` contract if subclasses add new state fields.
+    _Answer:_ `instanceof` evaluates to true for subclasses, violating the symmetry requirement of the `equals()` contract if subclasses add new state fields.
 
 21. **Why does calling `System.gc()` not guarantee garbage collection?**
-    *Answer:* GC is a low-priority background thread managed by the JVM. `System.gc()` is only a hint/recommendation; the JVM determines when it is optimal to perform sweep phases.
+    _Answer:_ GC is a low-priority background thread managed by the JVM. `System.gc()` is only a hint/recommendation; the JVM determines when it is optimal to perform sweep phases.
 
 22. **Why can't interfaces have instance variables?**
-    *Answer:* Interfaces define behavior and contracts, not state. Supporting instance variables would bring state inheritance and duplicate field conflicts into multiple interface implementation.
+    _Answer:_ Interfaces define behavior and contracts, not state. Supporting instance variables would bring state inheritance and duplicate field conflicts into multiple interface implementation.
 
 23. **Why are records final by default?**
-    *Answer:* Records are designed to be immutable data containers. Making them final prevents subclasses from adding mutable state or overriding accessors, preserving data integrity.
+    _Answer:_ Records are designed to be immutable data containers. Making them final prevents subclasses from adding mutable state or overriding accessors, preserving data integrity.
 
 24. **Why can't you use `super` inside a static context?**
-    *Answer:* `super` refers to the parent instance of the current object. Static context has no object instance, so there is no `super` to refer to.
+    _Answer:_ `super` refers to the parent instance of the current object. Static context has no object instance, so there is no `super` to refer to.
 
 25. **Why are checked exceptions checked at compile-time while unchecked are checked at runtime?**
-    *Answer:* Checked exceptions represent recoverable failures that the application should handle. Unchecked exceptions represent programming errors (bugs) that should be fixed.
+    _Answer:_ Checked exceptions represent recoverable failures that the application should handle. Unchecked exceptions represent programming errors (bugs) that should be fixed.
 
 26. **Why are static nested classes not called inner classes?**
-    *Answer:* An inner class has a implicit link to an outer class instance. A static nested class is just a class defined inside another namespace, having no such link.
+    _Answer:_ An inner class has a implicit link to an outer class instance. A static nested class is just a class defined inside another namespace, having no such link.
 
 27. **Why does Java use late binding (dynamic binding) by default?**
-    *Answer:* To support polymorphism and clean abstraction, allowing code to interact with abstract base classes or interfaces while invoking specific behavior at runtime.
+    _Answer:_ To support polymorphism and clean abstraction, allowing code to interact with abstract base classes or interfaces while invoking specific behavior at runtime.
 
 28. **Why does default interface method collision require overriding?**
-    *Answer:* If two implemented interfaces provide identical default methods, the compiler cannot automatically determine which implementation takes priority, requiring developer resolution.
+    _Answer:_ If two implemented interfaces provide identical default methods, the compiler cannot automatically determine which implementation takes priority, requiring developer resolution.
 
 29. **Why are covariant return types not supported for primitive types?**
-    *Answer:* Primitives are values, not objects, and do not participate in inheritance hierarchies. There is no concept of a "subtype" relationship between `int` and `long`.
+    _Answer:_ Primitives are values, not objects, and do not participate in inheritance hierarchies. There is no concept of a "subtype" relationship between `int` and `long`.
 
 30. **Why is the Diamond Problem bad?**
-    *Answer:* Because if two parents implement a method differently, a child inheriting both has no logical way to decide which implementation to execute, creating structural ambiguity.
+    _Answer:_ Because if two parents implement a method differently, a child inheriting both has no logical way to decide which implementation to execute, creating structural ambiguity.
 
 ---
 
 ### H. Design Questions (20 Questions)
 
 31. **How do you design a system where only one instance of a class exists across the application?**
-    *Answer:* Apply the Singleton Pattern: Make the constructor private, create a private static reference of the class, and provide a public static synchronized/double-checked method to return the instance.
+    _Answer:_ Apply the Singleton Pattern: Make the constructor private, create a private static reference of the class, and provide a public static synchronized/double-checked method to return the instance.
 
 32. **How do you design a database adapter system supporting MySQL, Oracle, and MongoDB?**
-    *Answer:* Define a `DatabaseAdapter` interface with CRUD methods. Create class implementations for `MySQLAdapter`, `OracleAdapter`, and `MongoAdapter`. Inject the interface into client code.
+    _Answer:_ Define a `DatabaseAdapter` interface with CRUD methods. Create class implementations for `MySQLAdapter`, `OracleAdapter`, and `MongoAdapter`. Inject the interface into client code.
 
 33. **How do you design a Pizza ordering class that handles 20 different optional toppings without telescoping constructors?**
-    *Answer:* Use the Builder Pattern. Create an inner `Builder` class containing the same toppings. Chain topping methods on the builder, then call `.build()` to return the final immutable Pizza.
+    _Answer:_ Use the Builder Pattern. Create an inner `Builder` class containing the same toppings. Chain topping methods on the builder, then call `.build()` to return the final immutable Pizza.
 
 34. **How do you design a document conversion tool (PDF, HTML, DOCX) that can be extended easily?**
-    *Answer:* Use the Strategy Pattern. Create a `ConverterStrategy` interface. Create `PDFConverter`, `HTMLConverter`, etc. The context class `DocumentProcessor` uses the strategy.
+    _Answer:_ Use the Strategy Pattern. Create a `ConverterStrategy` interface. Create `PDFConverter`, `HTMLConverter`, etc. The context class `DocumentProcessor` uses the strategy.
 
 35. **How do you design a logging system that alerts developers via Email, SMS, and Slack simultaneously when a critical error occurs?**
-    *Answer:* Use the Observer Pattern. The logger is the Subject. The notification channels are Observers. The logger notifies all registered observers when a critical log is processed.
+    _Answer:_ Use the Observer Pattern. The logger is the Subject. The notification channels are Observers. The logger notifies all registered observers when a critical log is processed.
 
 36. **How do you design an API where subclassing is controlled and only specific packages can inherit your base class?**
-    *Answer:* Use Sealed Classes (Java 17+) with the `permits` keyword to list only the allowed subclasses. Keep them in the same package.
+    _Answer:_ Use Sealed Classes (Java 17+) with the `permits` keyword to list only the allowed subclasses. Keep them in the same package.
 
 37. **How do you design a payment system with transaction logging that adheres to Open/Closed Principle?**
-    *Answer:* Define a `PaymentMethod` interface. Create separate classes for credit card, PayPal, UPI. Write a `PaymentService` that uses `PaymentMethod` through dependency injection.
+    _Answer:_ Define a `PaymentMethod` interface. Create separate classes for credit card, PayPal, UPI. Write a `PaymentService` that uses `PaymentMethod` through dependency injection.
 
 38. **How do you design a class that acts as a pure data-holding object, ensuring it cannot be mutated or inherited?**
-    *Answer:* Use a Java `record` (Java 16+) or declare a class `final` with `private final` fields, no setters, and a constructor initializing all fields.
+    _Answer:_ Use a Java `record` (Java 16+) or declare a class `final` with `private final` fields, no setters, and a constructor initializing all fields.
 
 39. **How do you design an undo/redo stack for a text editor?**
-    *Answer:* Use the Command Pattern. Each action (type, delete, format) is a command class implementing a `Command` interface with `execute()` and `undo()` methods.
+    _Answer:_ Use the Command Pattern. Each action (type, delete, format) is a command class implementing a `Command` interface with `execute()` and `undo()` methods.
 
 40. **How do you design a system where objects are created without exposing the instantiation logic to the client?**
-    *Answer:* Use the Factory Method Pattern. The client requests an object from a Factory class by passing a string or enum, and the factory returns a concrete class instance through an interface reference.
+    _Answer:_ Use the Factory Method Pattern. The client requests an object from a Factory class by passing a string or enum, and the factory returns a concrete class instance through an interface reference.
 
 41. **How do you design an immutable class containing a mutable `java.util.Date` field?**
-    *Answer:* Clone the `Date` object in the constructor when assigning it to the field, and clone it again in the getter before returning it (defensive copying).
+    _Answer:_ Clone the `Date` object in the constructor when assigning it to the field, and clone it again in the getter before returning it (defensive copying).
 
 42. **How do you design a Cache system using SOLID principles?**
-    *Answer:* Create a `Cache` interface with `get`, `put`, `remove`. High-level business services interact with the interface. Implementation details (e.g., `RedisCache`, `InMemoryCache`) are hidden.
+    _Answer:_ Create a `Cache` interface with `get`, `put`, `remove`. High-level business services interact with the interface. Implementation details (e.g., `RedisCache`, `InMemoryCache`) are hidden.
 
 43. **How do you design a parking lot system that handles different vehicle sizes and spots?**
-    *Answer:* Use an inheritance hierarchy for `Vehicle` (Car, Motorbike, Truck) and a Spot manager class containing `ParkingSpot` instances of different sizes. Use composition to link vehicles to spots.
+    _Answer:_ Use an inheritance hierarchy for `Vehicle` (Car, Motorbike, Truck) and a Spot manager class containing `ParkingSpot` instances of different sizes. Use composition to link vehicles to spots.
 
 44. **How do you design a File Compression system where users can zip/unzip files using different algorithms (Zip, Tar, Gzip)?**
-    *Answer:* Use the Strategy Pattern. Declare a `CompressionStrategy` interface. Implement `ZipCompression`, `TarCompression`. The file manager uses the configured strategy.
+    _Answer:_ Use the Strategy Pattern. Declare a `CompressionStrategy` interface. Implement `ZipCompression`, `TarCompression`. The file manager uses the configured strategy.
 
 45. **How do you design an employee payroll system that treats full-time, contract, and intern employees differently?**
-    *Answer:* Create an abstract `Employee` class with an abstract `calculateSalary()` method. Each subclass overrides this method with its own payment structure.
+    _Answer:_ Create an abstract `Employee` class with an abstract `calculateSalary()` method. Each subclass overrides this method with its own payment structure.
 
 46. **How do you design a configuration loader class that loads settings from a file only when they are first needed?**
-    *Answer:* Use Lazy Initialization. Keep the config reference null initially. Instantiate the loader and read the file inside a thread-safe method block when it is first queried.
+    _Answer:_ Use Lazy Initialization. Keep the config reference null initially. Instantiate the loader and read the file inside a thread-safe method block when it is first queried.
 
 47. **How do you design an E-commerce system where customer checkout processes vary depending on user tier (Regular, Premium, VIP)?**
-    *Answer:* Use Strategy Pattern. Introduce a `CheckoutStrategy` interface. Inject the appropriate strategy depending on the user tier during checkout.
+    _Answer:_ Use Strategy Pattern. Introduce a `CheckoutStrategy` interface. Inject the appropriate strategy depending on the user tier during checkout.
 
 48. **How do you design a custom class to be used safely as a key in a `HashMap`?**
-    *Answer:* Make the class immutable (private final fields, no setters). Override `equals()` and `hashCode()` correctly using all fields, ensuring the hashcode never changes after creation.
+    _Answer:_ Make the class immutable (private final fields, no setters). Override `equals()` and `hashCode()` correctly using all fields, ensuring the hashcode never changes after creation.
 
 49. **How do you design a system that dynamically decorates an object with additional responsibilities at runtime?**
-    *Answer:* Use the Decorator Pattern (e.g., wrapping a plain `Coffee` with a `MilkDecorator` and a `SugarDecorator`).
+    _Answer:_ Use the Decorator Pattern (e.g., wrapping a plain `Coffee` with a `MilkDecorator` and a `SugarDecorator`).
 
 50. **How do you design a media player that can play various audio formats, adapting to new codecs smoothly?**
-    *Answer:* Use the Adapter Pattern or Strategy Pattern. Create a `MediaAdapter` class that implements the standard media player interface but delegates to specific decoding libraries.
+    _Answer:_ Use the Adapter Pattern or Strategy Pattern. Create a `MediaAdapter` class that implements the standard media player interface but delegates to specific decoding libraries.
 
 ---
 
 ### I. Scenario-Based Questions (20 Questions)
 
 51. **Scenario: Your class has a `List<String> tags` field. A junior developer writes a getter returning `this.tags`. Explain what can go wrong.**
-    *Answer:* The caller gets a direct reference to the internal list. They can call `.add()` or `.clear()` on it, violating encapsulation and modifying the class's internal state. Fix by returning `Collections.unmodifiableList(tags)` or a new copy.
+    _Answer:_ The caller gets a direct reference to the internal list. They can call `.add()` or `.clear()` on it, violating encapsulation and modifying the class's internal state. Fix by returning `Collections.unmodifiableList(tags)` or a new copy.
 
 52. **Scenario: A database connection class is instantiated 100 times in a high-traffic app, crashing the DB connection pool. How do you resolve this?**
-    *Answer:* Apply the Singleton Pattern to the DB connection manager class, or use a dependency injection framework to manage it as a single instance.
+    _Answer:_ Apply the Singleton Pattern to the DB connection manager class, or use a dependency injection framework to manage it as a single instance.
 
 53. **Scenario: You are designing a square and rectangle system. You extend Rectangle to create Square. A test code calls `rect.setWidth(10); rect.setHeight(5);` and asserts the area is 50. Why does this test fail for Square?**
-    *Answer:* In Square, changing the width also changes the height to maintain square constraints. Substituting a Square for a Rectangle violates the Liskov Substitution Principle (LSP).
+    _Answer:_ In Square, changing the width also changes the height to maintain square constraints. Substituting a Square for a Rectangle violates the Liskov Substitution Principle (LSP).
 
 54. **Scenario: You add a new method to an interface implemented by 100 classes. All classes now fail to compile. How do you fix this in Java 8+ without editing the 100 classes?**
-    *Answer:* Declare the new method as a `default` method in the interface and provide a default implementation body.
+    _Answer:_ Declare the new method as a `default` method in the interface and provide a default implementation body.
 
 55. **Scenario: You have a `HashMap<User, Profile>`. You modify a User object's `username` field (which is used in `hashCode()`). Now `map.get(user)` returns null. What happened?**
-    *Answer:* Mutating the username changed the hashcode of the User object. The map searches in a different bucket and cannot find the object, leaving the entry orphaned.
+    _Answer:_ Mutating the username changed the hashcode of the User object. The map searches in a different bucket and cannot find the object, leaving the entry orphaned.
 
 56. **Scenario: A multi-threaded app creates multiple instances of a synchronized Singleton class, causing deadlocks. How do you rewrite the Singleton to be thread-safe without explicit synchronization blocks?**
-    *Answer:* Implement the Singleton as an `enum` or use Eager Initialization, where the JVM handles thread safety during class loading.
+    _Answer:_ Implement the Singleton as an `enum` or use Eager Initialization, where the JVM handles thread safety during class loading.
 
 57. **Scenario: You need to implement a deep clone of a complex structure containing cycles. A simple recursive clone causes a `StackOverflowError`. What is a robust workaround?**
-    *Answer:* Serialize the object graph into an ObjectOutputStream and deserialize it. The serialization stream handles cycles automatically by keeping track of object IDs.
+    _Answer:_ Serialize the object graph into an ObjectOutputStream and deserialize it. The serialization stream handles cycles automatically by keeping track of object IDs.
 
 58. **Scenario: An API returns an abstract class `Report`. You need to call a subclass method `generateGraph()` which is only present in `PDFReport`. How do you safely write this?**
-    *Answer:* Check type using `instanceof` and downcast safely: `if (report instanceof PDFReport pdf) { pdf.generateGraph(); }`.
+    _Answer:_ Check type using `instanceof` and downcast safely: `if (report instanceof PDFReport pdf) { pdf.generateGraph(); }`.
 
 59. **Scenario: A class `Engine` is inherited by `Car`. Later, you realize a car can change engines at runtime. How do you refactor this system?**
-    *Answer:* Change inheritance (extends Engine) to composition. Give `Car` an `Engine` field and a setter `setEngine(Engine e)`.
+    _Answer:_ Change inheritance (extends Engine) to composition. Give `Car` an `Engine` field and a setter `setEngine(Engine e)`.
 
 60. **Scenario: You want to block all subclasses of `PaymentProcessor` from overriding the `authorize()` method. How do you configure it?**
-    *Answer:* Mark the `authorize()` method with the `final` keyword in the base class.
+    _Answer:_ Mark the `authorize()` method with the `final` keyword in the base class.
 
 61. **Scenario: An interface `Vehicle` has 20 methods. A `Bicycle` class implements it but leaves 15 methods empty. Which SOLID principle is violated? How do you fix it?**
-    *Answer:* Interface Segregation Principle (ISP). Split the interface into smaller interfaces like `Motorized`, `PedalPowered`, and `Steerable`.
+    _Answer:_ Interface Segregation Principle (ISP). Split the interface into smaller interfaces like `Motorized`, `PedalPowered`, and `Steerable`.
 
 62. **Scenario: A constructor throws an exception before the object is fully initialized. What is the garbage collection status of this partially created object?**
-    *Answer:* The object on the heap is immediately eligible for garbage collection because no live reference was ever returned and assigned to any variable.
+    _Answer:_ The object on the heap is immediately eligible for garbage collection because no live reference was ever returned and assigned to any variable.
 
 63. **Scenario: You want to log all method calls of a service class without modifying the service class itself. How do you achieve this?**
-    *Answer:* Use the Decorator Pattern or dynamic proxies (Aspect-Oriented Programming) to wrap the service class and log calls before delegating to the actual class.
+    _Answer:_ Use the Decorator Pattern or dynamic proxies (Aspect-Oriented Programming) to wrap the service class and log calls before delegating to the actual class.
 
 64. **Scenario: You compare two Integer objects `a = 200` and `b = 200` using `a == b` and it returns false. You change their values to 100, and `a == b` returns true. Explain this behavior.**
-    *Answer:* This is due to the Integer Cache. Integers between -128 and 127 are cached. 100 refers to the same cached object. 200 causes new object allocations on the heap, resulting in different references.
+    _Answer:_ This is due to the Integer Cache. Integers between -128 and 127 are cached. 100 refers to the same cached object. 200 causes new object allocations on the heap, resulting in different references.
 
 65. **Scenario: You implement a ClassLoader to load plugins dynamically. A plugin throws a ClassCastException when cast to your app's `PluginInterface`, even though it implements it. Why?**
-    *Answer:* Two classes are considered identical by the JVM only if they have the same class name AND are loaded by the exact same ClassLoader. They were loaded by different loaders.
+    _Answer:_ Two classes are considered identical by the JVM only if they have the same class name AND are loaded by the exact same ClassLoader. They were loaded by different loaders.
 
 66. **Scenario: A method receives `final Student s`. A developer writes `s.setAge(20)`. The compiler does not complain. Why?**
-    *Answer:* The `final` keyword prevents reassigning the reference variable `s` to a new Student object. It does not prevent modifying the internal state of the object `s` points to.
+    _Answer:_ The `final` keyword prevents reassigning the reference variable `s` to a new Student object. It does not prevent modifying the internal state of the object `s` points to.
 
 67. **Scenario: You need to create 10,000 game unit objects (like bullets). Creating each individually takes too much memory. How do you optimize this using design patterns?**
-    *Answer:* Use the Flyweight Pattern. Share the intrinsic state (bullet sprite, velocity, damage) across all bullet instances, and store only the extrinsic state (coordinates) individually.
+    _Answer:_ Use the Flyweight Pattern. Share the intrinsic state (bullet sprite, velocity, damage) across all bullet instances, and store only the extrinsic state (coordinates) individually.
 
 68. **Scenario: A method signature is `void print(Object o)` and `void print(String s)`. You call `print(null)`. Which method is called and why?**
-    *Answer:* `print(String s)` is called because the compiler always resolves overloaded calls to the most specific type matching the arguments.
+    _Answer:_ `print(String s)` is called because the compiler always resolves overloaded calls to the most specific type matching the arguments.
 
 69. **Scenario: A class needs to parse raw logs. Depending on the line prefix, it uses a different parser. How do you design this cleanly without large if-else blocks?**
-    *Answer:* Use a Map of prefix keys to Parser strategies. Query the map to get the strategy and execute it.
+    _Answer:_ Use a Map of prefix keys to Parser strategies. Query the map to get the strategy and execute it.
 
 70. **Scenario: You want to prevent any external class from inheriting your class, but you still want your class to be instantiated. How do you achieve this?**
-    *Answer:* Declare the class with the `final` keyword.
+    _Answer:_ Declare the class with the `final` keyword.
 
 ---
 
 ### D. Output-Based Questions (50 Questions)
 
 #### Question 1
+
 ```java
 class Parent {
     int x = 10;
@@ -7031,13 +7679,16 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 10
 Child
 ```
+
 **Explanation:**  
 `p` is a reference of type `Parent` pointing to an object of type `Child`. In Java, fields are resolved based on the reference type (compile-time binding), while overridden methods are resolved based on the actual object type (runtime binding). Therefore, `p.x` gives `10` and `p.show()` executes the child's version.  
 **Concept Tested:** Reference type vs object type, Field Hiding vs Method Overriding.  
@@ -7046,6 +7697,7 @@ Child
 ---
 
 #### Question 2
+
 ```java
 class A {
     static void m() { System.out.println("A"); }
@@ -7060,12 +7712,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 A
 ```
+
 **Explanation:**  
 `m()` is a static method. In Java, static methods are resolved based on the reference type at compile time (static binding). Since the reference type of `obj` is `A`, `A.m()` is executed. This is method hiding, not overriding.  
 **Concept Tested:** Static method hiding.  
@@ -7074,6 +7729,7 @@ A
 ---
 
 #### Question 3
+
 ```java
 class Test {
     void show(int x) { System.out.println("int"); }
@@ -7087,12 +7743,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 int
 ```
+
 **Explanation:**  
 The compiler searches for the closest match during overload resolution. `5` is an `int` literal, so the exact match `show(int)` is chosen.  
 **Concept Tested:** Overload resolution priority.  
@@ -7101,6 +7760,7 @@ The compiler searches for the closest match during overload resolution. `5` is a
 ---
 
 #### Question 4
+
 ```java
 class Test {
     void show(Integer x) { System.out.println("Integer"); }
@@ -7113,12 +7773,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 long
 ```
+
 **Explanation:**  
 Since there is no exact `show(int)` match, the compiler looks for widening. `int` can be widened to `long` (primitive widening). Widening takes priority over boxing (`Integer`) and varargs.  
 **Concept Tested:** Overload priority: Widening vs Boxing.  
@@ -7127,6 +7790,7 @@ Since there is no exact `show(int)` match, the compiler looks for widening. `int
 ---
 
 #### Question 5
+
 ```java
 class Test {
     void show(Integer x) { System.out.println("Integer"); }
@@ -7138,12 +7802,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 Integer
 ```
+
 **Explanation:**  
 Without an exact match or a widening option, the compiler falls back to autoboxing. `int` is boxed to `Integer`. Varargs has the lowest priority and is not chosen.  
 **Concept Tested:** Overload priority: Boxing vs Varargs.  
@@ -7152,6 +7819,7 @@ Without an exact match or a widening option, the compiler falls back to autoboxi
 ---
 
 #### Question 6
+
 ```java
 class Test {
     void show(Long x) { System.out.println("Long"); }
@@ -7162,6 +7830,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -7174,6 +7843,7 @@ Java does not support combined widening and boxing in a single step for method a
 ---
 
 #### Question 7
+
 ```java
 class Test {
     void show(Object x) { System.out.println("Object"); }
@@ -7184,12 +7854,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 Object
 ```
+
 **Explanation:**  
 The `int` value `5` is boxed to `Integer` (autoboxing), and then `Integer` is cast to `Object` via standard upcasting (widening reference type). Boxing followed by upcasting reference is permitted.  
 **Concept Tested:** Boxing then widening reference type.  
@@ -7198,6 +7871,7 @@ The `int` value `5` is boxed to `Integer` (autoboxing), and then `Integer` is ca
 ---
 
 #### Question 8
+
 ```java
 class Test {
     void show(String s) { System.out.println("String"); }
@@ -7209,12 +7883,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 String
 ```
+
 **Explanation:**  
 Both `String` and `Object` can accept `null`. The compiler selects the most specific type in the hierarchy. Since `String` is a subclass of `Object`, `String` is more specific and is selected.  
 **Concept Tested:** Overload resolution with null and specific types.  
@@ -7223,6 +7900,7 @@ Both `String` and `Object` can accept `null`. The compiler selects the most spec
 ---
 
 #### Question 9
+
 ```java
 class Test {
     void show(String s) { System.out.println("String"); }
@@ -7234,6 +7912,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -7246,6 +7925,7 @@ Both `String` and `Integer` can accept `null`. Since neither is a subclass of th
 ---
 
 #### Question 10
+
 ```java
 class A {
     A() { System.out.print("A "); }
@@ -7259,12 +7939,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
-A B 
+A B
 ```
+
 **Explanation:**  
 When `new B()` is executed, B's constructor is called. The first line of B's constructor implicitly invokes `super()`, calling A's constructor. A's constructor runs first and prints "A ", then B's constructor prints "B ".  
 **Concept Tested:** Constructor chaining, implicit `super()`.  
@@ -7273,6 +7956,7 @@ When `new B()` is executed, B's constructor is called. The first line of B's con
 ---
 
 #### Question 11
+
 ```java
 class A {
     A(int x) { System.out.print("A" + x + " "); }
@@ -7289,12 +7973,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
-A5 B 
+A5 B
 ```
+
 **Explanation:**  
 B's constructor explicitly calls `super(5)`, resolving A's parameterized constructor. A's constructor executes and prints "A5 ", then control returns to B's constructor which prints "B ".  
 **Concept Tested:** Explicit parent constructor invocation.  
@@ -7303,6 +7990,7 @@ B's constructor explicitly calls `super(5)`, resolving A's parameterized constru
 ---
 
 #### Question 12
+
 ```java
 class A {
     static { System.out.print("A_static "); }
@@ -7320,12 +8008,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
-A_static B_static A_instance A_cons B_instance B_cons 
+A_static B_static A_instance A_cons B_instance B_cons
 ```
+
 **Explanation:**  
 First, class B is loaded, which loads parent class A. Static blocks run in parent-then-child order. Next, instance initializers and constructors run for A, then for B.  
 **Concept Tested:** Static vs Instance initialization order with inheritance.  
@@ -7334,6 +8025,7 @@ First, class B is loaded, which loads parent class A. Static blocks run in paren
 ---
 
 #### Question 13
+
 ```java
 class Test {
     static Test t = new Test();
@@ -7347,20 +8039,24 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
-instance constructor static 
+instance constructor static
 ```
+
 **Explanation:**  
-Class loading executes static members in order of textual appearance. `static Test t = new Test();` is processed first. Instantiating `Test` triggers the instance block and constructor *before* the static block textually below it executes.  
+Class loading executes static members in order of textual appearance. `static Test t = new Test();` is processed first. Instantiating `Test` triggers the instance block and constructor _before_ the static block textually below it executes.  
 **Concept Tested:** Instantiation within static variable initialization.  
 **Interview Trap:** Assuming static blocks always print before instance blocks under all conditions.
 
 ---
 
 #### Question 14
+
 ```java
 public class Main {
     static void change(int[] arr) {
@@ -7374,12 +8070,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 50
 ```
+
 **Explanation:**  
 Java is pass-by-value. The value passed is a copy of the reference pointing to the array on the heap. `arr[0] = 50` modifies the shared array on the heap. Reassigning `arr` within `change` redirects the local parameter pointer, leaving the caller's reference `nums` untouched.  
 **Concept Tested:** Pass-by-value, Object reference mutation vs reassignment.  
@@ -7388,6 +8087,7 @@ Java is pass-by-value. The value passed is a copy of the reference pointing to t
 ---
 
 #### Question 15
+
 ```java
 public class Main {
     static void swap(Integer a, Integer b) {
@@ -7402,12 +8102,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 10 20
 ```
+
 **Explanation:**  
 The `swap` method swaps local copy references of variables `a` and `b`. The original reference variables `x` and `y` in the `main` stack frame remain unchanged.  
 **Concept Tested:** Pass-by-value with wrapper objects.  
@@ -7416,6 +8119,7 @@ The `swap` method swaps local copy references of variables `a` and `b`. The orig
 ---
 
 #### Question 16
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -7430,14 +8134,17 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 true
 false
 true
 ```
+
 **Explanation:**  
 `s1` and `s2` refer to the same literal inside the String Pool (`true`). `s3` is a separate heap object (`false`). `s3.intern()` returns the matching literal address from the String Pool, which equals `s1` (`true`).  
 **Concept Tested:** String Pool, `intern()` behavior, and `==` reference comparison.  
@@ -7446,6 +8153,7 @@ true
 ---
 
 #### Question 17
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -7458,13 +8166,16 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 true
 false
 ```
+
 **Explanation:**  
 Java caches `Integer` objects for values from `-128` to `127`. `a` and `b` point to the same cached instance (`true`). `128` is outside this cache range, so `c` and `d` point to different heap objects (`false`).  
 **Concept Tested:** Integer cache.  
@@ -7473,6 +8184,7 @@ Java caches `Integer` objects for values from `-128` to `127`. `a` and `b` point
 ---
 
 #### Question 18
+
 ```java
 class Parent {
     Parent() {
@@ -7494,20 +8206,24 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 Child: 0
 ```
+
 **Explanation:**  
-The constructor chain is: `new Child() -> Child() -> Parent()`. In `Parent()`, `show()` is executed. Due to runtime polymorphism, `Child.show()` is dispatched. However, Child's instance variable `x` is initialized to `42` *after* the parent constructor returns. At this point, it holds its default value `0`.  
+The constructor chain is: `new Child() -> Child() -> Parent()`. In `Parent()`, `show()` is executed. Due to runtime polymorphism, `Child.show()` is dispatched. However, Child's instance variable `x` is initialized to `42` _after_ the parent constructor returns. At this point, it holds its default value `0`.  
 **Concept Tested:** Subclass method dispatch during parent initialization.  
 **Interview Trap:** Expecting `x` to output `42`.
 
 ---
 
 #### Question 19
+
 ```java
 class A {
     final void show() { System.out.println("A"); }
@@ -7521,12 +8237,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 A
 ```
+
 **Explanation:**  
 The `final` method `show()` is inherited by `B` but cannot be overridden. Calling `new B().show()` safely executes the inherited parent method.  
 **Concept Tested:** Final method inheritance vs overriding.  
@@ -7535,6 +8254,7 @@ The `final` method `show()` is inherited by `B` but cannot be overridden. Callin
 ---
 
 #### Question 20
+
 ```java
 interface A {
     default void show() { System.out.println("A"); }
@@ -7553,12 +8273,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 B
 ```
+
 **Explanation:**  
 `C` resolves the default method conflict by overriding `show()` and explicitly delegating to `B`'s version using `B.super.show()`.  
 **Concept Tested:** Default method conflict resolution.  
@@ -7567,6 +8290,7 @@ B
 ---
 
 #### Question 21
+
 ```java
 interface A {
     default void show() { System.out.println("A"); }
@@ -7581,12 +8305,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 B
 ```
+
 **Explanation:**  
 Under Java's default method resolution rules, class methods take priority over interface default methods ("Class wins rule"). Thus, B's concrete method is chosen.  
 **Concept Tested:** Class method priority over default methods.  
@@ -7595,6 +8322,7 @@ Under Java's default method resolution rules, class methods take priority over i
 ---
 
 #### Question 22
+
 ```java
 class A {
     private void show() { System.out.println("A"); }
@@ -7609,12 +8337,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 A
 ```
+
 **Explanation:**  
 `show()` in class `A` is private. Private methods are not visible to subclasses and are bound statically at compile time. Therefore, calling `test()` (which resides in `A`) calls `A`'s private `show()`, not B's method.  
 **Concept Tested:** Private method static binding.  
@@ -7623,6 +8354,7 @@ A
 ---
 
 #### Question 23
+
 ```java
 class A {
     int x = 10;
@@ -7637,12 +8369,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 20
 ```
+
 **Explanation:**  
 Fields are not polymorphic and are resolved based on the reference type. By explicitly casting reference `a` to type `B`, the compiler accesses the field `x` belonging to class `B`.  
 **Concept Tested:** Explicit casting and field resolution.  
@@ -7651,6 +8386,7 @@ Fields are not polymorphic and are resolved based on the reference type. By expl
 ---
 
 #### Question 24
+
 ```java
 class A {
     void print() { System.out.println("A"); }
@@ -7665,12 +8401,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 B
 ```
+
 **Explanation:**  
 `print()` is an instance method. Casting the reference back to `A` only changes the compile-time reference type. Dynamic dispatch still looks at the actual runtime object, which is `B`, executing B's version.  
 **Concept Tested:** Casting reference vs dynamic method dispatch.  
@@ -7679,6 +8418,7 @@ B
 ---
 
 #### Question 25
+
 ```java
 class A {
     static int x = 10;
@@ -7693,12 +8433,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 10
 ```
+
 **Explanation:**  
 Static fields are resolved at compile time based on the reference type. Since `obj` has compile-time type `A`, `A.x` is accessed.  
 **Concept Tested:** Static variables and reference types.  
@@ -7707,6 +8450,7 @@ Static fields are resolved at compile time based on the reference type. Since `o
 ---
 
 #### Question 26
+
 ```java
 class A {
     A(int x) { System.out.print("A(" + x + ") "); }
@@ -7727,12 +8471,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
-A(10) B(10) B() 
+A(10) B(10) B()
 ```
+
 **Explanation:**  
 `new B()` calls the no-arg constructor `B()`. The first statement is `this(10)`, calling the parameterized child constructor `B(int)`. The first statement of `B(int)` is `super(x)`, which executes A's parameterized constructor. Thus, A's constructor runs first ("A(10) "), followed by `B(10)` ("B(10) "), and finally control returns to `B()` ("B() ").  
 **Concept Tested:** Constructor delegation with `this()` and `super()`.  
@@ -7741,6 +8488,7 @@ A(10) B(10) B()
 ---
 
 #### Question 27
+
 ```java
 class Base {
     void show() { System.out.println("Base"); }
@@ -7756,12 +8504,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 Derived
 ```
+
 **Explanation:**  
 Overriding methods can widen the access modifier. Class `Base` declares `show()` with default access, and subclass `Derived` overrides it with wider `public` access. This is valid, and runtime binding executes the subclass version.  
 **Concept Tested:** Access modifier widening in overriding.  
@@ -7770,6 +8521,7 @@ Overriding methods can widen the access modifier. Class `Base` declares `show()`
 ---
 
 #### Question 28
+
 ```java
 class Base {
     public void show() { System.out.println("Base"); }
@@ -7778,6 +8530,7 @@ class Derived extends Base {
     // void show() { System.out.println("Derived"); }
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -7790,6 +8543,7 @@ When overriding a method, the subclass cannot narrow the access modifier. `show(
 ---
 
 #### Question 29
+
 ```java
 class A {
     A create() { return new A(); }
@@ -7805,12 +8559,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 B
 ```
+
 **Explanation:**  
 Covariant return types are supported in Java. `B` overrides `create()` and changes the return type to `B` (which is a subclass of the parent return type `A`). Dynamic method dispatch executes `B.create()`, returning an instance of `B`.  
 **Concept Tested:** Covariant return types.  
@@ -7819,6 +8576,7 @@ Covariant return types are supported in Java. `B` overrides `create()` and chang
 ---
 
 #### Question 30
+
 ```java
 class A {
     static int x = 100;
@@ -7832,12 +8590,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 200
 ```
+
 **Explanation:**  
 `x` is a static variable, meaning it belongs to class `A` and is shared among all instances. Accessing and writing to `obj1.x` updates the single shared location, so accessing `obj2.x` returns the updated value.  
 **Concept Tested:** Shared nature of static fields.  
@@ -7846,6 +8607,7 @@ Output
 ---
 
 #### Question 31
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -7855,20 +8617,24 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 Hello
 ```
+
 **Explanation:**  
-Strings are immutable. The `replace()` method executes, but it returns a *new* String containing "Wello" and leaves the original variable `s` unchanged.  
+Strings are immutable. The `replace()` method executes, but it returns a _new_ String containing "Wello" and leaves the original variable `s` unchanged.  
 **Concept Tested:** String immutability.  
 **Interview Trap:** Forgetting to assign the return value back to a variable: `s = s.replace(...)`.
 
 ---
 
 #### Question 32
+
 ```java
 class Test {
     int x;
@@ -7881,12 +8647,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 0
 ```
+
 **Explanation:**  
 The constructor parameter `x` shadows the instance variable `x`. `x = x` assigns the parameter's value back to the parameter itself, leaving the instance variable `x` at its default value `0`.  
 **Concept Tested:** Parameter shadowing.  
@@ -7895,6 +8664,7 @@ The constructor parameter `x` shadows the instance variable `x`. `x = x` assigns
 ---
 
 #### Question 33
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -7904,12 +8674,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 99
 ```
+
 **Explanation:**  
 The `final` keyword prevents reassigning the reference variable `arr` to a new array instance. It does not make the referenced object (the array content) immutable. Thus, modifying `arr[0]` is completely valid.  
 **Concept Tested:** Final reference variables vs object state modification.  
@@ -7918,6 +8691,7 @@ The `final` keyword prevents reassigning the reference variable `arr` to a new a
 ---
 
 #### Question 34
+
 ```java
 class Test {
     private int x = 10;
@@ -7931,12 +8705,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 10
 ```
+
 **Explanation:**  
 An inner class (non-static nested class) has an implicit link to the outer class instance that created it, giving it direct access to all members of the outer class, including private ones.  
 **Concept Tested:** Inner class scope and private access.  
@@ -7945,6 +8722,7 @@ An inner class (non-static nested class) has an implicit link to the outer class
 ---
 
 #### Question 35
+
 ```java
 class Test {
     static int x = 10;
@@ -7958,12 +8736,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 10
 ```
+
 **Explanation:**  
 A static nested class does not require an outer class instance. It behaves like a top-level class nested for namespace grouping and can access any static variables of the outer class.  
 **Concept Tested:** Static nested class syntax and access rules.  
@@ -7972,6 +8753,7 @@ A static nested class does not require an outer class instance. It behaves like 
 ---
 
 #### Question 36
+
 ```java
 class A {
     void show() { System.out.println("A"); }
@@ -7986,12 +8768,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 B
 ```
+
 **Explanation:**  
 This is standard dynamic method dispatch. The compiler verifies `show()` exists in class `A`, and the JVM dispatches the call to B's overridden version at runtime based on the actual object.  
 **Concept Tested:** Dynamic method dispatch.  
@@ -8000,6 +8785,7 @@ This is standard dynamic method dispatch. The compiler verifies `show()` exists 
 ---
 
 #### Question 37
+
 ```java
 class A {
     void show() { System.out.println("A"); }
@@ -8014,6 +8800,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8026,6 +8813,7 @@ Although the object on the heap is of type `B`, the reference type is `A`. The c
 ---
 
 #### Question 38
+
 ```java
 class A {
     int x = 10;
@@ -8039,12 +8827,15 @@ public class Main {
 }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 30
 ```
+
 **Explanation:**  
 Instance initialization occurs in order: field declaration (`x = 10`) -> instance initializer block (`x = 20`) -> constructor body (`x = 30`). The final value of `x` is `30`.  
 **Concept Tested:** Instance field initialization order.  
@@ -8053,6 +8844,7 @@ Instance initialization occurs in order: field declaration (`x = 10`) -> instanc
 ---
 
 #### Question 39
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -8060,12 +8852,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 false
 ```
+
 **Explanation:**  
 The `instanceof` operator checks if a reference variable points to an instance of the target type. Because `null` is a special literal indicating no object reference, it is not an instance of anything.  
 **Concept Tested:** `instanceof` with null references.  
@@ -8074,6 +8869,7 @@ The `instanceof` operator checks if a reference variable points to an instance o
 ---
 
 #### Question 40
+
 ```java
 class Parent {
     static void print() { System.out.println("Parent"); }
@@ -8088,12 +8884,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 Parent
 ```
+
 **Explanation:**  
 Static methods are bound statically by the compiler based on the reference type, not the runtime object type. The reference type of `p` is `Parent`, executing `Parent.print()`.  
 **Concept Tested:** Static method hiding.  
@@ -8102,6 +8901,7 @@ Static methods are bound statically by the compiler based on the reference type,
 ---
 
 #### Question 41
+
 ```java
 class A {
     final int x;
@@ -8113,12 +8913,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 10
 ```
+
 **Explanation:**  
 A blank final field is a final field that is not initialized at its declaration. It must be initialized in all constructors of the class. This is valid, and the value is successfully initialized to `10`.  
 **Concept Tested:** Blank final field initialization.  
@@ -8127,6 +8930,7 @@ A blank final field is a final field that is not initialized at its declaration.
 ---
 
 #### Question 42
+
 ```java
 class Test {
     static int x = 10;
@@ -8142,12 +8946,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 30 20
 ```
+
 **Explanation:**  
 `x` is static and shared, so updating it via `t1` changes it for `t2` (`30`). `y` is an instance variable, so modifying `t1.y` has no effect on `t2.y` (`20`).  
 **Concept Tested:** Static vs Instance variables.  
@@ -8156,6 +8963,7 @@ Output
 ---
 
 #### Question 43
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -8167,12 +8975,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 false
 ```
+
 **Explanation:**  
 `s1` and `s2` are variables. Therefore, `s1 + s2` is resolved at runtime using a `StringBuilder` or similar dynamic allocation, generating a new String instance on the heap. Thus, `s3 == s4` returns `false`.  
 **Concept Tested:** String concatenation at runtime vs compile time.  
@@ -8181,6 +8992,7 @@ false
 ---
 
 #### Question 44
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -8192,12 +9004,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 true
 ```
+
 **Explanation:**  
 Because `s1` and `s2` are final compile-time constants initialized with string literals, the expression `s1 + s2` is optimized by compiler constant folding into `"abcd"` at compile time. It references the same pool instance.  
 **Concept Tested:** Constant folding of final String variables.  
@@ -8206,6 +9021,7 @@ Because `s1` and `s2` are final compile-time constants initialized with string l
 ---
 
 #### Question 45
+
 ```java
 class Test {
     public boolean equals(Test t) {
@@ -8220,20 +9036,24 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 false
 ```
+
 **Explanation:**  
-The method signature of `equals` inside `Test` is `equals(Test t)`. This *overloads* `equals` rather than overriding it, which requires `equals(Object o)`. Since reference types are `Object`, `Object.equals(Object)` is called, evaluating reference equality (`==`), which is `false`.  
+The method signature of `equals` inside `Test` is `equals(Test t)`. This _overloads_ `equals` rather than overriding it, which requires `equals(Object o)`. Since reference types are `Object`, `Object.equals(Object)` is called, evaluating reference equality (`==`), which is `false`.  
 **Concept Tested:** Overloading vs Overriding `equals()`.  
 **Interview Trap:** Assuming `equals(Test t)` overrides the base Object `equals` method.
 
 ---
 
 #### Question 46
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -8243,12 +9063,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 false
 ```
+
 **Explanation:**  
 The `new` keyword explicitly allocates separate memory instances on the heap. `s1` and `s2` point to different addresses, making `s1 == s2` false.  
 **Concept Tested:** Reference comparison of new String instances.  
@@ -8257,6 +9080,7 @@ The `new` keyword explicitly allocates separate memory instances on the heap. `s
 ---
 
 #### Question 47
+
 ```java
 class Parent {
     Parent(int x) { System.out.print("Parent "); }
@@ -8265,6 +9089,7 @@ class Child extends Parent {
     // Child() { }
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8277,6 +9102,7 @@ If a parent class declares a parameterized constructor and no default constructo
 ---
 
 #### Question 48
+
 ```java
 class A {
     A() { System.out.println("A"); }
@@ -8293,13 +9119,16 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 A
 B
 ```
+
 **Explanation:**  
 B's constructor explicitly calls `super()`, which runs the no-arg constructor of `A`. Then control returns and B's constructor prints "B". This is valid.  
 **Concept Tested:** Explicit super constructor call.  
@@ -8308,6 +9137,7 @@ B's constructor explicitly calls `super()`, which runs the no-arg constructor of
 ---
 
 #### Question 49
+
 ```java
 class A {
     static int x = 10;
@@ -8319,12 +9149,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 10
 ```
+
 **Explanation:**  
 `x` is a static variable. The compiler accesses static fields using the reference type (`A.x`) and translates `obj.x` into `A.x`. Since no object instance is required to access static variables, no NullPointerException is thrown.  
 **Concept Tested:** Static fields on null references.  
@@ -8333,6 +9166,7 @@ Output
 ---
 
 #### Question 50
+
 ```java
 class A {
     static void show() { System.out.println("A"); }
@@ -8344,12 +9178,15 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Output
-**Answer:**  
+**Answer:**
+
 ```
 A
 ```
+
 **Explanation:**  
 Similar to static fields, calling static methods does not require an object instance. The compiler maps the call to `A.show()` using the reference type at compile time. No NullPointerException occurs.  
 **Concept Tested:** Static method invocation on null references.  
@@ -8360,11 +9197,13 @@ Similar to static fields, calling static methods does not require an object inst
 ### E. Compile-Time Error Questions (20 Questions)
 
 #### Question 1
+
 ```java
 abstract class A {
     abstract final void show();
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8377,9 +9216,11 @@ An `abstract` method must be overridden in a subclass, while a `final` method ca
 ---
 
 #### Question 2
+
 ```java
 abstract final class Test {}
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8392,11 +9233,13 @@ An `abstract` class cannot be instantiated and is meant to be inherited. A `fina
 ---
 
 #### Question 3
+
 ```java
 interface Test {
     private int x = 10;
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8409,6 +9252,7 @@ All interface variables are implicitly `public static final`. Marking an interfa
 ---
 
 #### Question 4
+
 ```java
 class Test {
     final int x;
@@ -8417,6 +9261,7 @@ class Test {
     }
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8429,12 +9274,14 @@ A final instance field must be initialized either at its declaration, in an inst
 ---
 
 #### Question 5
+
 ```java
 class A {
     A(int x) {}
 }
 class B extends A {}
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8447,6 +9294,7 @@ Class `B`'s default constructor implicitly invokes `super()`. However, class `A`
 ---
 
 #### Question 6
+
 ```java
 class Test {
     Test() {
@@ -8456,6 +9304,7 @@ class Test {
     Test(int x) {}
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8468,11 +9317,13 @@ A constructor call using `this()` or `super()` must be the very first statement 
 ---
 
 #### Question 7
+
 ```java
 class Test {
     Test() { this(); }
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8485,6 +9336,7 @@ The compiler detects recursive constructor invocation (circular reference) and r
 ---
 
 #### Question 8
+
 ```java
 class A {
     void show() {}
@@ -8493,6 +9345,7 @@ class B extends A {
     int show() { return 10; }
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8505,6 +9358,7 @@ When overriding a method, the return type must match or be a covariant (subtype)
 ---
 
 #### Question 9
+
 ```java
 class A {
     protected void show() {}
@@ -8513,6 +9367,7 @@ class B extends A {
     void show() {}
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8525,6 +9380,7 @@ An overriding method in a subclass cannot narrow the access modifier of the over
 ---
 
 #### Question 10
+
 ```java
 class A {
     void show() throws IOException {}
@@ -8533,6 +9389,7 @@ class B extends A {
     void show() throws Exception {}
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8545,6 +9402,7 @@ An overriding method cannot throw broader or new checked exceptions. `Exception`
 ---
 
 #### Question 11
+
 ```java
 class Test {
     static int x = 10;
@@ -8553,6 +9411,7 @@ class Test {
     }
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8565,6 +9424,7 @@ The `static` modifier is not allowed for local variables declared inside a metho
 ---
 
 #### Question 12
+
 ```java
 class Test {
     static void show() {
@@ -8572,6 +9432,7 @@ class Test {
     }
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8584,11 +9445,13 @@ The `this` keyword refers to the current instance of the class. Because static m
 ---
 
 #### Question 13
+
 ```java
 class A {}
 class B extends A {}
 class C extends B, A {}
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8601,6 +9464,7 @@ Java does not support multiple inheritance of classes. Declaring `C extends B, A
 ---
 
 #### Question 14
+
 ```java
 interface Test {
     void m();
@@ -8611,6 +9475,7 @@ class Client {
     }
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8623,11 +9488,13 @@ Interfaces cannot be instantiated directly using `new Test()`. An implementing c
 ---
 
 #### Question 15
+
 ```java
 class A {
     final int x;
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8640,12 +9507,14 @@ Instance final variables must be initialized. Because `x` is declared final and 
 ---
 
 #### Question 16
+
 ```java
 class Test {
     void print(String... s) {}
     void print(String[] s) {}
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8658,6 +9527,7 @@ Varargs are compiled as arrays under the hood. Therefore, `print(String... s)` a
 ---
 
 #### Question 17
+
 ```java
 class Parent {
     Parent(int x) {}
@@ -8672,6 +9542,7 @@ class Child extends Parent {
     }
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8684,6 +9555,7 @@ A constructor can call either `this()` or `super()`, but not both. They must be 
 ---
 
 #### Question 18
+
 ```java
 class Test {
     final void print() {}
@@ -8692,6 +9564,7 @@ class Client extends Test {
     void print() {}
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8704,6 +9577,7 @@ Subclasses cannot override final methods of the parent class. Declaring `void pr
 ---
 
 #### Question 19
+
 ```java
 class A {
     A(int x) {}
@@ -8714,6 +9588,7 @@ class B extends A {
     }
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8726,11 +9601,13 @@ Since class `A` does not declare a default constructor, the implicit `super()` c
 ---
 
 #### Question 20
+
 ```java
 class Test {
     static abstract void m();
 }
 ```
+
 **Predict:**  
 Compile-time error
 **Answer:**  
@@ -8745,6 +9622,7 @@ A static method belongs to the class and cannot be overridden, whereas an abstra
 ### F. Runtime Exception Questions (20 Questions)
 
 #### Question 1
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -8753,6 +9631,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -8765,6 +9644,7 @@ Runtime exception
 ---
 
 #### Question 2
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -8773,6 +9653,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -8785,6 +9666,7 @@ The reference variable `s` is initialized to `null`, meaning it points to no obj
 ---
 
 #### Question 3
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -8793,6 +9675,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -8805,6 +9688,7 @@ The array `arr` has a size of 3, meaning valid indices are `0`, `1`, and `2`. Ac
 ---
 
 #### Question 4
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -8813,6 +9697,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -8825,6 +9710,7 @@ Arrays in Java are covariant, meaning `Object[]` can point to `String[]` at comp
 ---
 
 #### Question 5
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -8833,6 +9719,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -8845,6 +9732,7 @@ Runtime exception
 ---
 
 #### Question 6
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -8852,6 +9740,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -8864,6 +9753,7 @@ Dividing an integer by zero is mathematically undefined and throws an Arithmetic
 ---
 
 #### Question 7
+
 ```java
 class Test implements Cloneable {
     // missing clone override
@@ -8875,6 +9765,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception (if attempted via reflection/clone method call)
 **Answer:**  
@@ -8887,6 +9778,7 @@ If `clone()` is called on a class that does not implement the `Cloneable` interf
 ---
 
 #### Question 8
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -8897,6 +9789,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -8909,6 +9802,7 @@ Inside the `if` check, the JVM attempts to unbox `b` (wrapper type `Boolean`) to
 ---
 
 #### Question 9
+
 ```java
 import java.util.*;
 public class Main {
@@ -8918,6 +9812,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -8930,6 +9825,7 @@ Runtime exception
 ---
 
 #### Question 10
+
 ```java
 import java.util.*;
 public class Main {
@@ -8941,6 +9837,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -8953,6 +9850,7 @@ Modifying a collection directly while iterating over it using an enhanced `for` 
 ---
 
 #### Question 11
+
 ```java
 public class Main {
     static void recursive() {
@@ -8963,6 +9861,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -8975,6 +9874,7 @@ Infinite recursion fills up the call stack frames, exceeding the stack memory si
 ---
 
 #### Question 12
+
 ```java
 import java.util.*;
 public class Main {
@@ -8984,6 +9884,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -8996,6 +9897,7 @@ Runtime exception
 ---
 
 #### Question 13
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -9004,6 +9906,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -9016,6 +9919,7 @@ The string `"Hello"` has indices from `0` to `4`. Requesting character at index 
 ---
 
 #### Question 14
+
 ```java
 class Test {
     static {
@@ -9032,6 +9936,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -9044,6 +9949,7 @@ Any exception that occurs inside a static initializer block is wrapped by the JV
 ---
 
 #### Question 15
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -9051,6 +9957,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -9063,6 +9970,7 @@ Declaring an array with a negative size parameter is illegal and throws a Negati
 ---
 
 #### Question 16
+
 ```java
 import java.util.*;
 public class Main {
@@ -9072,6 +9980,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -9084,6 +9993,7 @@ Runtime exception
 ---
 
 #### Question 17
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -9091,6 +10001,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -9103,6 +10014,7 @@ Runtime exception
 ---
 
 #### Question 18
+
 ```java
 import java.util.*;
 public class Main {
@@ -9112,6 +10024,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -9124,6 +10037,7 @@ The list is newly instantiated and empty (size `0`). Accessing index `0` throws 
 ---
 
 #### Question 19
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -9135,6 +10049,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -9147,6 +10062,7 @@ The string is the literal value `"null"`, which has a length of 4. Requesting `s
 ---
 
 #### Question 20
+
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -9155,6 +10071,7 @@ public class Main {
     }
 }
 ```
+
 **Predict:**  
 Runtime exception
 **Answer:**  
@@ -9224,27 +10141,33 @@ Similar to Question 4, because the underlying array is a `String` array, trying 
 ## Top 50 Java OOP Interview Traps
 
 ### Trap 1: Field Polymorphism
-*Wrong assumption:* Child field overrides Parent field of the same name, and accessing it through a Parent reference returns the Child value.  
-*Correct rule:* Fields are not polymorphic. Access is resolved at compile time based on the reference type.  
-*Example:*
+
+_Wrong assumption:_ Child field overrides Parent field of the same name, and accessing it through a Parent reference returns the Child value.  
+_Correct rule:_ Fields are not polymorphic. Access is resolved at compile time based on the reference type.  
+_Example:_
+
 ```java
 Parent p = new Child();
 System.out.println(p.x); // Prints Parent's x, not Child's x.
 ```
 
 ### Trap 2: Static Method Overriding
-*Wrong assumption:* Declaring a static method in a subclass with the same signature overrides the parent static method.  
-*Correct rule:* Static methods cannot be overridden; they are hidden. The reference type determines which method runs.  
-*Example:*
+
+_Wrong assumption:_ Declaring a static method in a subclass with the same signature overrides the parent static method.  
+_Correct rule:_ Static methods cannot be overridden; they are hidden. The reference type determines which method runs.  
+_Example:_
+
 ```java
 Parent p = new Child();
 p.staticMethod(); // Runs Parent's static method.
 ```
 
 ### Trap 3: Calling Overridable Methods in Constructors
-*Wrong assumption:* Subclass overrides called in parent constructors access fully initialized subclass fields.  
-*Correct rule:* Subclass overrides run before subclass fields have been initialized (they are still default values).  
-*Example:*
+
+_Wrong assumption:_ Subclass overrides called in parent constructors access fully initialized subclass fields.  
+_Correct rule:_ Subclass overrides run before subclass fields have been initialized (they are still default values).  
+_Example:_
+
 ```java
 class P { P() { show(); } void show() {} }
 class C extends P { int x = 10; void show() { System.out.println(x); } }
@@ -9252,27 +10175,33 @@ class C extends P { int x = 10; void show() { System.out.println(x); } }
 ```
 
 ### Trap 4: Null Reference static access
-*Wrong assumption:* Accessing a static field or calling a static method through a null reference throws a `NullPointerException`.  
-*Correct rule:* Static accesses bypass runtime instances and use the reference type at compile time.  
-*Example:*
+
+_Wrong assumption:_ Accessing a static field or calling a static method through a null reference throws a `NullPointerException`.  
+_Correct rule:_ Static accesses bypass runtime instances and use the reference type at compile time.  
+_Example:_
+
 ```java
 Parent p = null;
 p.staticMethod(); // Compiles and executes without throwing NPE.
 ```
 
 ### Trap 5: Integer Caching and `==`
-*Wrong assumption:* Comparing two Integer objects using `==` always compares their value.  
-*Correct rule:* `==` compares references. Caching applies only from -128 to 127.  
-*Example:*
+
+_Wrong assumption:_ Comparing two Integer objects using `==` always compares their value.  
+_Correct rule:_ `==` compares references. Caching applies only from -128 to 127.  
+_Example:_
+
 ```java
 Integer a = 200, b = 200;
 System.out.println(a == b); // Prints false.
 ```
 
 ### Trap 6: Final reference reassignment vs mutation
-*Wrong assumption:* Declaring an object reference as `final` makes the object immutable.  
-*Correct rule:* `final` only prevents reassigning the reference to point to a new object.  
-*Example:*
+
+_Wrong assumption:_ Declaring an object reference as `final` makes the object immutable.  
+_Correct rule:_ `final` only prevents reassigning the reference to point to a new object.  
+_Example:_
+
 ```java
 final List<String> list = new ArrayList<>();
 list.add("Java"); // Works fine.
@@ -9280,9 +10209,11 @@ list.add("Java"); // Works fine.
 ```
 
 ### Trap 7: Private method overriding
-*Wrong assumption:* Declaring a method with the same signature as a parent private method overrides it.  
-*Correct rule:* Private methods are invisible to subclasses; the child method is a completely new method.  
-*Example:*
+
+_Wrong assumption:_ Declaring a method with the same signature as a parent private method overrides it.  
+_Correct rule:_ Private methods are invisible to subclasses; the child method is a completely new method.  
+_Example:_
+
 ```java
 class P { private void m() { System.out.println("P"); } void test() { m(); } }
 class C extends P { public void m() { System.out.println("C"); } }
@@ -9290,9 +10221,11 @@ new C().test(); // Prints "P".
 ```
 
 ### Trap 8: String Literal concatenation at runtime
-*Wrong assumption:* Concatenating a String variable with a literal results in a String pool object reference.  
-*Correct rule:* Runtime variable concatenation uses StringBuilder and allocates on the heap outside the pool.  
-*Example:*
+
+_Wrong assumption:_ Concatenating a String variable with a literal results in a String pool object reference.  
+_Correct rule:_ Runtime variable concatenation uses StringBuilder and allocates on the heap outside the pool.  
+_Example:_
+
 ```java
 String s1 = "ab";
 String s2 = s1 + "cd";
@@ -9301,35 +10234,43 @@ System.out.println(s2 == s3); // Prints false.
 ```
 
 ### Trap 9: Empty/No-arg constructor auto-generation
-*Wrong assumption:* The compiler always provides a default no-argument constructor for every class.  
-*Correct rule:* The compiler only provides it if NO other constructors are explicitly written.  
-*Example:*
+
+_Wrong assumption:_ The compiler always provides a default no-argument constructor for every class.  
+_Correct rule:_ The compiler only provides it if NO other constructors are explicitly written.  
+_Example:_
+
 ```java
 class P { P(int x) {} }
 // new P(); // Compile error.
 ```
 
 ### Trap 10: Downcasting compile success
-*Wrong assumption:* Explicit casting always works if the compiler does not flag it as an error.  
-*Correct rule:* The compiler allows downcasting if there is a subclass relationship, but the JVM checks type on the heap.  
-*Example:*
+
+_Wrong assumption:_ Explicit casting always works if the compiler does not flag it as an error.  
+_Correct rule:_ The compiler allows downcasting if there is a subclass relationship, but the JVM checks type on the heap.  
+_Example:_
+
 ```java
 Parent p = new Parent();
 Child c = (Child) p; // Throws ClassCastException at runtime.
 ```
 
 ### Trap 11: `instanceof` with null
-*Wrong assumption:* Checking `null instanceof Object` returns true because null represents an object state.  
-*Correct rule:* `instanceof` with null always returns false.  
-*Example:*
+
+_Wrong assumption:_ Checking `null instanceof Object` returns true because null represents an object state.  
+_Correct rule:_ `instanceof` with null always returns false.  
+_Example:_
+
 ```java
 System.out.println(null instanceof Object); // Prints false.
 ```
 
 ### Trap 12: Overriding vs Overloading parameter type
-*Wrong assumption:* Implementing `equals(MyClass obj)` overrides the base Object method `equals(Object obj)`.  
-*Correct rule:* This is method overloading, not overriding. The base method remains unchanged.  
-*Example:*
+
+_Wrong assumption:_ Implementing `equals(MyClass obj)` overrides the base Object method `equals(Object obj)`.  
+_Correct rule:_ This is method overloading, not overriding. The base method remains unchanged.  
+_Example:_
+
 ```java
 class Test { public boolean equals(Test t) { return true; } }
 Object o1 = new Test(), o2 = new Test();
@@ -9337,53 +10278,65 @@ System.out.println(o1.equals(o2)); // Prints false (uses reference equality).
 ```
 
 ### Trap 13: Covariant Primitive returns
-*Wrong assumption:* Subclass methods can narrow primitive return types during overriding (e.g., returning `int` instead of `long`).  
-*Correct rule:* Covariance applies only to reference types. Primitives must match exactly.  
-*Example:*
+
+_Wrong assumption:_ Subclass methods can narrow primitive return types during overriding (e.g., returning `int` instead of `long`).  
+_Correct rule:_ Covariance applies only to reference types. Primitives must match exactly.  
+_Example:_
+
 ```java
 class P { long get() { return 1L; } }
 class C extends P { int get() { return 1; } } // Compile error.
 ```
 
 ### Trap 14: checked exceptions in overriding
-*Wrong assumption:* An overriding subclass method can declare to throw any checked exception.  
-*Correct rule:* Subclass methods cannot throw broader or new checked exceptions.  
-*Example:*
+
+_Wrong assumption:_ An overriding subclass method can declare to throw any checked exception.  
+_Correct rule:_ Subclass methods cannot throw broader or new checked exceptions.  
+_Example:_
+
 ```java
 class P { void show() throws IOException {} }
 class C extends P { void show() throws Exception {} } // Compile error.
 ```
 
 ### Trap 15: unchecked exceptions in overriding
-*Wrong assumption:* If a parent method does not declare a runtime exception, the child cannot declare one.  
-*Correct rule:* Child methods can throw any runtime exception without restrictions.  
-*Example:*
+
+_Wrong assumption:_ If a parent method does not declare a runtime exception, the child cannot declare one.  
+_Correct rule:_ Child methods can throw any runtime exception without restrictions.  
+_Example:_
+
 ```java
 class P { void show() {} }
 class C extends P { void show() throws NullPointerException {} } // Compiles fine.
 ```
 
 ### Trap 16: Abstract class constructors
-*Wrong assumption:* Abstract classes cannot have constructors because they cannot be instantiated.  
-*Correct rule:* Abstract classes have constructors to initialize fields, called via `super()` in subclasses.  
-*Example:*
+
+_Wrong assumption:_ Abstract classes cannot have constructors because they cannot be instantiated.  
+_Correct rule:_ Abstract classes have constructors to initialize fields, called via `super()` in subclasses.  
+_Example:_
+
 ```java
 abstract class A { A() { System.out.println("A"); } }
 class B extends A { B() { super(); } }
 ```
 
 ### Trap 17: Abstract Class vs Interface field defaults
-*Wrong assumption:* Declaring variables in interfaces behaves identical to abstract class variables.  
-*Correct rule:* Interface fields are implicitly `public static final` constants. Abstract class fields can be instance variables.  
-*Example:*
+
+_Wrong assumption:_ Declaring variables in interfaces behaves identical to abstract class variables.  
+_Correct rule:_ Interface fields are implicitly `public static final` constants. Abstract class fields can be instance variables.  
+_Example:_
+
 ```java
 interface I { int x = 10; } // implicitly public static final.
 ```
 
 ### Trap 18: Interface static method inheritance
-*Wrong assumption:* Subclasses or sub-interfaces inherit static methods declared inside interfaces.  
-*Correct rule:* Interface static methods are not inherited; they must be called using the interface name.  
-*Example:*
+
+_Wrong assumption:_ Subclasses or sub-interfaces inherit static methods declared inside interfaces.  
+_Correct rule:_ Interface static methods are not inherited; they must be called using the interface name.  
+_Example:_
+
 ```java
 interface I { static void show() {} }
 class C implements I {}
@@ -9391,18 +10344,22 @@ class C implements I {}
 ```
 
 ### Trap 19: Covariant arrays assignment
-*Wrong assumption:* Storing any object inside an `Object[]` pointing to `String[]` is safe because of compiler validation.  
-*Correct rule:* Array covariance is checked at runtime, throwing `ArrayStoreException` on mismatch.  
-*Example:*
+
+_Wrong assumption:_ Storing any object inside an `Object[]` pointing to `String[]` is safe because of compiler validation.  
+_Correct rule:_ Array covariance is checked at runtime, throwing `ArrayStoreException` on mismatch.  
+_Example:_
+
 ```java
 Object[] arr = new String[2];
 arr[0] = 10; // Throws ArrayStoreException.
 ```
 
 ### Trap 20: default method priority conflict
-*Wrong assumption:* A class implementing two interfaces with identical default methods defaults to the first interface listed.  
-*Correct rule:* The compiler rejects this as ambiguous, forcing the developer to override the method.  
-*Example:*
+
+_Wrong assumption:_ A class implementing two interfaces with identical default methods defaults to the first interface listed.  
+_Correct rule:_ The compiler rejects this as ambiguous, forcing the developer to override the method.  
+_Example:_
+
 ```java
 interface A { default void m() {} }
 interface B { default void m() {} }
@@ -9410,9 +10367,11 @@ class C implements A, B { public void m() { A.super.m(); } }
 ```
 
 ### Trap 21: Local class variable mutation
-*Wrong assumption:* Local inner classes can modify local variables declared in the surrounding method scope.  
-*Correct rule:* Local variables accessed by local classes must be final or effectively final.  
-*Example:*
+
+_Wrong assumption:_ Local inner classes can modify local variables declared in the surrounding method scope.  
+_Correct rule:_ Local variables accessed by local classes must be final or effectively final.  
+_Example:_
+
 ```java
 int x = 10;
 class Local { void show() { /* System.out.println(x); */ } }
@@ -9420,9 +10379,11 @@ class Local { void show() { /* System.out.println(x); */ } }
 ```
 
 ### Trap 22: Record mutability
-*Wrong assumption:* You can modify record fields after construction using setter-like accessors.  
-*Correct rule:* Records are implicitly final and their fields are private and final, having no setter methods.  
-*Example:*
+
+_Wrong assumption:_ You can modify record fields after construction using setter-like accessors.  
+_Correct rule:_ Records are implicitly final and their fields are private and final, having no setter methods.  
+_Example:_
+
 ```java
 record R(int x) {}
 R r = new R(10);
@@ -9430,25 +10391,31 @@ R r = new R(10);
 ```
 
 ### Trap 23: Abstract class with zero abstract methods
-*Wrong assumption:* Abstract classes must declare at least one abstract method.  
-*Correct rule:* An abstract class can have zero abstract methods, used purely to prevent direct instantiation.  
-*Example:*
+
+_Wrong assumption:_ Abstract classes must declare at least one abstract method.  
+_Correct rule:_ An abstract class can have zero abstract methods, used purely to prevent direct instantiation.  
+_Example:_
+
 ```java
 abstract class A {} // Valid.
 ```
 
 ### Trap 24: `this` and `super` constructor chain combination
-*Wrong assumption:* A constructor can call `super()` to construct the parent, and then `this(args)` to delegate within.  
-*Correct rule:* Only one constructor invocation statement is allowed, and it must be the first line.  
-*Example:*
+
+_Wrong assumption:_ A constructor can call `super()` to construct the parent, and then `this(args)` to delegate within.  
+_Correct rule:_ Only one constructor invocation statement is allowed, and it must be the first line.  
+_Example:_
+
 ```java
 class C { C() { super(); this(5); } } // Compile error.
 ```
 
 ### Trap 25: Static blocks and instance instantiation
-*Wrong assumption:* Static block execution is always completed before any instance block runs in the program.  
-*Correct rule:* If an instance is instantiated inside a static block or field initializer, instance blocks execute during class loading.  
-*Example:*
+
+_Wrong assumption:_ Static block execution is always completed before any instance block runs in the program.  
+_Correct rule:_ If an instance is instantiated inside a static block or field initializer, instance blocks execute during class loading.  
+_Example:_
+
 ```java
 class A { static A obj = new A(); { System.out.print("Instance "); } }
 // Prints "Instance" before class loading completes.
@@ -9457,52 +10424,64 @@ class A { static A obj = new A(); { System.out.print("Instance "); } }
 ---
 
 ### Trap 26: Floating Point division by zero
-*Wrong assumption:* Dividing any number by zero in Java throws an `ArithmeticException`.  
-*Correct rule:* Floating point division by zero does not throw exceptions; it returns `Infinity` or `NaN`.  
-*Example:*
+
+_Wrong assumption:_ Dividing any number by zero in Java throws an `ArithmeticException`.  
+_Correct rule:_ Floating point division by zero does not throw exceptions; it returns `Infinity` or `NaN`.  
+_Example:_
+
 ```java
 System.out.println(10.0 / 0); // Prints Infinity.
 ```
 
 ### Trap 27: Static nested class outer instance access
-*Wrong assumption:* Static nested classes can access outer class instance fields directly.  
-*Correct rule:* Static nested classes have no implicit reference to an outer class instance and can only access static members directly.  
-*Example:*
+
+_Wrong assumption:_ Static nested classes can access outer class instance fields directly.  
+_Correct rule:_ Static nested classes have no implicit reference to an outer class instance and can only access static members directly.  
+_Example:_
+
 ```java
 class Outer { int x; static class Nested { void m() { /* x = 10; */ } } } // Compile error.
 ```
 
 ### Trap 28: Overriding checks during Class Loading
-*Wrong assumption:* ClassCastException or overriding signature checks are completed when classes are loaded.  
-*Correct rule:* Class loading checks byte structure. ClassCastException is checked at runtime when cast operations execute.  
-*Example:*
+
+_Wrong assumption:_ ClassCastException or overriding signature checks are completed when classes are loaded.  
+_Correct rule:_ Class loading checks byte structure. ClassCastException is checked at runtime when cast operations execute.  
+_Example:_
+
 ```java
 Object o = new Object();
 String s = (String) o; // Throws ClassCastException at runtime, not class load.
 ```
 
 ### Trap 29: Covariant Return with primitive casting
-*Wrong assumption:* Covariant return permits returning `float` when the parent method returns `double`.  
-*Correct rule:* Covariance does not apply to primitive types. Primitive types must match exactly.  
-*Example:*
+
+_Wrong assumption:_ Covariant return permits returning `float` when the parent method returns `double`.  
+_Correct rule:_ Covariance does not apply to primitive types. Primitive types must match exactly.  
+_Example:_
+
 ```java
 class P { double get() { return 1.0; } }
 class C extends P { float get() { return 1.0f; } } // Compile error.
 ```
 
 ### Trap 30: Array covariance storage verification
-*Wrong assumption:* Storing a subclass reference in a covariant array is validated at compile time.  
-*Correct rule:* Compilation permits reference storage, but runtime JVM checks heap type and throws `ArrayStoreException`.  
-*Example:*
+
+_Wrong assumption:_ Storing a subclass reference in a covariant array is validated at compile time.  
+_Correct rule:_ Compilation permits reference storage, but runtime JVM checks heap type and throws `ArrayStoreException`.  
+_Example:_
+
 ```java
 Object[] objs = new String[2];
 objs[0] = new Object(); // Throws ArrayStoreException at runtime.
 ```
 
 ### Trap 31: Abstract Class initialization bypass
-*Wrong assumption:* Because abstract classes cannot be instantiated, their constructors are never executed.  
-*Correct rule:* When subclass instances are created, parent abstract constructors run as part of the normal chain.  
-*Example:*
+
+_Wrong assumption:_ Because abstract classes cannot be instantiated, their constructors are never executed.  
+_Correct rule:_ When subclass instances are created, parent abstract constructors run as part of the normal chain.  
+_Example:_
+
 ```java
 abstract class A { A() { System.out.println("A"); } }
 class B extends A { B() { super(); } }
@@ -9510,9 +10489,11 @@ new B(); // Prints "A".
 ```
 
 ### Trap 32: interface variable inheritance conflict
-*Wrong assumption:* If a class implements two interfaces containing identical variable names, they merge or conflict immediately.  
-*Correct rule:* Variables are accessible via interface names. A conflict only occurs if you refer to the variable name directly without qualification.  
-*Example:*
+
+_Wrong assumption:_ If a class implements two interfaces containing identical variable names, they merge or conflict immediately.  
+_Correct rule:_ Variables are accessible via interface names. A conflict only occurs if you refer to the variable name directly without qualification.  
+_Example:_
+
 ```java
 interface A { int X = 1; }
 interface B { int X = 2; }
@@ -9520,69 +10501,85 @@ class C implements A, B { void show() { /* System.out.println(X); */ } } // Comp
 ```
 
 ### Trap 33: Overloading method priority matching null
-*Wrong assumption:* Passing null to overloaded methods matching `show(Object o)` and `show(String s)` is ambiguous.  
-*Correct rule:* Java selects the most specific type in the matching hierarchy. `String` is more specific than `Object`.  
-*Example:*
+
+_Wrong assumption:_ Passing null to overloaded methods matching `show(Object o)` and `show(String s)` is ambiguous.  
+_Correct rule:_ Java selects the most specific type in the matching hierarchy. `String` is more specific than `Object`.  
+_Example:_
+
 ```java
 class Test { void show(Object o) {} void show(String s) {} }
 new Test().show(null); // Resolves to show(String).
 ```
 
 ### Trap 34: Final method hiding attempts
-*Wrong assumption:* Subclasses can define static methods with the same signature to hide final static parent methods.  
-*Correct rule:* Static methods cannot be overridden, but `final` prevents method hiding as well.  
-*Example:*
+
+_Wrong assumption:_ Subclasses can define static methods with the same signature to hide final static parent methods.  
+_Correct rule:_ Static methods cannot be overridden, but `final` prevents method hiding as well.  
+_Example:_
+
 ```java
 class P { final static void m() {} }
 class C extends P { static void m() {} } // Compile error.
 ```
 
 ### Trap 35: blank final variable default values
-*Wrong assumption:* Blank final variables automatically get initialized with default values (`0`, `null`) if omitted in constructor.  
-*Correct rule:* The compiler forces explicit initialization of all final fields inside every constructor.  
-*Example:*
+
+_Wrong assumption:_ Blank final variables automatically get initialized with default values (`0`, `null`) if omitted in constructor.  
+_Correct rule:_ The compiler forces explicit initialization of all final fields inside every constructor.  
+_Example:_
+
 ```java
 class Test { final int x; Test() {} } // Compile error: x might not be initialized.
 ```
 
 ### Trap 36: static context referencing instance members
-*Wrong assumption:* Static methods can access instance variables of the outer class if they are nested inside it.  
-*Correct rule:* Static context has no `this` reference. It must explicitly instantiate or reference an object.  
-*Example:*
+
+_Wrong assumption:_ Static methods can access instance variables of the outer class if they are nested inside it.  
+_Correct rule:_ Static context has no `this` reference. It must explicitly instantiate or reference an object.  
+_Example:_
+
 ```java
 class Test { int x; static void m() { /* x = 10; */ } } // Compile error.
 ```
 
 ### Trap 37: Checked exceptions and runtime inheritance
-*Wrong assumption:* An overriding subclass method can throw any new checked exceptions.  
-*Correct rule:* Overriding subclass methods are restricted to throwing the same, narrower, or no checked exceptions.  
-*Example:*
+
+_Wrong assumption:_ An overriding subclass method can throw any new checked exceptions.  
+_Correct rule:_ Overriding subclass methods are restricted to throwing the same, narrower, or no checked exceptions.  
+_Example:_
+
 ```java
 class P { void show() {} }
 class C extends P { void show() throws IOException {} } // Compile error.
 ```
 
 ### Trap 38: Constructor Chaining order mismatch
-*Wrong assumption:* Developer can execute child initialization tasks before parent construction starts.  
-*Correct rule:* Parent state is constructed first. `super()` must run before any child constructor statements.  
-*Example:*
+
+_Wrong assumption:_ Developer can execute child initialization tasks before parent construction starts.  
+_Correct rule:_ Parent state is constructed first. `super()` must run before any child constructor statements.  
+_Example:_
+
 ```java
 class C extends P { C() { int x = 10; super(); } } // Compile error.
 ```
 
 ### Trap 39: package-private overriding visibility
-*Wrong assumption:* A subclass in a different package can override a package-private (default) method.  
-*Correct rule:* Default access methods are invisible outside the package and cannot be inherited or overridden.  
-*Example:*
+
+_Wrong assumption:_ A subclass in a different package can override a package-private (default) method.  
+_Correct rule:_ Default access methods are invisible outside the package and cannot be inherited or overridden.  
+_Example:_
+
 ```java
 package p1; public class P { void m() {} }
 package p2; public class C extends p1.P { void m() {} } // This is a new method, NOT an override.
 ```
 
 ### Trap 40: String literal intern auto-pool
-*Wrong assumption:* Creating a String using `new String("abc")` automatically places the new object address in the pool.  
-*Correct rule:* Only literals go to the pool. `new` forces heap allocation. To pool it, you must call `intern()`.  
-*Example:*
+
+_Wrong assumption:_ Creating a String using `new String("abc")` automatically places the new object address in the pool.  
+_Correct rule:_ Only literals go to the pool. `new` forces heap allocation. To pool it, you must call `intern()`.  
+_Example:_
+
 ```java
 String s1 = "abc";
 String s2 = new String("abc");
@@ -9590,18 +10587,22 @@ System.out.println(s1 == s2); // Prints false.
 ```
 
 ### Trap 41: private fields in object heap representation
-*Wrong assumption:* Private fields in parent classes are omitted from subclass heap allocations.  
-*Correct rule:* Subclass instances carry parent private fields in memory, though they are only accessible via parent methods.  
-*Example:*
+
+_Wrong assumption:_ Private fields in parent classes are omitted from subclass heap allocations.  
+_Correct rule:_ Subclass instances carry parent private fields in memory, though they are only accessible via parent methods.  
+_Example:_
+
 ```java
 class P { private int x; int getX() { return x; } }
 class C extends P {} // C objects hold memory space for 'x'.
 ```
 
 ### Trap 42: multiple default interface overrides resolution
-*Wrong assumption:* If a class inherits a default method from an interface and a concrete class method, it must override to resolve.  
-*Correct rule:* Class methods take priority automatically. Override is only needed if conflicting default methods come from interfaces.  
-*Example:*
+
+_Wrong assumption:_ If a class inherits a default method from an interface and a concrete class method, it must override to resolve.  
+_Correct rule:_ Class methods take priority automatically. Override is only needed if conflicting default methods come from interfaces.  
+_Example:_
+
 ```java
 class Parent { public void m() {} }
 interface Intf { default void m() {} }
@@ -9609,49 +10610,61 @@ class Child extends Parent implements Intf {} // Compiles without conflict; Pare
 ```
 
 ### Trap 43: final methods in abstract class
-*Wrong assumption:* Abstract classes cannot declare final methods because abstract implies extension.  
-*Correct rule:* Abstract classes can declare final concrete methods to prevent subclasses from overriding core framework logic.  
-*Example:*
+
+_Wrong assumption:_ Abstract classes cannot declare final methods because abstract implies extension.  
+_Correct rule:_ Abstract classes can declare final concrete methods to prevent subclasses from overriding core framework logic.  
+_Example:_
+
 ```java
 abstract class A { final void template() {} } // Valid.
 ```
 
 ### Trap 44: Cloneable marker interface methods
-*Wrong assumption:* Implementing `Cloneable` provides the clone method body automatically.  
-*Correct rule:* `Cloneable` is a marker interface with zero methods. It only authorizes `Object.clone()` calls.  
-*Example:*
+
+_Wrong assumption:_ Implementing `Cloneable` provides the clone method body automatically.  
+_Correct rule:_ `Cloneable` is a marker interface with zero methods. It only authorizes `Object.clone()` calls.  
+_Example:_
+
 ```java
 class Test implements Cloneable { /* must override clone() manually if public access is needed */ }
 ```
 
 ### Trap 45: custom Object.equals signature match
-*Wrong assumption:* Overriding equals with `public boolean equals(MyClass other)` works with standard Collections checks.  
-*Correct rule:* Collections like ArrayList use `equals(Object)`, so matching specific types only overloads equals.  
-*Example:*
+
+_Wrong assumption:_ Overriding equals with `public boolean equals(MyClass other)` works with standard Collections checks.  
+_Correct rule:_ Collections like ArrayList use `equals(Object)`, so matching specific types only overloads equals.  
+_Example:_
+
 ```java
 class Test { public boolean equals(Test t) { return true; } } // Overloaded.
 ```
 
 ### Trap 46: static blocks throwing unchecked exceptions
-*Wrong assumption:* If a static initializer throws an unchecked exception, it is caught by the calling constructor try-catch block.  
-*Correct rule:* It is wrapped in `ExceptionInInitializerError` and class loading fails permanently for the JVM session.  
-*Example:*
+
+_Wrong assumption:_ If a static initializer throws an unchecked exception, it is caught by the calling constructor try-catch block.  
+_Correct rule:_ It is wrapped in `ExceptionInInitializerError` and class loading fails permanently for the JVM session.  
+_Example:_
+
 ```java
 class A { static { int x = 1/0; } } // Throws ExceptionInInitializerError at class load.
 ```
 
 ### Trap 47: nested class naming in compiler
-*Wrong assumption:* Anonymous inner classes compile into files matching the outer class name directly.  
-*Correct rule:* The compiler generates distinct `.class` files using numeric suffixes.  
-*Example:*
+
+_Wrong assumption:_ Anonymous inner classes compile into files matching the outer class name directly.  
+_Correct rule:_ The compiler generates distinct `.class` files using numeric suffixes.  
+_Example:_
+
 ```
 Outer$1.class, Outer$2.class
 ```
 
 ### Trap 48: local class final variable check timing
-*Wrong assumption:* The compiler verifies effectively final status based only on the declaration line.  
-*Correct rule:* The compiler checks the entire scope of the local variable. If it is modified anywhere, it fails the check.  
-*Example:*
+
+_Wrong assumption:_ The compiler verifies effectively final status based only on the declaration line.  
+_Correct rule:_ The compiler checks the entire scope of the local variable. If it is modified anywhere, it fails the check.  
+_Example:_
+
 ```java
 int x = 10;
 class Local { void m() { System.out.println(x); } }
@@ -9659,9 +10672,11 @@ x = 20; // Causes compile error inside class Local.
 ```
 
 ### Trap 49: abstract method implementation inheritance hierarchy
-*Wrong assumption:* An abstract subclass extending an abstract class must implement its parent's abstract methods.  
-*Correct rule:* Abstract subclasses can defer implementations. The first concrete subclass in the hierarchy must implement all.  
-*Example:*
+
+_Wrong assumption:_ An abstract subclass extending an abstract class must implement its parent's abstract methods.  
+_Correct rule:_ Abstract subclasses can defer implementations. The first concrete subclass in the hierarchy must implement all.  
+_Example:_
+
 ```java
 abstract class A { abstract void m(); }
 abstract class B extends A {} // Valid.
@@ -9669,9 +10684,11 @@ class C extends B { void m() {} } // Valid.
 ```
 
 ### Trap 50: primitive type casting vs object casting
-*Wrong assumption:* Casting objects behaves exactly like casting primitives (e.g., casting `Integer` to `Double` works like `int` to `double`).  
-*Correct rule:* Primitive casting performs value transformation. Object casting only reinterprets references.  
-*Example:*
+
+_Wrong assumption:_ Casting objects behaves exactly like casting primitives (e.g., casting `Integer` to `Double` works like `int` to `double`).  
+_Correct rule:_ Primitive casting performs value transformation. Object casting only reinterprets references.  
+_Example:_
+
 ```java
 // Double d = (Double) new Integer(5); // Compile error or ClassCastException.
 ```
@@ -9681,14 +10698,15 @@ class C extends B { void m() {} } // Valid.
 ## One-Day Revision Sheet
 
 ### Core Concepts Cheat Sheet
-* **Polymorphism Rules:** Reference type controls what members can compile. Object type controls which overridden instance method executes. Fields and static methods never dispatch dynamically (they bind at compile time by reference type).
-* **Initialization Order:** Static initializers (parent -> child) run once when classes load. Instance initializers and constructors (parent -> child) run on every object creation.
-* **Overloading Priority:** Exact Match -> Widening -> Autoboxing -> Varargs. Java never performs widening and boxing together in a single step for parameter binding.
-* **Interface Fields:** Automatically `public static final`. Methods are `public abstract` (or default/static/private).
-* **Immutability Recipe:** `final` class, `private final` fields, no setters, defensive copy in constructor, defensive copy / unmodifiable view in getters.
-* **Java Value Binding:** Java is strictly pass-by-value. References are passed as copied address values.
-* **Dynamic Dispatch (vtable):** JVM looks up the vtable of the runtime object to call overridden methods.
-* **equals() & hashCode() Contract:** Equal objects must have equal hashcodes. Always override `hashCode()` when overriding `equals()`.
+
+- **Polymorphism Rules:** Reference type controls what members can compile. Object type controls which overridden instance method executes. Fields and static methods never dispatch dynamically (they bind at compile time by reference type).
+- **Initialization Order:** Static initializers (parent -> child) run once when classes load. Instance initializers and constructors (parent -> child) run on every object creation.
+- **Overloading Priority:** Exact Match -> Widening -> Autoboxing -> Varargs. Java never performs widening and boxing together in a single step for parameter binding.
+- **Interface Fields:** Automatically `public static final`. Methods are `public abstract` (or default/static/private).
+- **Immutability Recipe:** `final` class, `private final` fields, no setters, defensive copy in constructor, defensive copy / unmodifiable view in getters.
+- **Java Value Binding:** Java is strictly pass-by-value. References are passed as copied address values.
+- **Dynamic Dispatch (vtable):** JVM looks up the vtable of the runtime object to call overridden methods.
+- **equals() & hashCode() Contract:** Equal objects must have equal hashcodes. Always override `hashCode()` when overriding `equals()`.
 
 ---
 
@@ -9717,18 +10735,10 @@ class C extends B { void m() {} } // Valid.
 └───────┴───────────────────────────────┴────────────────────────────────┘
 ```
 
-* **Day 1 Focus:** Memorize the initialization order rules. Practice writing static blocks vs instance blocks and tracking them.
-* **Day 2 Focus:** Master reference type vs object type rules. Draw reference pointer lines for upcasted and downcasted assignments.
-* **Day 3 Focus:** Understand interface evolution changes. Practice resolving default interface method signature overlaps.
-* **Day 4 Focus:** Trace pass-by-value heap copies. Memorize the 5 properties of the `equals()` contract.
-* **Day 5 Focus:** Write bad SOLID examples and refactor them. Implement a thread-safe double-checked Singleton from scratch.
-* **Day 6 Focus:** Work through the Output and Compile/Runtime error banks. Cover the code line-by-line.
-* **Day 7 Focus:** Select 3 design problems (e.g., Parking Lot, Coffee Machine, Vending Machine) and write clean class models implementing SOLID and patterns.
-
-
-
-
-
-
-
-
+- **Day 1 Focus:** Memorize the initialization order rules. Practice writing static blocks vs instance blocks and tracking them.
+- **Day 2 Focus:** Master reference type vs object type rules. Draw reference pointer lines for upcasted and downcasted assignments.
+- **Day 3 Focus:** Understand interface evolution changes. Practice resolving default interface method signature overlaps.
+- **Day 4 Focus:** Trace pass-by-value heap copies. Memorize the 5 properties of the `equals()` contract.
+- **Day 5 Focus:** Write bad SOLID examples and refactor them. Implement a thread-safe double-checked Singleton from scratch.
+- **Day 6 Focus:** Work through the Output and Compile/Runtime error banks. Cover the code line-by-line.
+- **Day 7 Focus:** Select 3 design problems (e.g., Parking Lot, Coffee Machine, Vending Machine) and write clean class models implementing SOLID and patterns.
