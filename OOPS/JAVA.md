@@ -3401,11 +3401,20 @@ void process(final int x) {
 
 ## 3.14 Nested Classes
 
+A **nested class** is a class defined inside another class.
+
+Java has four types:
+
+- Static Nested Class
+- Inner Class (Non-static Nested)
+- Local Class
+- Anonymous Class
+
 ### Static Nested Class
 
-- Declared with `static` inside another class
-- Can access outer class's static members only
-- Does NOT need an outer class instance
+- A class declared with `static` inside another class
+- Can directly access the outer class's **static members**
+- Does **not** need an outer class object
 
 ```java
 class Outer {
@@ -3415,20 +3424,22 @@ class Outer {
     static class Inner {
         void show() {
             System.out.println(x);   // OK — static member
-            // System.out.println(y); // COMPILE ERROR — instance member
+            // System.out.println(y); // ERROR — needs Outer object
         }
     }
 }
 
-Outer.Inner inner = new Outer.Inner();  // no outer instance needed
-inner.show();
+Outer.Inner inner = new Outer.Inner();  // no Outer object needed
+inner.show();                           // 10
 ```
+
+**Remember:** `Static Nested Class → no Outer object → directly accesses static members`
 
 ### Inner Class (Non-static Nested)
 
-- Declared without `static`
-- Can access ALL outer class members (including private)
-- Needs an outer class instance
+- A class declared inside another class **without `static`**
+- Can access the outer class's **instance and static members**, including `private`
+- **Needs an outer class object**
 
 ```java
 class Outer {
@@ -3436,107 +3447,142 @@ class Outer {
 
     class Inner {
         void show() {
-            System.out.println(x);  // OK — can access private members of outer
+            System.out.println(x);  // OK — private member also accessible
         }
     }
 }
 
 Outer outer = new Outer();
-Outer.Inner inner = outer.new Inner();  // needs outer instance
-inner.show();  // 10
+Outer.Inner inner = outer.new Inner();  // Outer object required
+inner.show();                           // 10
 ```
+
+**Remember:** `Inner Class → needs Outer object → can access Outer members`
 
 ### Local Class
 
-Defined inside a method. Can access local variables only if they are effectively final.
+A **local class** is a class defined inside a method.
+
+- It can be used only inside that method
+- It can access local variables that are **final or effectively final**
+- **Effectively final** means the variable is not changed after initialization
 
 ```java
 class Outer {
     void doSomething() {
-        final int x = 10;  // must be effectively final
+        int x = 10;  // effectively final
 
         class Local {
-            void show() { System.out.println(x); }
+            void show() {
+                System.out.println(x);
+            }
         }
 
-        new Local().show();
+        new Local().show();  // 10
     }
 }
 ```
 
+**Remember:** `Local Class → inside a method → local variable must not change`
+
 ### Anonymous Class
 
-A class without a name, declared and instantiated in one expression.
+An **anonymous class** is a class **without a name**.
+
+- It is created and used in the same expression
+- Useful when we need a class **only once**
+- It can implement an interface or extend a class
 
 ---
 
 ## 3.15 Anonymous Classes
+
+An anonymous class can implement an interface without creating a separate named class.
 
 ```java
 interface Greeting {
     void greet();
 }
 
-// Anonymous class implementing Greeting
 Greeting g = new Greeting() {
-    @Override
     public void greet() {
         System.out.println("Hello!");
     }
 };
 
-g.greet();  // "Hello!"
+g.greet();  // Hello!
 ```
 
-### Practical Example — Event Handling Style
+Here:
+
+```java
+new Greeting() {
+    // method implementation
+}
+```
+
+means:
+
+> Create an unnamed class that implements `Greeting` and create its object.
+
+### Practical Example — Extending a Class
+
+Anonymous classes can also extend a class, so we do not need to create a separate subclass.
 
 ```java
 abstract class Task {
     abstract void execute();
 }
 
-// Create and use without a named subclass
 Task t = new Task() {
-    @Override
     void execute() {
         System.out.println("Task executed");
     }
 };
 
-t.execute();
+t.execute();  // Task executed
 ```
 
 ### Anonymous Class vs Lambda (Java 8+)
 
-For functional interfaces (single abstract method), lambdas are preferred:
+If an interface has **only one abstract method**, it is called a **functional interface**.
+
+For functional interfaces, a lambda is usually shorter and cleaner.
 
 ```java
 // Anonymous class
 Runnable r1 = new Runnable() {
-    @Override
     public void run() {
         System.out.println("Running");
     }
 };
 
-// Lambda — shorter and cleaner
+// Lambda — shorter
 Runnable r2 = () -> System.out.println("Running");
 ```
 
-Anonymous classes are still needed when:
-- The interface has multiple methods
-- You need to extend a class (not just implement an interface)
-- You need `this` to refer to the anonymous class itself
+Anonymous classes are still useful when:
+
+- The interface has **multiple abstract methods**
+- You need to **extend a class**
+- You need `this` to refer to the **anonymous class itself**
+
+**Easy Memory:**
+
+- `Static Nested Class → no Outer object`
+- `Inner Class → needs Outer object`
+- `Local Class → inside a method`
+- `Anonymous Class → no name + one-time implementation`
+- `Lambda → short way to implement a functional interface`
 
 ---
+
 
 ## 3.16 Generics
 
 ### What are Generics?
 
-**Generics** allow us to specify what type of data a class, interface, or collection can store.
-
-They provide **compile-time type safety**, which means wrong types are detected before the program runs.
+**Generics** allow types (classes, interfaces, and methods) to be parameterized when defined. They provide **compile-time type safety** by allowing you to specify the exact type of objects a collection or class can hold.
 
 ```java
 // Without Generics
