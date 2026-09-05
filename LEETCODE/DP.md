@@ -12,8 +12,8 @@ Memoization-first solutions in a Striver/TUF-style approach. No separate plain-r
 
 ```python
 class Solution:
-def climbStairs(self, n: int) -> int:
-dp = [-1] \* (n + 1)
+    def climbStairs(self, n: int) -> int:
+        dp = [-1] * (n + 1)
 
         def solve(i):
             if i <= 1:
@@ -25,7 +25,6 @@ dp = [-1] \* (n + 1)
             return dp[i]
 
         return solve(n)
-
 ```
 ### 91. Decode Ways
 
@@ -33,9 +32,9 @@ dp = [-1] \* (n + 1)
 
 ```python
 class Solution:
-def numDecodings(self, s: str) -> int:
-n = len(s)
-dp = [-1] \* (n + 1)
+    def numDecodings(self, s: str) -> int:
+        n = len(s)
+        dp = [-1] * (n + 1)
 
         def solve(i):
             if i == n:
@@ -54,7 +53,6 @@ dp = [-1] \* (n + 1)
             return dp[i]
 
         return solve(0)
-
 ```
 ### 198. House Robber
 
@@ -62,9 +60,9 @@ dp = [-1] \* (n + 1)
 
 ```python
 class Solution:
-def rob(self, nums: List[int]) -> int:
-n = len(nums)
-dp = [-1] \* n
+    def rob(self, nums: List[int]) -> int:
+        n = len(nums)
+        dp = [-1] * n
 
         def solve(i):
             if i >= n:
@@ -79,7 +77,6 @@ dp = [-1] \* n
             return dp[i]
 
         return solve(0)
-
 ```
 ### 213. House Robber II
 
@@ -87,9 +84,9 @@ dp = [-1] \* n
 
 ```python
 class Solution:
-def rob(self, nums: List[int]) -> int:
-if len(nums) == 1:
-return nums[0]
+    def rob(self, nums: List[int]) -> int:
+        if len(nums) == 1:
+            return nums[0]
 
         def rob_line(arr):
             dp = [-1] * len(arr)
@@ -109,7 +106,6 @@ return nums[0]
             return solve(0)
 
         return max(rob_line(nums[:-1]), rob_line(nums[1:]))
-
 ```
 ### 337. House Robber III
 
@@ -117,8 +113,8 @@ return nums[0]
 
 ```python
 class Solution:
-def rob(self, root: Optional[TreeNode]) -> int:
-dp = {}
+    def rob(self, root: Optional[TreeNode]) -> int:
+        dp = {}
 
         def solve(node):
             if not node:
@@ -142,7 +138,6 @@ dp = {}
             return dp[node]
 
         return solve(root)
-
 ```
 ### 509. Fibonacci Number
 
@@ -150,8 +145,8 @@ dp = {}
 
 ```python
 class Solution:
-def fib(self, n: int) -> int:
-dp = [-1] \* (n + 1)
+    def fib(self, n: int) -> int:
+        dp = [-1] * (n + 1)
 
         def solve(i):
             if i <= 1:
@@ -163,7 +158,6 @@ dp = [-1] \* (n + 1)
             return dp[i]
 
         return solve(n)
-
 ```
 ### 740. Delete and Earn
 
@@ -171,9 +165,9 @@ dp = [-1] \* (n + 1)
 
 ```python
 class Solution:
-def deleteAndEarn(self, nums: List[int]) -> int:
-maximum = max(nums)
-points = [0] \* (maximum + 1)
+    def deleteAndEarn(self, nums: List[int]) -> int:
+        maximum = max(nums)
+        points = [0] * (maximum + 1)
 
         for x in nums:
             points[x] += x
@@ -193,7 +187,6 @@ points = [0] \* (maximum + 1)
             return dp[i]
 
         return solve(maximum)
-
 ```
 ### 746. Min Cost Climbing Stairs
 
@@ -201,9 +194,9 @@ points = [0] \* (maximum + 1)
 
 ```python
 class Solution:
-def minCostClimbingStairs(self, cost: List[int]) -> int:
-n = len(cost)
-dp = [-1] \* (n + 1)
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        n = len(cost)
+        dp = [-1] * (n + 1)
 
         def solve(i):
             if i >= n:
@@ -215,7 +208,6 @@ dp = [-1] \* (n + 1)
             return dp[i]
 
         return min(solve(0), solve(1))
-
 ```
 ## Pattern 28: DP — 1D Array (Kadane's Algorithm for Max/Min Subarray)
 
@@ -225,8 +217,8 @@ dp = [-1] \* (n + 1)
 
 ```python
 class Solution:
-def maxSubArray(self, nums: List[int]) -> int:
-dp = [-1] \* len(nums)
+    def maxSubArray(self, nums: List[int]) -> int:
+        dp = [-1] * len(nums)
 
         def solve(i):
             if i == 0:
@@ -238,7 +230,6 @@ dp = [-1] \* len(nums)
             return dp[i]
 
         return max(solve(i) for i in range(len(nums)))
-
 ```
 ## Pattern 29: DP — 1D Array (Coin Change / Unbounded Knapsack Style)
 
@@ -248,9 +239,9 @@ dp = [-1] \* len(nums)
 
 ```python
 class Solution:
-def coinChange(self, coins: List[int], amount: int) -> int:
-dp = [-1] \* (amount + 1)
-dp[0] = 0
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        dp = [-1] * (amount + 1)
+        dp[0] = 0
 
         def solve(x):
             if x < 0:
@@ -263,7 +254,6 @@ dp[0] = 0
 
         ans = solve(amount)
         return -1 if ans == float('inf') else ans
-
 ```
 ### 377. Combination Sum IV
 
@@ -271,9 +261,9 @@ dp[0] = 0
 
 ```python
 class Solution:
-def combinationSum4(self, nums: List[int], target: int) -> int:
-dp = [-1] \* (target + 1)
-dp[0] = 1
+    def combinationSum4(self, nums: List[int], target: int) -> int:
+        dp = [-1] * (target + 1)
+        dp[0] = 1
 
         def solve(x):
             if dp[x] != -1:
@@ -287,7 +277,6 @@ dp[0] = 1
             return dp[x]
 
         return solve(target)
-
 ```
 ### 518. Coin Change II
 
@@ -295,9 +284,9 @@ dp[0] = 1
 
 ```python
 class Solution:
-def change(self, amount: int, coins: List[int]) -> int:
-n = len(coins)
-dp = [[-1] \* (amount + 1) for \_ in range(n)]
+    def change(self, amount: int, coins: List[int]) -> int:
+        n = len(coins)
+        dp = [[-1] * (amount + 1) for _ in range(n)]
 
         def solve(i, total):
             if total == 0:
@@ -316,7 +305,6 @@ dp = [[-1] \* (amount + 1) for \_ in range(n)]
             return ans
 
         return solve(0, amount)
-
 ```
 ## Pattern 30: DP — 1D Array (0/1 Knapsack Subset Sum Style)
 
@@ -326,8 +314,8 @@ dp = [[-1] \* (amount + 1) for \_ in range(n)]
 
 ```python
 class Solution:
-def canPartition(self, nums: List[int]) -> bool:
-total = sum(nums)
+    def canPartition(self, nums: List[int]) -> bool:
+        total = sum(nums)
 
         if total % 2:
             return False
@@ -351,7 +339,6 @@ total = sum(nums)
             return dp[(i, target)]
 
         return solve(0, target)
-
 ```
 ### 494. Target Sum
 
@@ -359,8 +346,8 @@ total = sum(nums)
 
 ```python
 class Solution:
-def findTargetSumWays(self, nums: List[int], target: int) -> int:
-dp = {}
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+        dp = {}
 
         def solve(i, total):
             if i == len(nums):
@@ -377,7 +364,6 @@ dp = {}
             return dp[(i, total)]
 
         return solve(0, 0)
-
 ```
 ## Pattern 31: DP — 1D Array (Word Break Style)
 
@@ -387,9 +373,9 @@ dp = {}
 
 ```python
 class Solution:
-def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-words = set(wordDict)
-dp = {}
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        words = set(wordDict)
+        dp = {}
 
         def solve(i):
             if i == len(s):
@@ -406,7 +392,6 @@ dp = {}
             return False
 
         return solve(0)
-
 ```
 ### 140. Word Break II
 
@@ -414,9 +399,9 @@ dp = {}
 
 ```python
 class Solution:
-def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
-words = set(wordDict)
-dp = {}
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        words = set(wordDict)
+        dp = {}
 
         def solve(i):
             if i == len(s):
@@ -438,7 +423,6 @@ dp = {}
             return ans
 
         return solve(0)
-
 ```
 ## Pattern 32: DP — 2D Array (Longest Common Subsequence — LCS)
 
@@ -448,9 +432,9 @@ dp = {}
 
 ```python
 class Solution:
-def minDistance(self, word1: str, word2: str) -> int:
-n, m = len(word1), len(word2)
-dp = [[-1] \* (m + 1) for \_ in range(n + 1)]
+    def minDistance(self, word1: str, word2: str) -> int:
+        n, m = len(word1), len(word2)
+        dp = [[-1] * (m + 1) for _ in range(n + 1)]
 
         def lcs(i, j):
             if i == n or j == m:
@@ -466,7 +450,6 @@ dp = [[-1] \* (m + 1) for \_ in range(n + 1)]
             return dp[i][j]
 
         return n + m - 2 * lcs(0, 0)
-
 ```
 ### 1143. Longest Common Subsequence
 
@@ -474,9 +457,9 @@ dp = [[-1] \* (m + 1) for \_ in range(n + 1)]
 
 ```python
 class Solution:
-def longestCommonSubsequence(self, text1: str, text2: str) -> int:
-n, m = len(text1), len(text2)
-dp = [[-1] \* m for \_ in range(n)]
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        n, m = len(text1), len(text2)
+        dp = [[-1] * m for _ in range(n)]
 
         def solve(i, j):
             if i == n or j == m:
@@ -495,7 +478,6 @@ dp = [[-1] \* m for \_ in range(n)]
             return dp[i][j]
 
         return solve(0, 0)
-
 ```
 ## Pattern 33: DP — 2D Array (Edit Distance / Levenshtein Distance)
 
@@ -505,9 +487,9 @@ dp = [[-1] \* m for \_ in range(n)]
 
 ```python
 class Solution:
-def minDistance(self, word1: str, word2: str) -> int:
-n, m = len(word1), len(word2)
-dp = [[-1] \* m for \_ in range(n)]
+    def minDistance(self, word1: str, word2: str) -> int:
+        n, m = len(word1), len(word2)
+        dp = [[-1] * m for _ in range(n)]
 
         def solve(i, j):
             if i == n:
@@ -530,7 +512,6 @@ dp = [[-1] \* m for \_ in range(n)]
             return dp[i][j]
 
         return solve(0, 0)
-
 ```
 ## Pattern 34: DP — 2D Array (Unique Paths on Grid)
 
@@ -540,8 +521,8 @@ dp = [[-1] \* m for \_ in range(n)]
 
 ```python
 class Solution:
-def uniquePaths(self, m: int, n: int) -> int:
-dp = [[-1] \* n for \_ in range(m)]
+    def uniquePaths(self, m: int, n: int) -> int:
+        dp = [[-1] * n for _ in range(m)]
 
         def solve(r, c):
             if r == m - 1 and c == n - 1:
@@ -555,7 +536,6 @@ dp = [[-1] \* n for \_ in range(m)]
             return dp[r][c]
 
         return solve(0, 0)
-
 ```
 ### 63. Unique Paths II
 
@@ -563,9 +543,9 @@ dp = [[-1] \* n for \_ in range(m)]
 
 ```python
 class Solution:
-def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
-m, n = len(obstacleGrid), len(obstacleGrid[0])
-dp = [[-1] \* n for \_ in range(m)]
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        m, n = len(obstacleGrid), len(obstacleGrid[0])
+        dp = [[-1] * n for _ in range(m)]
 
         def solve(r, c):
             if r >= m or c >= n or obstacleGrid[r][c] == 1:
@@ -579,7 +559,6 @@ dp = [[-1] \* n for \_ in range(m)]
             return dp[r][c]
 
         return solve(0, 0)
-
 ```
 ### 64. Minimum Path Sum
 
@@ -587,9 +566,9 @@ dp = [[-1] \* n for \_ in range(m)]
 
 ```python
 class Solution:
-def minPathSum(self, grid: List[List[int]]) -> int:
-m, n = len(grid), len(grid[0])
-dp = [[-1] \* n for \_ in range(m)]
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        dp = [[-1] * n for _ in range(m)]
 
         def solve(r, c):
             if r == m - 1 and c == n - 1:
@@ -607,7 +586,6 @@ dp = [[-1] \* n for \_ in range(m)]
             return dp[r][c]
 
         return solve(0, 0)
-
 ```
 ### 120. Triangle
 
@@ -615,9 +593,9 @@ dp = [[-1] \* n for \_ in range(m)]
 
 ```python
 class Solution:
-def minimumTotal(self, triangle: List[List[int]]) -> int:
-n = len(triangle)
-dp = {}
+    def minimumTotal(self, triangle: List[List[int]]) -> int:
+        n = len(triangle)
+        dp = {}
 
         def solve(r, c):
             if r == n - 1:
@@ -633,7 +611,6 @@ dp = {}
             return dp[(r, c)]
 
         return solve(0, 0)
-
 ```
 ### 221. Maximal Square
 
@@ -641,10 +618,10 @@ dp = {}
 
 ```python
 class Solution:
-def maximalSquare(self, matrix: List[List[str]]) -> int:
-m, n = len(matrix), len(matrix[0])
-dp = [[-1] \* n for \_ in range(m)]
-best = 0
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+        m, n = len(matrix), len(matrix[0])
+        dp = [[-1] * n for _ in range(m)]
+        best = 0
 
         def solve(r, c):
             nonlocal best
@@ -665,7 +642,6 @@ best = 0
 
         solve(0, 0)
         return best * best
-
 ```
 ### 931. Minimum Falling Path Sum
 
@@ -673,9 +649,9 @@ best = 0
 
 ```python
 class Solution:
-def minFallingPathSum(self, matrix: List[List[int]]) -> int:
-n = len(matrix)
-dp = [[-1] \* n for \_ in range(n)]
+    def minFallingPathSum(self, matrix: List[List[int]]) -> int:
+        n = len(matrix)
+        dp = [[-1] * n for _ in range(n)]
 
         def solve(r, c):
             if c < 0 or c >= n:
@@ -694,7 +670,6 @@ dp = [[-1] \* n for \_ in range(n)]
             return dp[r][c]
 
         return min(solve(0, c) for c in range(n))
-
 ```
 ### 1277. Count Square Submatrices with All Ones
 
@@ -702,9 +677,9 @@ dp = [[-1] \* n for \_ in range(n)]
 
 ```python
 class Solution:
-def countSquares(self, matrix: List[List[int]]) -> int:
-m, n = len(matrix), len(matrix[0])
-dp = [[-1] \* n for \_ in range(m)]
+    def countSquares(self, matrix: List[List[int]]) -> int:
+        m, n = len(matrix), len(matrix[0])
+        dp = [[-1] * n for _ in range(m)]
 
         def solve(r, c):
             if r >= m or c >= n or matrix[r][c] == 0:
@@ -727,7 +702,6 @@ dp = [[-1] \* n for \_ in range(m)]
                 ans += solve(r, c)
 
         return ans
-
 ```
 ## Pattern 35: DP — Interval DP
 
@@ -737,10 +711,10 @@ dp = [[-1] \* n for \_ in range(m)]
 
 ```python
 class Solution:
-def maxCoins(self, nums: List[int]) -> int:
-nums = [1] + nums + [1]
-n = len(nums)
-dp = {}
+    def maxCoins(self, nums: List[int]) -> int:
+        nums = [1] + nums + [1]
+        n = len(nums)
+        dp = {}
 
         def solve(l, r):
             if l > r:
@@ -762,7 +736,6 @@ dp = {}
             return ans
 
         return solve(1, n - 2)
-
 ```
 ### 546. Remove Boxes
 
@@ -770,8 +743,8 @@ dp = {}
 
 ```python
 class Solution:
-def removeBoxes(self, boxes: List[int]) -> int:
-from functools import lru_cache
+    def removeBoxes(self, boxes: List[int]) -> int:
+        from functools import lru_cache
 
         @lru_cache(None)
         def solve(l, r, k):
@@ -795,7 +768,6 @@ from functools import lru_cache
             return ans
 
         return solve(0, len(boxes) - 1, 0)
-
 ```
 ## Pattern 36: DP — Catalan Numbers
 
@@ -805,8 +777,8 @@ from functools import lru_cache
 
 ```python
 class Solution:
-def generateTrees(self, n: int) -> List[Optional[TreeNode]]:
-from functools import lru_cache
+    def generateTrees(self, n: int) -> List[Optional[TreeNode]]:
+        from functools import lru_cache
 
         @lru_cache(None)
         def solve(l, r):
@@ -829,7 +801,6 @@ from functools import lru_cache
             return tuple(ans)
 
         return list(solve(1, n))
-
 ```
 ### 96. Unique Binary Search Trees
 
@@ -837,11 +808,11 @@ from functools import lru_cache
 
 ```python
 class Solution:
-def numTrees(self, n: int) -> int:
-dp = [-1] \* (n + 1)
-dp[0] = 1
-if n >= 1:
-dp[1] = 1
+    def numTrees(self, n: int) -> int:
+        dp = [-1] * (n + 1)
+        dp[0] = 1
+        if n >= 1:
+            dp[1] = 1
 
         def solve(nodes):
             if dp[nodes] != -1:
@@ -856,7 +827,6 @@ dp[1] = 1
             return ans
 
         return solve(n)
-
 ```
 ### 241. Different Ways to Add Parentheses
 
@@ -864,8 +834,8 @@ dp[1] = 1
 
 ```python
 class Solution:
-def diffWaysToCompute(self, expression: str) -> List[int]:
-from functools import lru_cache
+    def diffWaysToCompute(self, expression: str) -> List[int]:
+        from functools import lru_cache
 
         @lru_cache(None)
         def solve(expr):
@@ -891,7 +861,6 @@ from functools import lru_cache
             return tuple(ans)
 
         return list(solve(expression))
-
 ```
 ## Pattern 37: DP — Longest Increasing Subsequence (LIS)
 
@@ -901,9 +870,9 @@ from functools import lru_cache
 
 ```python
 class Solution:
-def lengthOfLIS(self, nums: List[int]) -> int:
-n = len(nums)
-dp = [-1] \* n
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        n = len(nums)
+        dp = [-1] * n
 
         def solve(i):
             if dp[i] != -1:
@@ -919,7 +888,6 @@ dp = [-1] \* n
             return best
 
         return max(solve(i) for i in range(n))
-
 ```
 ### 354. Russian Doll Envelopes
 
@@ -927,8 +895,8 @@ dp = [-1] \* n
 
 ```python
 class Solution:
-def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
-import bisect
+    def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
+        import bisect
 
         envelopes.sort(key=lambda x: (x[0], -x[1]))
 
@@ -943,7 +911,6 @@ import bisect
                 lis[i] = h
 
         return len(lis)
-
 ```
 ### 1671. Minimum Number of Removals to Make Mountain Array
 
@@ -951,8 +918,8 @@ import bisect
 
 ```python
 class Solution:
-def minimumMountainRemovals(self, nums: List[int]) -> int:
-n = len(nums)
+    def minimumMountainRemovals(self, nums: List[int]) -> int:
+        n = len(nums)
 
         left = [1] * n
         right = [1] * n
@@ -974,7 +941,6 @@ n = len(nums)
                 best = max(best, left[i] + right[i] - 1)
 
         return n - best
-
 ```
 ### 2407. Longest Increasing Subsequence II
 
@@ -982,9 +948,9 @@ n = len(nums)
 
 ```python
 class Solution:
-def lengthOfLIS(self, nums: List[int], k: int) -> int:
-size = max(nums) + 1
-tree = [0] _ (4 _ size)
+    def lengthOfLIS(self, nums: List[int], k: int) -> int:
+        size = max(nums) + 1
+        tree = [0] * (4 * size)
 
         def query(node, l, r, ql, qr):
             if ql > r or qr < l:
@@ -1022,5 +988,4 @@ tree = [0] _ (4 _ size)
             ans = max(ans, best)
 
         return ans
-
 ```
