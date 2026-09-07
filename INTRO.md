@@ -1,11 +1,15 @@
 # INTERVIEW : SELF-INTRO
 
-Hello, I’m Sachin Ram, a Computer Science and Business Systems student at PSG iTech.
+Good morning sir/ma’am. Thank you for giving me this opportunity to introduce myself.
 
-I mainly work with **Python and Java**, along with **Flutter** for mobile development and basic full-stack technologies. I’ve built several mini projects and applications, which helped me understand how applications work end-to-end. I’m still learning and improving and would consider myself at a growing stage.
+I’m Sachin Ram, and I’m from Chennai. I completed my schooling in Chennai, and currently I’m pursuing my B.Tech in Computer Science and Business Systems at PSG iTech.
 
-During my internships, I worked on real-time projects including a **Customer Support AI Agent using RAG and agentic workflows**, and an **Education Management System**. I worked with existing codebases, added features, fixed issues, and gained experience with real-world software development.
+During my college journey, I’ve explored different areas of technology and worked mainly with Python, Java, and Flutter. I’ve also done internships where I worked on an Education Management System and an AI-based Customer Support Agent using RAG and agentic workflows.
 
-I also built a **Smart Geo-Fenced Firearm Safety System** prototype to explore how hardware and software can work together in real-time. Additionally, I developed **AIxAI**, an AI-powered negotiation platform where AI agents negotiate to find the best possible outcome.
+Apart from that, I’ve worked on projects like a Smart Geo-Fenced Firearm Safety System, where I explored hardware and software integration, and AIxAI, an AI-powered negotiation system where AI agents negotiate with each other.
 
-Going forward, I want to deepen my **AI and full-stack development skills** and build scalable applications that solve real-world problems. I’m currently looking for a **software development role in a product-based environment** where I can learn, contribute, and grow as an engineer.
+Personally, I believe in accepting things as they come, staying positive, and continuing to move forward and improve from every experience.
+
+Going forward, I want to build a good career in the software field, keep learning, and contribute to the organization I work with.
+
+That’s a brief introduction about me. Thank you.
