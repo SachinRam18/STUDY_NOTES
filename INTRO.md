@@ -18,18 +18,92 @@ That’s a brief introduction about me. Thank you.
 
 
 
-# SMART GEO-FENCED FIREARM SYSTEM
+# SMART GEO-FENCED SAFETY SYSTEM FOR LICENSED FIREARMS
 
-The idea behind our project started with a simple problem. Gun violence is not limited to illegal weapons. Even legally licensed firearms can be misused or carried into sensitive public areas such as schools, colleges, temples, and political gatherings, which can put public safety at risk.
+Our main focus is **gun violence in public places**.
 
-To address this problem, we proposed a **Smart Geo-Fenced Safety System for Legal Firearms**. The main idea is to automatically identify a firearm when it enters a restricted zone and check whether it is authorized to be there.
+Even licensed firearms can be misused in places like schools, colleges, temples, and public gatherings.
 
-For this, each firearm is given a unique RFID tag, while restricted areas are equipped with RFID readers. When the firearm enters the zone, the reader detects the RFID and sends the information to an ESP32-based controller. The controller verifies the firearm and checks its authorization. If it is unauthorized, the system activates the locking mechanism in real time.
+So, we proposed a system that can **identify firearms entering restricted areas and automatically activate their safety mechanism**.
 
-We also considered practical situations such as lost or stolen firearms. Their IDs can be deactivated from the database, so the system can recognize them as unauthorized when they are detected again. To make the response faster, authorized IDs are maintained in local memory.
+## Production Idea
 
-While developing the prototype, we faced challenges such as protecting the electronics from water, dust, vibration, and heat. We explored **Parylene C coating** for protection and also integrated our system with an existing safety mechanism instead of redesigning the complete firearm.
+Our production idea is a **smart geo-fencing system for licensed firearms**.
 
-For the prototype, we used an **ESP32, RFID reader, RFID tags, servo motor, and a 3D-printed firearm model**. We also developed a dashboard for monitoring, logging, and managing authorized users. Along with this, we explored **YOLOv8** for surveillance to detect people, recognize faces, identify suspicious activity, and generate alerts.
+Each firearm has a unique identity. When it enters a restricted zone, the system checks whether it is authorized.
 
-Overall, our project combines **RFID, edge computing, embedded systems, and AI surveillance** to provide a real-time safety mechanism for restricted areas. The basic flow is **Detect → Verify → Decide → Lock**.
+If it is not authorized, the **safety lock is automatically activated**.
+
+This provides an additional safety layer without depending completely on manual control.
+
+## Hardware
+
+The main components are:
+
+- **Passive UHF Crypto Tag** – gives each firearm a unique ID.
+- **Reader and Antenna** – detects the firearm in the restricted zone.
+- **Edge Controller** – verifies the ID and makes the authorization decision.
+- **Microcontroller** – controls the safety mechanism.
+- **Dashboard** – monitors status, logs, and authorized IDs.
+
+The basic flow is:
+
+**Firearm → Tag → Reader → Edge Controller → Microcontroller → Safety Lock**
+
+## Challenges and Solutions
+
+The first challenge was **protecting the electronics** from water, heat, shock, and vibration.
+
+We explored **Parylene C coating**, which protects the components while having minimal effect on RF signals.
+
+The second challenge was **automatic real-time locking**.
+
+We proposed connecting the existing safety mechanism with an automatic locking system controlled by the microcontroller.
+
+The third challenge was **identifying police and civilian firearms**.
+
+For this, the edge controller maintains an authorized database, with a fixed prefix helping to identify the category quickly.
+
+Another challenge was **security**.
+
+The crypto tag responds only to a valid authorized reader, and the controller verifies the communication before taking action.
+
+We also considered **lost or stolen police firearms**. Their IDs can be removed from the authorized database through the dashboard, so they can be treated as unauthorized.
+
+## Electronics Placement
+
+For compact electronics, we consulted **Makers Hub Limited, Coimbatore**, regarding custom microcontroller boards suitable for small spaces.
+
+## Prototype
+
+For our prototype, we used an **ESP32, RFID reader, two RFID tags, a servo motor, and a 3D-printed firearm replica**.
+
+One tag represents an unauthorized firearm and activates the lock, while the other represents an authorized police firearm.
+
+The servo motor simply **simulates the locking mechanism**.
+
+## 3D-Printed Replica
+
+We designed the replica using **Autodesk Fusion 360** and printed it using **PLA on an Ender 3 V2**.
+
+It is a **non-functional replica** used only to demonstrate the placement of the electronics and locking mechanism.
+
+## Dashboard
+
+We also developed a dashboard to **monitor firearm status, maintain logs, and manage authorized IDs**.
+
+## AI-Powered Security Surveillance
+
+As an additional security layer, we developed an **AI surveillance system using YOLOv8 and OpenCV**.
+
+It can detect registered or flagged individuals through a camera and display their **name and ID**, along with an audio alert.
+
+We trained the model using **more than 6,000 images**.
+
+## Conclusion
+
+Overall, our project combines **RFID, embedded systems, edge computing, automatic safety locking, and AI surveillance**.
+
+The goal is to provide an **additional layer of safety in restricted areas** through automatic identification, authorization, and monitoring.
+
+**Thank you.**
