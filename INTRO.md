@@ -76,6 +76,60 @@ For compact electronics, we consulted **Makers Hub Limited, Coimbatore**, for su
 
 For the prototype, we used an **ESP32, RFID reader, two RFID tags, a servo motor, and a 3D-printed firearm replica**. One tag represents an unauthorized firearm and activates the lock, while the other represents an authorized firearm. The servo motor **simulates the locking mechanism**. 
 
+# PROJECT 2 – AIxAI
+
+## Problem Statement
+
+In the future, AI agents may automatically renew subscriptions for customers.
+
+These AI agents mainly compare **price, features, and overall value**, so companies may lose loyal customers even when customers are satisfied.
+
+## Proposed Solution
+
+We developed an **AI-to-AI negotiation system**, where the **Business AI** directly negotiates with the **Customer AI**.
+
+The main goal is to **retain customers while maintaining profitability**.
+
+## Phase 1 – Monitor Phase
+
+The Business AI monitors **product usage, feature adoption, customer activity, and renewal dates** to understand customer behavior.
+
+## Phase 2 – Risk Detection Phase
+
+A **churn prediction model** checks whether the customer is likely to leave.
+
+If the churn probability crosses a set threshold, the negotiation process starts automatically.
+
+## Phase 3 – Evaluation Phase
+
+The Customer AI compares the current provider with competitors based on **price, features, security, reliability, switching cost, and loyalty**.
+
+Each factor is given a weight, and an overall **utility score** is calculated.
+
+For example:
+
+**Price – 30% | Features – 25% | Reliability – 15% | Security – 10% | Loyalty – 10% | Switching Cost – 10%**
+
+## Phase 4 – Negotiation Phase
+
+The Business AI generates a personalized offer, and the Customer AI evaluates it.
+
+If the offer is rejected, the Business AI improves it using **discounts, premium features, or additional benefits** until both sides reach an agreement.
+
+## Phase 5 – Decision Phase
+
+The Customer AI finally decides whether to **renew the subscription or move to a competitor**, based on the utility score.
+
+## Phase 6 – Reinforcement Phase
+
+If the customer renews, the system updates the **customer profile, preference history, and loyalty score**.
+
+This helps improve future negotiations.
+
+## Automation
+
+A scheduler automatically starts the complete workflow **before the subscription expires**.
+
 We designed the replica using **Autodesk Fusion 360** and printed it using **PLA on an Ender 3 V2**. We also developed a dashboard to **monitor status, maintain logs, and manage authorized IDs**. 
 
 In addition, we developed an **AI surveillance system using YOLOv8 and OpenCV** to detect registered or flagged individuals and display their **name and ID with an audio alert**. The model was trained using **more than 6,000 images**. Overall, our project combines **RFID, embedded systems, edge computing, automatic locking, and AI surveillance** to improve safety in restricted areas. **Thank you.**
