@@ -133,3 +133,59 @@ A scheduler automatically starts the complete workflow **before the subscription
 We designed the replica using **Autodesk Fusion 360** and printed it using **PLA on an Ender 3 V2**. We also developed a dashboard to **monitor status, maintain logs, and manage authorized IDs**. 
 
 In addition, we developed an **AI surveillance system using YOLOv8 and OpenCV** to detect registered or flagged individuals and display their **name and ID with an audio alert**. The model was trained using **more than 6,000 images**. Overall, our project combines **RFID, embedded systems, edge computing, automatic locking, and AI surveillance** to improve safety in restricted areas. **Thank you.**
+
+# PROJECT – AGENTIC AI CUSTOMER SUPPORT SYSTEM
+
+## Introduction
+
+During my internship at **Stepping Edge’s magbot.ai**, I worked on an **Agentic AI Customer Support System** that combines **RAG and Agentic AI**. The system can answer customer queries and also perform actions automatically when required.
+
+## Problem Statement
+
+Traditional chatbots mainly answer predefined questions and cannot perform actions like **order tracking, refunds, or password resets**. They can also give incorrect answers when the required information is not available.
+
+## Solution
+
+We combined **RAG** for retrieving accurate information and **Agentic AI** for decision-making and performing actions.
+
+## Knowledge Base
+
+We created a **knowledge base** containing company information such as FAQs, product manuals, support articles, and policies.
+
+## Document Processing
+
+The documents were divided into smaller chunks, converted into **embeddings**, and stored in **ChromaDB** for semantic search.
+
+## RAG
+
+When a user asks a question, the system searches **ChromaDB**, retrieves the relevant information, and provides it to the LLM to generate an accurate response with reduced hallucination.
+
+## Intent Classification
+
+The system identifies what the user wants, such as a **product inquiry, refund, order tracking, or password reset**.
+
+## Agentic AI
+
+If the query only needs information, the system uses **RAG** to answer it. If an action is required, the **Agentic AI selects the appropriate tool or API and completes the task**.
+
+## LangChain & LangGraph
+
+I used **LangChain** to connect the LLM with ChromaDB and tools, while **LangGraph** was used to build the multi-step workflow and decision-making process.
+
+## Workflow
+
+The complete flow is:
+
+**User Query → Intent Classification → RAG for Information / Agentic AI for Actions → Final Response**
+
+## System Design
+
+The system consists of the **Knowledge Base, Embedding Model, ChromaDB, LangChain, LangGraph, LLM, and External Tools/APIs**, working together to provide answers and perform customer support tasks.
+
+## Key Contribution
+
+My main contribution was implementing **RAG, semantic search using ChromaDB, intent classification, and Agentic AI workflows using LangChain and LangGraph**.
+
+## One-Line Summary
+
+I worked on an **Agentic AI customer support system** that combines **RAG for accurate answers and Agentic AI for automatically performing customer support tasks**.
