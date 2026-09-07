@@ -20,11 +20,13 @@ That’s a brief introduction about me. Thank you.
 
 # SMART GEO-FENCED SAFETY SYSTEM FOR LICENSED FIREARMS
 
-Our main focus is **gun violence in public places**.
+## Problem
 
-Even licensed firearms can be misused in places like schools, colleges, temples, and public gatherings.
+Today, violence is not caused only by **illegal firearms**. Even **licensed firearms** can be misused in public places.
 
-So, we proposed a system that can **identify firearms entering restricted areas and automatically activate their safety mechanism**.
+We got this idea after seeing incidents like the **Charlie Kirk shooting** and the **assassination attempt on Donald Trump**.
+
+So, we proposed a system to **detect firearms in restricted areas and automatically lock unauthorized ones**.
 
 ## Production Idea
 
@@ -34,7 +36,7 @@ Each firearm has a unique identity. When it enters a restricted zone, the system
 
 If it is not authorized, the **safety lock is automatically activated**.
 
-This provides an additional safety layer without depending completely on manual control.
+This is the basic working of the setup.
 
 ## Hardware
 
@@ -48,22 +50,26 @@ The main components are:
 
 The basic flow is:
 
-**Firearm → Tag → Reader → Edge Controller → Microcontroller → Safety Lock**
+**Firearm enters restricted zone → RFID Tag responds to Reader → Reader sends Tag ID to Edge Controller → Edge Controller verifies the ID and sends the decision to the Microcontroller → Microcontroller activates or releases the Safety Lock.**
 
 ## Challenges and Solutions
 
+**FIRST**
 The first challenge was **protecting the electronics** from water, heat, shock, and vibration.
 
 We explored **Parylene C coating**, which protects the components while having minimal effect on RF signals.
 
+**SECOND**
 The second challenge was **automatic real-time locking**.
 
 We proposed connecting the existing safety mechanism with an automatic locking system controlled by the microcontroller.
 
+**THIRD**
 The third challenge was **identifying police and civilian firearms**.
 
 For this, the edge controller maintains an authorized database, with a fixed prefix helping to identify the category quickly.
 
+**FOURTH**
 Another challenge was **security**.
 
 The crypto tag responds only to a valid authorized reader, and the controller verifies the communication before taking action.
