@@ -212,9 +212,15 @@ Where:
 
 **Example:**
 
-```text
 ε = 0.05 → 5% error
 δ = 0.05 → 95% confidence
+So:
+
+The model has at most 5% error with 95% confidence.
+
+Key takeaway: PAC Learning tells us how much training data is needed to learn with a certain accuracy and confidence.
+
+Relation to Generalization: PAC Learning gives a theoretical explanation of why a model trained with enough data can generalize to unseen data.
 ---
 ---
 
