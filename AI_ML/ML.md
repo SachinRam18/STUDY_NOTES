@@ -283,6 +283,8 @@ In simple words:
 
 > **OLS finds the best-fitting line by minimizing the squared difference between actual and predicted values.**
 
+"Out of all possible straight lines, find the line that is closest to all the actual data points."
+
 ### Gradient Descent
 
 An iterative optimization algorithm used to minimize the cost function by updating parameters in the direction that reduces the error.
