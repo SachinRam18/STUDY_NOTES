@@ -231,35 +231,57 @@ Relation to Generalization: PAC Learning gives a theoretical explanation of why 
 ## 1. Linear Regression
 
 ### What it is
-Linear Regression models the relationship between one or more input features and a continuous output by fitting a straight line (or hyperplane in multiple dimensions).
 
-**Simple Linear Regression (one feature):**
-```
+**Linear Regression** is used to predict a **continuous value** by finding the best-fitting straight line.
+
+**Examples:** House price, salary, temperature, etc.
+
+### Simple Linear Regression
+
+When there is **one input feature**:
+
 ŷ = w·x + b
-```
-where `w` = weight (slope), `b` = bias (intercept), `ŷ` = predicted output.
 
-**Multiple Linear Regression (multiple features):**
-```
+- `x` → input
+- `w` → weight / slope
+- `b` → bias / intercept
+- `ŷ` → predicted value
+
+### Multiple Linear Regression
+
+When there are **multiple input features**:
+
 ŷ = w₁x₁ + w₂x₂ + ... + wₙxₙ + b
-```
 
 ### Regression vs Classification
 
 | Regression | Classification |
 |---|---|
-| Predicts a continuous value | Predicts a discrete category |
-| Example: House price | Example: Spam or Not Spam |
+| Predicts a continuous value | Predicts a category |
+| Example: House price | Example: Spam / Not Spam |
+| Example: Salary | Example: Pass / Fail |
 
-### Cost/Loss Function
-Measures how wrong the predictions are. Linear Regression uses **Mean Squared Error (MSE)**:
-```
+### Cost / Loss Function
+
+The **loss function** tells us how wrong the predictions are.
+
+Linear Regression commonly uses **Mean Squared Error (MSE)**:
+
 MSE = (1/n) × Σ(ŷᵢ - yᵢ)²
-```
-Goal: Minimize MSE by adjusting `w` and `b`.
+
+- `ŷᵢ` → predicted value
+- `yᵢ` → actual value
+- `n` → number of data points
+
+**Goal:** Minimize MSE by finding the best values of `w` and `b`.
 
 ### Least Squares
-The **Ordinary Least Squares (OLS)** method finds the values of `w` and `b` that minimize the sum of squared differences between predicted and actual values. It gives the analytical (closed-form) solution for Linear Regression without needing iterative optimization.
+
+**Ordinary Least Squares (OLS)** is a method used to find the values of `w` and `b` that give the **smallest sum of squared errors**.
+
+In simple words:
+
+> **OLS finds the best-fitting line by minimizing the squared difference between actual and predicted values.**
 
 ### Gradient Descent
 
