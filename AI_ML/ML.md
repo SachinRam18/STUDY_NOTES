@@ -184,29 +184,37 @@ Total Error = Bias² + Variance + Irreducible Noise
 
 ## 8. VC Dimension
 
-**VC Dimension (Vapnik–Chervonenkis Dimension)** is a measure of the capacity (complexity) of a hypothesis space — how many points a model can correctly classify in the worst case.
+**VC Dimension (Vapnik–Chervonenkis Dimension)** is a measure of the **capacity (complexity) of a model** — how many different patterns a model can learn.
 
-- A higher VC dimension → more complex model → can fit more patterns → but also higher risk of overfitting.
-- A lower VC dimension → simpler model → better generalization but may underfit.
+- **Higher VC Dimension** → more complex model → can learn more patterns → higher risk of **overfitting**.
+- **Lower VC Dimension** → simpler model → lower risk of overfitting → may **underfit**.
 
-**Key idea:** A model that can "shatter" (correctly classify in all possible ways) a set of N points has VC dimension ≥ N.
+**Key idea:** A model **shatters** N points if it can correctly classify them in **all possible ways**. If it can shatter N points, its VC Dimension is **at least N**.
 
-**Relation to Generalization:** A model with a large VC dimension needs more training data to generalize well. VC dimension helps theoretically bound the generalization error.
+**Relation to Generalization:** A model with a **large VC Dimension** usually needs **more training data** to generalize well and avoid overfitting.
 
 ---
 
 ## 9. PAC Learning
 
-**PAC (Probably Approximately Correct) Learning** is a theoretical framework that defines when a model can be said to have "learned" a concept from data.
+**PAC (Probably Approximately Correct) Learning** is a **theoretical framework** that tells us whether a model can learn a concept **correctly enough and with high confidence**.
 
-**Core idea:** An algorithm PAC-learns a concept if, given enough training samples, it can output a hypothesis that is:
-- **Approximately correct:** Error is at most ε (epsilon — a small allowed error).
-- **Probably:** With probability at least 1 − δ (delta — allowed failure probability).
+**Core idea:** Given enough training data, the model should be:
 
-**Key takeaway:** PAC learning provides a formal bound on how many training examples are needed to guarantee learning with a certain accuracy and confidence.
+- **Approximately Correct:** Error is at most **ε (epsilon)**.
+- **Probably Correct:** Probability of being correct is at least **1 − δ (delta)**.
 
-**Relation to Generalization:** PAC learning theoretically justifies why a model trained on enough data should generalize to unseen data.
+Where:
 
+- **ε** → allowed **error**
+- **δ** → allowed **failure probability**
+- **1 − δ** → **confidence**
+
+**Example:**
+
+```text
+ε = 0.05 → 5% error
+δ = 0.05 → 95% confidence
 ---
 ---
 
