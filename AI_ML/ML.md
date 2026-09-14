@@ -355,7 +355,7 @@ w = w + α × (y - ŷ) × x
 ```
 where `y` = true label, `ŷ` = predicted label, `α` = learning rate.
 
-**Convergence:** The Perceptron converges (finds a solution) only if the data is **linearly separable**.
+**Convergence:** The Perceptron converges (finds a solution) only if the data is **linearly separable**. (convergence means the algorithm reaches weights that correctly classify all training samples.)
 
 **Limitations:**
 - Cannot solve problems that are not linearly separable (e.g., XOR problem).
