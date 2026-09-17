@@ -135,7 +135,7 @@ We designed the replica using **Autodesk Fusion 360** and printed it using **PLA
 In addition, we developed an **AI surveillance system using YOLOv8 and OpenCV** to detect registered or flagged individuals and display their **name and ID with an audio alert**. The model was trained using **more than 6,000 images**. Overall, our project combines **RFID, embedded systems, edge computing, automatic locking, and AI surveillance** to improve safety in restricted areas. **Thank you.**
 
 
-###INTERN : Agentic AI Customer Support System
+### INTERN : Agentic AI Customer Support System
 
 During my internship at **Stepping Edge’s magbot.ai**, I worked on an **Agentic AI Customer Support System** combining **RAG and Agentic AI**.
 
