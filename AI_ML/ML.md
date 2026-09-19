@@ -305,7 +305,7 @@ where `α` = learning rate.
 | Type | Data Used Per Update | Speed | Stability |
 |---|---|---|---|
 | Batch GD | Entire dataset | Slow | Stable |
-| Stochastic GD (SGD) | 1 sample | Fast | Noisy |
+| Stochastic GD (SGD) | 1 sample | Fast | Noisy (Because using only one sample makes each update very fast, but the updates are noisy and can jump around.) |
 | Mini-Batch GD | Small batch (e.g. 32) | Balanced | Balanced |
 
 ### Bayesian Linear Regression
