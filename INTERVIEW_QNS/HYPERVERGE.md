@@ -1,7 +1,6 @@
 # Q1. What is JWT? Explain how JWT works.
 
-→ **JWT (JSON Web Token)** is a compact token format commonly used for **authentication** between a client and server.  
-→ Instead of sending username/password with every request, the client sends the JWT after successful login.
+→ **JWT (JSON Web Token)** is a compact format for carrying claims between parties. It is commonly used as a bearer token after a user signs in, so the client does not send the password with every request.
 
 ## JWT Structure
 
@@ -71,7 +70,7 @@ Server → Allow / Reject request
 
 → React acts as the **client/frontend**, FastAPI as the **backend/API**, and SQL database stores the data.
 
-### React
+## React
 
 ```jsx
 const response = await fetch('http://localhost:8000/users/1')
@@ -80,7 +79,7 @@ const user = await response.json()
 
 → React sends an HTTP `GET` request to FastAPI.
 
-### FastAPI
+## FastAPI
 
 ```python
 @app.get("/users/{user_id}")
@@ -98,7 +97,7 @@ def get_user(user_id: int):
 → The database returns the matching row.
 → FastAPI converts it into JSON and sends it back to React.
 
-### SQL
+## SQL
 
 ```sql
 SELECT name, contact, email_id
@@ -145,7 +144,7 @@ IP Address
 
 ---
 
-# DNS Resolution
+## DNS Resolution
 
 → **DNS resolution** is the process of finding the IP address associated with a domain name.
 
@@ -171,7 +170,7 @@ Browser connects to the server
 
 ---
 
-# Main Components of DNS
+## Main Components of DNS
 
 The important components involved in DNS resolution are:
 
@@ -194,7 +193,7 @@ Authoritative Server
 
 ---
 
-# 1. DNS Resolver
+### 1. DNS Resolver
 
 → The **DNS Resolver** is the server that receives the DNS query from the client.
 
@@ -213,7 +212,7 @@ Cloudflare DNS  → 1.1.1.1
 
 ---
 
-# 2. Root DNS Server
+### 2. Root DNS Server
 
 → The **Root DNS servers** are at the top of the DNS hierarchy.
 
@@ -235,7 +234,7 @@ Root Server
 
 ---
 
-# 3. TLD Name Server
+### 3. TLD Name Server
 
 → **TLD = Top-Level Domain**.
 
@@ -265,7 +264,7 @@ Authoritative Server for example.com
 
 ---
 
-# 4. Authoritative DNS Server
+### 4. Authoritative DNS Server
 
 → The **authoritative DNS server** contains the actual DNS records for a domain.
 
@@ -294,7 +293,7 @@ TXT     → Text information
 
 ---
 
-# DNS Hierarchy
+## DNS Hierarchy
 
 DNS is hierarchical.
 
@@ -331,9 +330,9 @@ The hierarchy is:
 
 ---
 
-# Types of DNS Servers
+## Types of DNS Servers
 
-## 1. Recursive Resolver
+### 1. Recursive Resolver
 
 → Receives the query from the client and finds the final answer.
 
@@ -345,7 +344,7 @@ Client → Resolver
 
 ---
 
-## 2. Root Name Server
+### 2. Root Name Server
 
 → Directs queries to the appropriate TLD server.
 
@@ -355,7 +354,7 @@ Root → .com / .org / .in
 
 ---
 
-## 3. TLD Name Server
+### 3. TLD Name Server
 
 → Directs queries to the authoritative server for the requested domain.
 
@@ -365,7 +364,7 @@ Root → .com / .org / .in
 
 ---
 
-## 4. Authoritative Name Server
+### 4. Authoritative Name Server
 
 → Stores and returns the actual DNS records for the domain.
 
@@ -375,7 +374,7 @@ example.com → IP address
 
 ---
 
-# Standard DNS Resolution Flow
+## Standard DNS Resolution Flow
 
 Suppose the user enters:
 
@@ -512,7 +511,7 @@ HTTP/HTTPS Request
 
 ---
 
-# Complete DNS Resolution Flow
+## Complete DNS Resolution Flow
 
 ```text
 User enters www.example.com
@@ -542,9 +541,9 @@ User enters www.example.com
 
 ---
 
-# Recursive vs Iterative Query
+## Recursive vs Iterative Query
 
-## Recursive Query
+### Recursive Query
 
 → Client asks the resolver:
 
@@ -564,7 +563,7 @@ Client ← IP Address
 
 ---
 
-## Iterative Query
+### Iterative Query
 
 → The resolver asks DNS servers step-by-step.
 
@@ -583,7 +582,7 @@ Authoritative → IP
 
 ---
 
-# DNS Caching
+## DNS Caching
 
 → DNS responses are cached to avoid performing the complete lookup every time.
 
@@ -609,7 +608,7 @@ TTL = 3600 seconds
 
 ---
 
-# DNS Record Types
+## DNS Record Types
 
 | Record  | Purpose                                 |
 | ------- | --------------------------------------- |
@@ -632,9 +631,9 @@ A → 93.184.216.34
 
 ---
 
-# Forward vs Reverse DNS
+## Forward vs Reverse DNS
 
-## Forward DNS
+### Forward DNS
 
 → Converts:
 
@@ -652,7 +651,7 @@ google.com → IP address
 
 ---
 
-## Reverse DNS
+### Reverse DNS
 
 → Converts:
 
@@ -672,7 +671,7 @@ hostname
 
 ---
 
-# DNS and HTTP Are Different
+## DNS and HTTP Are Different
 
 → DNS only helps find the server's IP address.
 
@@ -699,7 +698,7 @@ Web Server
 
 ---
 
-# Interview Explanation
+## Interview Explanation
 
 **Question: Explain what happens when you enter a URL in the browser.**
 
@@ -707,7 +706,7 @@ Web Server
 
 ---
 
-# One-Line DNS Flow
+## One-Line DNS Flow
 
 ```text
 Domain
@@ -931,7 +930,7 @@ Finally, the user sees the search results.
 
 ---
 
-# 🔥 Complete CN Flow
+## 🔥 Complete CN Flow
 
 ```text
 User searches "Iron Man"
@@ -967,13 +966,13 @@ User searches "Iron Man"
 
 ---
 
-# 🎯 Interview Answer
+## 🎯 Interview Answer
 
 When I search **"Iron Man"**, the browser first performs **DNS resolution** to obtain Google's IP address. Then it establishes a **TCP connection using the 3-way handshake**. Since Google uses HTTPS, a **TLS handshake** is performed to create a secure connection. The browser then sends an **HTTP GET request** containing the search query. Google's infrastructure processes the query, retrieves relevant results from its search index, and ranks them. The server sends an **HTTP response** back, and the browser renders the search results.
 
 ---
 
-# 🧠 Remember
+## 🧠 Remember
 
 ```text
 DNS
@@ -1001,13 +1000,12 @@ DNS → TCP → TLS → HTTP → Server → HTTP Response → Browser
 
 # SQL vs NoSQL — Interview POV
 
-| **SQL**                                                                      | **NoSQL**                                                                                      |
-| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| **Structured data** with a fixed schema                                      | **Flexible data** with a dynamic schema                                                        |
-| **Relationships & JOINs** are important                                      | Relationships are usually handled differently                                                  |
-| **Transactions & consistency** are critical                                  | **Scalability & high-volume data** are important                                               |
-| **Complex queries and reporting** are required                               | **Fast reads/writes** and distributed data are required                                        |
-| **Use cases:** Banking, payments, e-commerce orders, inventory, payroll, ERP | **Use cases:** Social media, chat apps, product catalogs, IoT, caching, real-time applications |
+| SQL | NoSQL |
+|---|---|
+| Relational tables and a defined schema are common | Includes document, key-value, graph, and wide-column models |
+| Supports joins and expressive relational queries | Data access patterns depend on the database model |
+| Strong transaction support is common | Transaction and consistency guarantees vary by database |
+| Often suits relational data and complex queries | Often suits specific access patterns or distributed workloads |
 
 # PUT vs PATCH
 
@@ -1015,6 +1013,83 @@ DNS → TCP → TLS → HTTP → Server → HTTP Response → Browser
 | ----------------------------------- | ----------------------------------- |
 | Replaces the **entire resource**    | Updates **part of a resource**      |
 | Usually sends **all fields**        | Sends **only fields to be changed** |
+| Idempotent: repeating the same request has the same intended effect | May or may not be idempotent; it depends on the patch operation |
 | Used for **complete updates**       | Used for **partial updates**        |
 | Example: Update entire user profile | Example: Update only user's email   |
 | **PUT /users/1**                    | **PATCH /users/1**                  |
+
+# React Hooks
+
+Hooks let function components use React features such as state and effects.
+Call Hooks only at the top level of a function component or a custom Hook.
+
+| Hook | Common use |
+|---|---|
+| `useState` | Store component state |
+| `useEffect` | Synchronize with external systems after rendering |
+| `useContext` | Read a value provided by a context |
+| `useRef` | Hold a mutable value or DOM reference without causing a re-render |
+
+## `useState`
+
+`useState` returns the current state and a setter. Calling the setter schedules
+a re-render with the new state.
+
+```jsx
+const [count, setCount] = useState(0);
+
+function increment() {
+    setCount(currentCount => currentCount + 1);
+}
+```
+
+Use the functional setter when the next value depends on the previous value.
+
+**Interview point:** The setter schedules an update; it does not change the
+state value in the already-running render.
+
+## `useEffect`
+
+`useEffect` synchronizes a component with an external system after a render.
+Common examples include subscriptions, timers, and browser APIs. For user
+actions such as submitting a form, put the action in the event handler rather
+than using an Effect as an indirect trigger.
+
+```jsx
+useEffect(() => {
+    // Set up synchronization here.
+
+    return () => {
+        // Clean up before the Effect runs again or the component unmounts.
+    };
+}, [dependencies]);
+```
+
+### Dependency patterns
+
+| Dependency list | When the Effect runs |
+|---|---|
+| Omitted | After every render |
+| `[]` | After the component mounts |
+| `[count]` | After mount and when `count` changes |
+
+Include every reactive value used by the Effect in its dependency list.
+
+### Example: timer with cleanup
+
+```jsx
+useEffect(() => {
+    const timerId = setInterval(() => {
+        console.log("Running");
+    }, 1000);
+
+    return () => clearInterval(timerId);
+}, []);
+```
+
+**Why cleanup matters:** It prevents stale subscriptions, timers, or event
+listeners from continuing after they are no longer needed.
+
+**Interview question:** What is the difference between `useState` and `useEffect`?
+**Short answer:** `useState` stores component data and schedules re-renders;
+`useEffect` synchronizes with external systems after rendering.

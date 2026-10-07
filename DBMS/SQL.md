@@ -1,4 +1,19 @@
-# SQL — Data Analyst Interview Notes
+# SQL — Interview Notes
+
+> Examples use common SQL syntax; date functions, pagination, and some DDL behavior vary by database.
+
+## Contents
+
+- [SQL basics](#section-1--basics)
+- [Joins](#section-2--joins)
+- [Subqueries and set operators](#section-3--subqueries-and-set-operators)
+- [Window functions](#section-4--window-functions)
+- [Data modification](#section-5--data-modification)
+- [Table management](#section-6--table-management)
+- [Common patterns and performance](#section-7--common-patterns-and-techniques)
+- [Key concepts](#section-8--key-concepts)
+- [Quick references](#quick-reference--sql-clauses-order)
+- [Interview query practice](#sql-interview-questions)
 
 ---
 
@@ -370,7 +385,7 @@ WHERE product_name = 'Laptop';
 |---|----------|-----------|
 | Removes | Rows matching condition | All rows |
 | WHERE clause | ✅ | ❌ |
-| Rollback | ✅ (transactional) | ❌ (usually not) |
+| Rollback | Often transactional; depends on database | Behavior depends on database and transaction |
 | Slower/Faster | Slower | Faster |
 
 ```sql
@@ -539,7 +554,7 @@ Organizing data to reduce redundancy and improve integrity.
 
 - Use indexes on frequently filtered/joined columns
 - Avoid `SELECT *` — select only needed columns
-- Use `EXISTS` instead of `IN` for large subqueries
+- Use `EXISTS` for existence checks; compare query plans instead of assuming it is always faster than `IN`
 - Avoid functions on indexed columns in `WHERE` (prevents index use)
 - Use `LIMIT` to reduce result size
 - Analyze with `EXPLAIN` to identify full table scans
@@ -595,3 +610,450 @@ FULL JOIN   →  All of A + All of B (with NULLs)
 CROSS JOIN  →  A × B  (every combination)
 SELF JOIN   →  Table joined with itself
 ```
+
+## SQL Interview Questions
+
+Assume these tables unless a question says otherwise:
+
+- `Employee(emp_id, name, salary, department_id, manager_id, joining_date)`
+- `Department(department_id, department_name)`
+
+`LIMIT` examples use MySQL/PostgreSQL/SQLite-style syntax; pagination varies by database.
+
+### Highest and Nth-highest salaries
+
+#### 1. Find the highest salary
+
+```sql
+SELECT MAX(salary) AS highest_salary
+FROM Employee;
+```
+
+#### 2. Find the second-highest distinct salary
+
+```sql
+SELECT MAX(salary) AS second_highest_salary
+FROM Employee
+WHERE salary < (SELECT MAX(salary) FROM Employee);
+```
+
+Returns `NULL` if there is no second distinct salary.
+
+#### 3. Find the third-highest distinct salary
+
+```sql
+WITH RankedSalaries AS (
+    SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) AS salary_rank
+    FROM Employee
+)
+SELECT DISTINCT salary
+FROM RankedSalaries
+WHERE salary_rank = 3;
+```
+
+#### 4. Find the Nth-highest distinct salary ⭐
+
+Bind `:n` to the requested rank using the parameter syntax supported by your database driver.
+
+```sql
+WITH RankedSalaries AS (
+    SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) AS salary_rank
+    FROM Employee
+)
+SELECT DISTINCT salary
+FROM RankedSalaries
+WHERE salary_rank = :n;
+```
+
+#### 5. Find all employees with the highest salary
+
+```sql
+SELECT e.*
+FROM Employee AS e
+WHERE e.salary = (SELECT MAX(salary) FROM Employee);
+```
+
+Returns every employee tied for the highest salary.
+
+#### 6. Find all employees with the second-highest distinct salary
+
+```sql
+WITH RankedEmployees AS (
+    SELECT e.*, DENSE_RANK() OVER (ORDER BY salary DESC) AS salary_rank
+    FROM Employee AS e
+)
+SELECT *
+FROM RankedEmployees
+WHERE salary_rank = 2;
+```
+
+### Duplicates and aggregates
+
+#### 7. Find duplicate employee names
+
+```sql
+SELECT name, COUNT(*) AS employee_count
+FROM Employee
+GROUP BY name
+HAVING COUNT(*) > 1;
+```
+
+This checks duplicate names, not necessarily duplicate employee records.
+
+#### 8. Find duplicate salary values
+
+```sql
+SELECT salary, COUNT(*) AS employee_count
+FROM Employee
+GROUP BY salary
+HAVING COUNT(*) > 1;
+```
+
+#### 9. Find salary values held by only one employee
+
+```sql
+SELECT salary
+FROM Employee
+GROUP BY salary
+HAVING COUNT(*) = 1;
+```
+
+#### 10. Find average salary
+
+```sql
+SELECT AVG(salary) AS average_salary
+FROM Employee;
+```
+
+#### 11. Find average salary by department
+
+```sql
+SELECT department_id, AVG(salary) AS average_salary
+FROM Employee
+GROUP BY department_id;
+```
+
+#### 12. Find maximum salary in each department
+
+```sql
+SELECT department_id, MAX(salary) AS maximum_salary
+FROM Employee
+GROUP BY department_id;
+```
+
+#### 13. Find minimum salary in each department
+
+```sql
+SELECT department_id, MIN(salary) AS minimum_salary
+FROM Employee
+GROUP BY department_id;
+```
+
+#### 14. Find total salary by department
+
+```sql
+SELECT department_id, SUM(salary) AS total_salary
+FROM Employee
+GROUP BY department_id;
+```
+
+#### 15. Count employees in each department
+
+```sql
+SELECT department_id, COUNT(*) AS employee_count
+FROM Employee
+GROUP BY department_id;
+```
+
+#### 16. Find departments with more than five employees ⭐
+
+```sql
+SELECT department_id, COUNT(*) AS employee_count
+FROM Employee
+GROUP BY department_id
+HAVING COUNT(*) > 5;
+```
+
+#### 17. Find departments with average salary above 50,000
+
+```sql
+SELECT department_id, AVG(salary) AS average_salary
+FROM Employee
+GROUP BY department_id
+HAVING AVG(salary) > 50000;
+```
+
+### Joins and managers
+
+#### 18. Show each employee with their department name ⭐
+
+```sql
+SELECT e.name, d.department_name
+FROM Employee AS e
+JOIN Department AS d ON d.department_id = e.department_id;
+```
+
+#### 19. Find employees who do not belong to a department
+
+```sql
+SELECT e.*
+FROM Employee AS e
+LEFT JOIN Department AS d ON d.department_id = e.department_id
+WHERE d.department_id IS NULL;
+```
+
+#### 20. Find departments with no employees
+
+```sql
+SELECT d.*
+FROM Department AS d
+LEFT JOIN Employee AS e ON e.department_id = d.department_id
+WHERE e.emp_id IS NULL;
+```
+
+#### 21. Show each employee and their manager
+
+```sql
+SELECT e.name AS employee_name, m.name AS manager_name
+FROM Employee AS e
+LEFT JOIN Employee AS m ON m.emp_id = e.manager_id;
+```
+
+A `LEFT JOIN` keeps employees who do not have a manager.
+
+#### 22. Find employees earning more than their manager ⭐⭐⭐
+
+```sql
+SELECT e.name AS employee_name, e.salary AS employee_salary,
+       m.name AS manager_name, m.salary AS manager_salary
+FROM Employee AS e
+JOIN Employee AS m ON m.emp_id = e.manager_id
+WHERE e.salary > m.salary;
+```
+
+### Top-N and ranking
+
+#### 23. Find the three highest distinct salary values
+
+```sql
+SELECT DISTINCT salary
+FROM Employee
+ORDER BY salary DESC
+LIMIT 3;
+```
+
+#### 24. Find the three highest-paid employees
+
+```sql
+SELECT *
+FROM Employee
+ORDER BY salary DESC, emp_id
+LIMIT 3;
+```
+
+This returns at most three employees. Use a ranking function if ties at the cutoff must all be included.
+
+#### 25. Find the top three employees in each department ⭐⭐⭐
+
+`ROW_NUMBER` returns at most three employees per department. The unique key makes tie ordering deterministic.
+
+```sql
+WITH RankedEmployees AS (
+    SELECT e.*,
+           ROW_NUMBER() OVER (
+               PARTITION BY department_id
+               ORDER BY salary DESC, emp_id
+           ) AS row_num
+    FROM Employee AS e
+)
+SELECT *
+FROM RankedEmployees
+WHERE row_num <= 3;
+```
+
+#### 26. Rank employees by salary
+
+```sql
+SELECT name, salary, RANK() OVER (ORDER BY salary DESC) AS salary_rank
+FROM Employee;
+```
+
+#### 27. Compare `ROW_NUMBER`, `RANK`, and `DENSE_RANK`
+
+For salaries `100000, 90000, 90000, 80000`:
+
+| Salary | `ROW_NUMBER()` | `RANK()` | `DENSE_RANK()` |
+|---:|---:|---:|---:|
+| 100000 | 1 | 1 | 1 |
+| 90000 | 2 | 2 | 2 |
+| 90000 | 3 | 2 | 2 |
+| 80000 | 4 | 4 | 3 |
+
+- `ROW_NUMBER`: assigns a unique sequence, including to ties.
+- `RANK`: ties share a rank; the next rank is skipped.
+- `DENSE_RANK`: ties share a rank; the next rank is not skipped.
+
+#### 28. Find employees with the second-highest salary using `DENSE_RANK`
+
+```sql
+WITH RankedEmployees AS (
+    SELECT e.*, DENSE_RANK() OVER (ORDER BY salary DESC) AS salary_rank
+    FROM Employee AS e
+)
+SELECT *
+FROM RankedEmployees
+WHERE salary_rank = 2;
+```
+
+### Dates and NULLs
+
+#### 29. Find employees who joined after a date
+
+```sql
+SELECT *
+FROM Employee
+WHERE joining_date > '2025-01-01';
+```
+
+#### 30. Find the most recently hired employee(s)
+
+```sql
+SELECT *
+FROM Employee
+WHERE joining_date = (SELECT MAX(joining_date) FROM Employee);
+```
+
+Returns all employees tied for the latest joining date.
+
+#### 31. Find employees who joined during 2025
+
+```sql
+SELECT *
+FROM Employee
+WHERE joining_date >= '2025-01-01'
+  AND joining_date <  '2026-01-01';
+```
+
+The half-open date range includes all times on December 31 and can be easier to optimize than applying a function to the column.
+
+#### 32. Find employees without a manager
+
+```sql
+SELECT *
+FROM Employee
+WHERE manager_id IS NULL;
+```
+
+#### 33. Display salary with NULL replaced by zero
+
+```sql
+SELECT name, COALESCE(salary, 0) AS salary
+FROM Employee;
+```
+
+### Subqueries and existence checks
+
+#### 34. Find employees earning above the company average
+
+```sql
+SELECT *
+FROM Employee
+WHERE salary > (SELECT AVG(salary) FROM Employee);
+```
+
+#### 35. Find employees earning below the company average
+
+```sql
+SELECT *
+FROM Employee
+WHERE salary < (SELECT AVG(salary) FROM Employee);
+```
+
+#### 36. Find employees earning the maximum salary in their department
+
+```sql
+SELECT e.*
+FROM Employee AS e
+WHERE e.salary = (
+    SELECT MAX(e2.salary)
+    FROM Employee AS e2
+    WHERE e2.department_id = e.department_id
+);
+```
+
+#### 37. Find departments that have at least one employee
+
+```sql
+SELECT d.*
+FROM Department AS d
+WHERE EXISTS (
+    SELECT 1
+    FROM Employee AS e
+    WHERE e.department_id = d.department_id
+);
+```
+
+#### 38. Find departments with more than three employees
+
+```sql
+SELECT d.department_id, d.department_name, COUNT(*) AS employee_count
+FROM Department AS d
+JOIN Employee AS e ON e.department_id = d.department_id
+GROUP BY d.department_id, d.department_name
+HAVING COUNT(*) > 3;
+```
+
+### Filtering patterns
+
+#### 39. Find employees whose name starts with `A`
+
+```sql
+SELECT *
+FROM Employee
+WHERE name LIKE 'A%';
+```
+
+#### 40. Find employees whose name ends with `n`
+
+```sql
+SELECT *
+FROM Employee
+WHERE name LIKE '%n';
+```
+
+#### 41. Find employees whose name contains `an`
+
+```sql
+SELECT *
+FROM Employee
+WHERE name LIKE '%an%';
+```
+
+Case sensitivity depends on the database and collation.
+
+#### 42. Find employees earning between 30,000 and 60,000
+
+```sql
+SELECT *
+FROM Employee
+WHERE salary BETWEEN 30000 AND 60000;
+```
+
+`BETWEEN` includes both endpoints.
+
+#### 43. Find employees in selected departments
+
+```sql
+SELECT *
+FROM Employee
+WHERE department_id IN (1, 2, 3);
+```
+
+### Interview reminders
+
+- Clarify whether “Nth highest” means the Nth distinct salary or the Nth employee after sorting.
+- Use `DENSE_RANK` for distinct salary ranks; account for ties.
+- `COUNT(*)` counts rows; `COUNT(column)` ignores rows where that column is `NULL`.
+- Use `IS NULL` / `IS NOT NULL`; `= NULL` does not test for NULL.
+- Use `WHERE` for rows and `HAVING` for groups after aggregation.
+- Qualify column names with table aliases when joining tables.
