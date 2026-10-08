@@ -1093,3 +1093,23 @@ listeners from continuing after they are no longer needed.
 **Interview question:** What is the difference between `useState` and `useEffect`?
 **Short answer:** `useState` stores component data and schedules re-renders;
 `useEffect` synchronizes with external systems after rendering.
+
+```python
+first = float('-inf')
+second = float('-inf')
+third = float('-inf')
+
+for i in range(len(arr)):
+    x = arr[i]
+    if x > first:
+        third = second
+        second = first
+        first = x
+    elif x > second:
+        third = second
+        second = x
+    elif x > third:
+        third = x
+
+print(first, second, third)
+```
