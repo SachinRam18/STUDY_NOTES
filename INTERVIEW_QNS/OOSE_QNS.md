@@ -1,58 +1,14 @@
-# OOSE + Software Engineering — SDE Interview Revision Notes
+#### SOLID PRINCIPLES :
 
-> **How to use:** Start with the bold definition, explain the example, then add the interview point. ⭐ marks high-priority topics.
+**SINGLE RESPONSIBILTY PRINCIPLE :** single class - singe responsiblity/purpose(inventory-supply)
 
-## 1. SOLID Principles ⭐
+**OPEN/CLOSED PRINCIPLE :** Class - open for extension/closed for modification(creditcard-paypal)
 
-### Single Responsibility Principle (SRP) ⭐
-### Definition
-A class should have only one reason to change, meaning it should have only one focused responsibility.
-### Simple Explanation
-Don't put all your code into one big class. A class should do one specific job. If it handles logic, it shouldn't handle database saving or UI rendering.
-### Example
-In a Shopping Cart app, an `Invoice` class should only calculate the total amount. Creating the PDF and sending the email should be done by `InvoicePdfGenerator` and `InvoiceEmailer` classes.
-### Interview Point
-Mention that SRP reduces the risk of breaking existing code when changing unrelated features. "One reason to change" is the keyword.
+**LISKOV’S SUBSTITUTION :** child class able to replace parent class (rect-sq class)
 
-### Open/Closed Principle (OCP) ⭐
-### Definition
-Software entities (classes, modules, functions) should be open for extension but closed for modification.
-### Simple Explanation
-You should be able to add new features without changing the existing, working code. 
-### Example
-If you have a `PaymentProcessor` that handles Credit Cards, don't edit its `if/else` block to add PayPal. Instead, create a `PaymentMethod` interface and add new classes like `CreditCardPayment` and `PayPalPayment`.
-### Interview Point
-Say that OCP is usually achieved using Interfaces or Abstract classes (Polymorphism/Strategy Pattern) to add new behaviors safely.
+**INTERFACE SEGGREGATION PRINCIPLE :** simple relevant interfaces(rect<shape>sq)
 
-### Liskov Substitution Principle (LSP) ⭐
-### Definition
-Objects of a superclass shall be replaceable with objects of its subclasses without breaking the application.
-### Simple Explanation
-A child class must be able to do everything its parent class can do, without surprises.
-### Example
-If a `Bird` class has a `fly()` method, an `Ostrich` class inheriting from `Bird` will crash if `fly()` is called. This violates LSP. Ostrich shouldn't inherit from a flying bird.
-### Interview Point
-Mention that violating LSP often leads to ugly type checks (`instanceof`) or unexpected runtime errors.
-
-### Interface Segregation Principle (ISP)
-### Definition
-Clients should not be forced to depend upon interfaces that they do not use.
-### Simple Explanation
-Don't make big, bulky interfaces. Split them into smaller, specific ones so classes only implement what they actually need.
-### Example
-Instead of one `Machine` interface with `print()`, `scan()`, and `fax()`, split it into `Printer`, `Scanner`, and `FaxMachine`. A simple printer won't be forced to implement an empty `scan()` method.
-### Interview Point
-Explain that ISP prevents "fat interfaces" and keeps the codebase clean and modular.
-
-### Dependency Inversion Principle (DIP) ⭐
-### Definition
-High-level modules should not depend on low-level modules. Both should depend on abstractions (interfaces).
-### Simple Explanation
-Don't hardcode specific implementations. Depend on general interfaces so you can easily swap out the underlying technology.
-### Example
-An `OrderService` shouldn't directly create a `MySQLDatabase` object. Instead, it should depend on a `Database` interface. This way, you can switch to `MongoDBDatabase` without touching the `OrderService`.
-### Interview Point
-Say that DIP is often implemented using Dependency Injection (passing dependencies via constructors) to achieve loose coupling.
+**DEPENDENCY ABSTRACTION :** class-abst high modulesxlow modules(sony,lg(h)—remote(l))
 
 
 ## 2. Design Principles
