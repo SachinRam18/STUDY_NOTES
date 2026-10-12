@@ -136,6 +136,9 @@ Physical       ├───────→ Network Access
 
 ## Q4. What is encapsulation and decapsulation in networking?
 
+<img width="1200" height="675" alt="image" src="https://github.com/user-attachments/assets/08dbfab5-ada7-434a-8e3b-afbba5ec5652" />
+
+
 ### Encapsulation
 
 **Adding headers (and sometimes trailers) at each layer** as data travels **down** the sender's protocol stack before transmission.
