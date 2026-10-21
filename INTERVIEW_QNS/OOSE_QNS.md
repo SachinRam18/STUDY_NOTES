@@ -84,171 +84,98 @@ Instead of making `ElectricCar` inherit from `Car` and overriding engine behavio
 Mention that Composition provides flexibility at runtime, while Inheritance locks you in at compile time and often leads to fragile hierarchies.
 
 
-## 3. Design Patterns
+# Design Patterns — Quick Revision Notes
 
-### Creational Patterns
+## 1. Creational Patterns
 
-### Singleton ⭐
-**Definition:**  
-Ensures a class has only one instance and provides a global point of access to it.
-**Problem:**  
-You need exactly one instance of a shared resource across the entire app.
-**How it works:**  
-Make the constructor private. Create a static method that returns a static instance of the class, creating it only if it doesn't exist.
-**Example:**  
-A Database Connection Pool or a Logger instance.
-**Interview Point:**  
-Mention that Singleton makes unit testing difficult (hidden global state) and can cause issues in multi-threaded environments if not implemented thread-safely.
+### 1.1 Singleton ⭐
+- **Def:** Ensures a class has only one instance.
+- **Eg:** A shared logger.
 
-### Factory Method ⭐
-**Definition:**  
-Defines an interface for creating an object, but lets subclasses decide which class to instantiate.
-**Problem:**  
-You need to create objects based on some input, but you want to hide the complex creation logic from the client.
-**How it works:**  
-A central method takes an argument and returns the correct object using a common interface.
-**Example:**  
-`NotificationFactory.create("SMS")` returns an `SmsNotification` object, while `"EMAIL"` returns an `EmailNotification`.
-**Interview Point:**  
-Factory heavily uses Polymorphism and OCP. It is perfect for handling "if-else" object creation logic cleanly.
+### 1.2 Factory Method ⭐
+- **Def:** Creates objects without exposing their creation logic.
+- **Eg:** `NotificationFactory` creates Email or SMS notifications.
 
-### Abstract Factory
-**Definition:**  
-Provides an interface for creating families of related or dependent objects without specifying their concrete classes.
-**Problem:**  
-You need to create sets of matching objects.
-**How it works:**  
-You have a "factory of factories". A GUI Factory creates matching Buttons and Checkboxes for either Windows or Mac.
-**Example:**  
-`MacFactory` creates `MacButton` and `MacCheckbox`. `WindowsFactory` creates `WindowsButton` and `WindowsCheckbox`.
-**Interview Point:**  
-Mainly used when your system has to support multiple families of products.
+### 1.3 Abstract Factory
+- **Def:** Creates families of related objects.
+- **Eg:** Mac factory creates Mac buttons and checkboxes.
 
-### Builder ⭐
-**Definition:**  
-Separates the construction of a complex object from its representation.
-**Problem:**  
-A class requires a huge constructor with many optional parameters, making it unreadable (Telescoping Constructor Anti-pattern).
-**How it works:**  
-You create a separate Builder class with methods to set values step-by-step, ending with a `build()` method.
-**Example:**  
-`Pizza.builder().crust("Thin").cheese("Mozzarella").pepperoni(true).build();`
-**Interview Point:**  
-Builder is great for objects with many optional fields and for creating immutable objects cleanly.
+### 1.4 Builder ⭐
+- **Def:** Creates complex objects step by step.
+- **Eg:** Building a pizza with different toppings.
 
+## 2. Structural Patterns
 
-### Structural Patterns
+### 2.1 Adapter ⭐
+- **Def:** Makes incompatible interfaces work together.
+- **Eg:** Adapting a payment API to match your application's interface.
 
-### Adapter ⭐
-**Definition:**  
-Converts the interface of a class into another interface clients expect.
-**Problem:**  
-Two incompatible interfaces need to work together.
-**How it works:**  
-You write a wrapper (Adapter) that translates the calls from the client to the format the third-party or legacy class expects.
-**Example:**  
-Your app expects `PaymentProcessor.pay(amount)`, but the new Stripe SDK uses `StripeAPI.makePayment(value)`. An adapter bridges this gap.
-**Interview Point:**  
-Adapter makes things work *after* they are designed; it acts like a real-world travel plug adapter.
+### 2.2 Decorator ⭐
+- **Def:** Adds functionality to an object without changing its class.
+- **Eg:** Adding milk and caramel to coffee.
 
-### Decorator ⭐
-**Definition:**  
-Attaches additional responsibilities to an object dynamically.
-**Problem:**  
-You want to add features to an object without subclassing, avoiding a massive combination of classes.
-**How it works:**  
-You wrap the original object in a Decorator class that has the same interface, adding new behavior before or after delegating to the wrapped object.
-**Example:**  
-A base `Coffee` object. You wrap it in `MilkDecorator`, then `CaramelDecorator`. Each calculates its own price and adds it to the base.
-**Interview Point:**  
-Decorator is an alternative to subclassing. It follows the Open/Closed Principle perfectly.
+### 2.3 Facade
+- **Def:** Provides a simple interface to a complex system.
+- **Eg:** One method starts the TV, speakers, and movie player.
 
-### Facade
-**Definition:**  
-Provides a unified, simplified interface to a set of interfaces in a subsystem.
-**Problem:**  
-A subsystem is too complex with too many moving parts for a simple client to use.
-**How it works:**  
-Create a single class that handles the complex coordination of multiple underlying classes.
-**Example:**  
-A `HomeTheaterFacade` with a `watchMovie()` method that internally turns on the TV, dims lights, turns on the sound system, and starts the DVD player.
-**Interview Point:**  
-Facade doesn't hide the subsystem completely; it just provides a simpler default path for common tasks.
+### 2.4 Proxy
+- **Def:** Controls access to another object.
+- **Eg:** Checking permissions before accessing a file.
 
+## 3. Behavioral Patterns
 
-### Behavioral Patterns
+### 3.1 Observer ⭐
+- **Def:** Notifies multiple observers when an object's state changes.
+- **Eg:** YouTube subscribers receive notifications when a channel uploads a video.
 
-### Observer ⭐
-**Definition:**  
-Defines a one-to-many dependency so that when one object changes state, all its dependents are notified.
-**Problem:**  
-Multiple objects need to react when another object changes, without tightly coupling them.
-**How it works:**  
-The "Subject" keeps a list of "Observers". When its state changes, it calls an `update()` method on all registered observers.
-**Example:**  
-YouTube subscriptions. When a channel (Subject) uploads a video, all subscribers (Observers) get a notification.
-**Interview Point:**  
-Heavily used in Event-Driven systems, UI frameworks (React/Vue), and Publish-Subscribe architectures.
+### 3.2 Strategy ⭐
+- **Def:** Allows algorithms to be switched independently.
+- **Eg:** A navigation app switches between driving and walking routes.
 
-### Strategy ⭐
-**Definition:**  
-Defines a family of algorithms, encapsulates each one, and makes them interchangeable.
-**Problem:**  
-You have multiple ways to do something, and you want to switch between them dynamically at runtime.
-**How it works:**  
-Put the algorithms into separate classes implementing a common interface. Pass the desired strategy into the context object.
-**Example:**  
-A Navigation app uses a `RouteStrategy`. You can swap between `CarRouteStrategy`, `BikeRouteStrategy`, and `WalkingRouteStrategy` at runtime.
-**Interview Point:**  
-Strategy replaces complex `if-else` or `switch` statements and is the primary way to achieve the Open/Closed Principle.
+### 3.3 State
+- **Def:** Changes an object's behavior based on its current state.
+- **Eg:** A vending machine behaves differently before and after payment.
 
-### State
-**Definition:**  
-Allows an object to alter its behavior when its internal state changes.
-**Problem:**  
-An object has complex behavior depending on its current state.
-**How it works:**  
-Represent states as objects. The context object delegates its behavior to the current state object.
-**Example:**  
-A Vending Machine acts differently when `Idle`, `MoneyInserted`, or `Dispensing`.
-**Interview Point:**  
-Very similar to Strategy in structure, but in State, the states themselves often handle the transition to the next state.
+### 3.4 Iterator
+- **Def:** Accesses collection elements one by one.
+- **Eg:** Iterating through a list of students.
+
+### 3.5 Command
+- **Def:** Represents a request as an object.
+- **Eg:** An undoable button action.
+
+## 4. Important Comparisons
+
+### 4.1 Factory vs Abstract Factory
+- **Factory:** Creates a product.
+- **Abstract Factory:** Creates a family of related products.
+
+### 4.2 Strategy vs State
+- **Strategy:** Selects an algorithm.
+- **State:** Behavior depends on the current state.
+
+### 4.3 Adapter vs Decorator
+- **Adapter:** Changes an interface to make it compatible.
+- **Decorator:** Adds functionality while keeping the same interface.
+
+### 4.4 Singleton vs Factory
+- **Singleton:** Controls the number of instances.
+- **Factory:** Handles object creation.
+
+## 5. Expected Interview Questions
+
+1. What is a design pattern?
+2. What are the three categories of design patterns?
+3. How is Factory different from Abstract Factory?
+4. How is Strategy different from State?
+5. How is Adapter different from Decorator?
+6. What are the advantages and disadvantages of Singleton?
+7. Which pattern allows adding functionality without modifying the original class?
+8. Which pattern notifies subscribers about changes?
+9. Which pattern allows switching algorithms at runtime?
+10. What is the difference between composition and inheritance?
 
 
-### Design Pattern Comparisons
-
-### Factory vs Abstract Factory
-
-| Point | Factory | Abstract Factory |
-|---|---|---|
-| Definition | Creates one specific product using a method. | Creates families of related products. |
-| Purpose | Hide object creation logic of a single type. | Ensure compatibility among a suite of products. |
-| Example | `ButtonFactory` creates `Button`. | `UIFactory` creates matching `Button` and `Checkbox`. |
-
-### Easy Way to Remember
-> Factory makes a single item; Abstract Factory makes a matching set of items.
-
-### Strategy vs State
-
-| Point | Strategy | State |
-|---|---|---|
-| Definition | Encapsulates interchangeable algorithms. | Encapsulates state-specific behavior. |
-| Purpose | Client explicitly chooses the algorithm. | Object changes its own state implicitly. |
-| Example | Choosing a sorting algorithm (Quick vs Merge). | A Document moving from Draft to Published. |
-
-### Easy Way to Remember
-> In Strategy, the user decides how to do it. In State, the object decides what to do based on its condition.
-
-### Adapter vs Decorator
-
-| Point | Adapter | Decorator |
-|---|---|---|
-| Definition | Converts an interface to another. | Adds responsibilities dynamically. |
-| Purpose | Make incompatible things work together. | Extend behavior without subclassing. |
-| Example | Wrapping a legacy XML API to act like JSON. | Adding logging or caching to a repository. |
-
-### Easy Way to Remember
-> Adapter changes the interface; Decorator keeps the same interface but adds new behavior.
 
 
 ## 4. UML & Object-Oriented Design
