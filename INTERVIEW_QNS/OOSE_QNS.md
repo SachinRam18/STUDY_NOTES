@@ -89,60 +89,60 @@ Mention that Composition provides flexibility at runtime, while Inheritance lock
 ## 1. Creational Patterns
 
 ### 1.1 Singleton ⭐
-- **Def:** Ensures a class has only one instance.
-- **Eg:** A shared logger.
+- **Def:** Ensures only one instance of a class exists and provides a global access point to it.
+- **Eg:** One shared logger used throughout an application.
 
 ### 1.2 Factory Method ⭐
-- **Def:** Creates objects without exposing their creation logic.
-- **Eg:** `NotificationFactory` creates Email or SMS notifications.
+- **Def:** Creates objects without exposing the object creation logic to the caller.
+- **Eg:** Selecting `"CAR"` creates a `Car` object; selecting `"BIKE"` creates a `Bike` object.
 
 ### 1.3 Abstract Factory
-- **Def:** Creates families of related objects.
-- **Eg:** Mac factory creates Mac buttons and checkboxes.
+- **Def:** Creates families of related objects without specifying their exact classes.
+- **Eg:** A furniture factory creates matching chairs and tables.
 
 ### 1.4 Builder ⭐
 - **Def:** Creates complex objects step by step.
-- **Eg:** Building a pizza with different toppings.
+- **Eg:** `Pizza.builder().cheese(true).build();`
 
 ## 2. Structural Patterns
 
 ### 2.1 Adapter ⭐
-- **Def:** Makes incompatible interfaces work together.
-- **Eg:** Adapting a payment API to match your application's interface.
+- **Def:** Allows incompatible interfaces to work together.
+- **Eg:** A plug adapter lets a charger fit a different socket.
 
 ### 2.2 Decorator ⭐
-- **Def:** Adds functionality to an object without changing its class.
-- **Eg:** Adding milk and caramel to coffee.
+- **Def:** Adds functionality to an object without changing its original class.
+- **Eg:** `new CaramelDecorator(new MilkDecorator(coffee));`
 
 ### 2.3 Facade
 - **Def:** Provides a simple interface to a complex system.
-- **Eg:** One method starts the TV, speakers, and movie player.
+- **Eg:** `homeTheater.watchMovie();`
 
 ### 2.4 Proxy
 - **Def:** Controls access to another object.
-- **Eg:** Checking permissions before accessing a file.
+- **Eg:** `proxy.accessFile();` checks permission before opening a file.
 
 ## 3. Behavioral Patterns
 
 ### 3.1 Observer ⭐
-- **Def:** Notifies multiple observers when an object's state changes.
-- **Eg:** YouTube subscribers receive notifications when a channel uploads a video.
+- **Def:** Notifies registered observers when an object changes.
+- **Eg:** `channel.uploadVideo();` notifies its subscribers.
 
 ### 3.2 Strategy ⭐
-- **Def:** Allows algorithms to be switched independently.
-- **Eg:** A navigation app switches between driving and walking routes.
+- **Def:** Allows different algorithms to be selected interchangeably.
+- **Eg:** `navigator.setStrategy(new WalkingStrategy());`
 
 ### 3.3 State
-- **Def:** Changes an object's behavior based on its current state.
-- **Eg:** A vending machine behaves differently before and after payment.
+- **Def:** Changes an object's behavior according to its current state.
+- **Eg:** `trafficLight.changeToRed();`
 
 ### 3.4 Iterator
 - **Def:** Accesses collection elements one by one.
-- **Eg:** Iterating through a list of students.
+- **Eg:** `while (iterator.hasNext())`
 
 ### 3.5 Command
 - **Def:** Represents a request as an object.
-- **Eg:** An undoable button action.
+- **Eg:** `undoButton.setCommand(new UndoCommand());`
 
 ## 4. Important Comparisons
 
@@ -151,30 +151,16 @@ Mention that Composition provides flexibility at runtime, while Inheritance lock
 - **Abstract Factory:** Creates a family of related products.
 
 ### 4.2 Strategy vs State
-- **Strategy:** Selects an algorithm.
-- **State:** Behavior depends on the current state.
+- **Strategy:** Chooses how to perform a task.
+- **State:** Behavior changes according to the current state.
 
 ### 4.3 Adapter vs Decorator
-- **Adapter:** Changes an interface to make it compatible.
+- **Adapter:** Makes incompatible interfaces work together.
 - **Decorator:** Adds functionality while keeping the same interface.
 
 ### 4.4 Singleton vs Factory
-- **Singleton:** Controls the number of instances.
-- **Factory:** Handles object creation.
-
-## 5. Expected Interview Questions
-
-1. What is a design pattern?
-2. What are the three categories of design patterns?
-3. How is Factory different from Abstract Factory?
-4. How is Strategy different from State?
-5. How is Adapter different from Decorator?
-6. What are the advantages and disadvantages of Singleton?
-7. Which pattern allows adding functionality without modifying the original class?
-8. Which pattern notifies subscribers about changes?
-9. Which pattern allows switching algorithms at runtime?
-10. What is the difference between composition and inheritance?
-
+- **Singleton:** Ensures only one instance exists.
+- **Factory:** Creates the required type of object.
 
 
 
